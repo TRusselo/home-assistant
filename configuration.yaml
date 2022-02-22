@@ -1,0 +1,120 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.1.12
+    - 172.18.0.5
+    - 192.168.1.20
+  # ssl_certificate: keys/fullchain.pem
+  # ssl_key: keys/privkey.pem
+#  cors_allowed_origins:
+#  - https://cast.home-assistant.io
+
+websocket_api:
+
+media_extractor:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+homeassistant:
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+      api_password: !secret http_password
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.smartthings: debug
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+python_script:
+
+influxdb:
+  host: 192.168.1.12
+  username: HASS
+  password: !secret influxpass
+  exclude:
+    entity_globs:
+       - glances
+    domains:
+       - automation
+
+mqtt:
+  broker: 192.168.1.12
+
+google:
+  client_id: !secret google_cal_id
+  client_secret: !secret google_cal_pass
+
+google_assistant:
+  project_id: home--hass
+  service_account: !include SERVICE_ACCOUNT.json
+  report_state: true
+
+nest:
+  client_id: !secret nest_client_id 
+  client_secret: !secret nest_client_secret
+  project_id: !secret nest_project_id
+  subscriber_id: !secret nest_subscriber_id
+
+
+neato:
+  client_id: !secret neato_client_id
+  client_secret: !secret neato_client_secret
+
+media_player:
+  - platform: braviatv_psk
+    host: 192.168.1.51
+    psk: sony
+    mac: 28:18:4C:A4:11:B9
+    amp: True
+    android: True
+    time_format: 12H
+    user_labels: True
+    name: LivingRmSony
+    
+  - platform: mediaroom
+
+  - platform: emby
+    host: 192.168.1.12
+    api_key: !secret emby_api
+
+panel_iframe:
+  windy:
+    title: 'Windy'
+    url: 'https://embed.windy.com/embed2.html?lat=56.715&lon=-111.484&detailLat=56.749&detailLon=-111.484&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1'
+    icon: mdi:weather-partly-snowy
+  # blueiris1:
+  #   title: 'Blue Iris'
+  #   url: 'http://192.168.1.14:81/ui3.htm'
+  #   icon: mdi:cctv
+
+shell_command:
+  restart_hass: 'curl http://192.168.1.12:8126/container/Home-Assistant-Core/restart'
+  ptz_front_door: 'curl  "http://192.168.1.14:81/admin?camera=LVG&trigger&preset=3&user=HASS&pw=hasspass"'
+  ptz_living_room_home: 'curl  "http://192.168.1.14:81/admin?camera=LVG&preset=1&user=HASS&pw=hasspass"'
+  ptz_kitchen: 'curl  "http://192.168.1.14:81/admin?camera=LVG&preset=4&user=HASS&pw=hasspass"'
+
+
+recorder:
+  exclude:
+    entities:
+      - sensor.next_launch_countdown
+
+watchman:
+  ignored_files:
+    # wildcards must be enclosed in quotes!
+    # - "*.yaml" # exclude all yaml files from the report (useless)
+    - "/CHOPPINGBLOCK/*" # exclude all files in /config/entities
+    # - "*/automations.yaml" # exclude automations.yaml file only

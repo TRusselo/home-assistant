@@ -1,0 +1,111 @@
+light:
+  - platform: group
+    name: Master Bedroom Lights
+    unique_id: asefas43fasfe4dasrf
+    entities:
+      - light.master_bedroom_ceiling
+      - light.master_bedroom_ceiling_2
+      - light.master_bedroom_ceiling_3
+      - light.bed_light
+      - light.bedroom_spot
+      - light.mbr_lamp
+      - light.master_bedroom_tv_spotlight
+      - light.desk_light
+  - platform: group
+    name: Kitchen Lights
+    unique_id: szevas4efas4fwae
+    entities:
+      - light.kitchen_ceiling
+      - light.kitchen_ceiling_3
+      - light.kitchen_ceiling_2
+      - light.kitchen_island
+      - light.kitchen_island_2
+      - light.kitchen_table
+      - light.kitchen_table_2
+  - platform: group
+    name: Living Room Lights
+    unique_id: sfeszf3fwzS#Sfawf
+    entities:
+      - light.living_room_1
+      - light.living_room_2
+      - light.living_room_3
+      - light.living_room_4
+      - light.living_room_tv_light_strip
+  - platform: group
+    name: Entryway Lights
+    unique_id: sv4efaws34fawef
+    entities:
+      - light.entryway_lower
+      - light.entryway_upper
+  - platform: group
+    name: Den Lights
+    unique_id: sfaewas3fwa
+    entities:
+      - light.den_1
+      - light.den_2
+      - light.den_desk_lamp
+      - light.den_lamp
+  - platform: group
+    name: Bedroom Lights
+    unique_id: ngygfj67fncth6j
+    entities:
+      - light.bedroom_2_ceiling
+      - light.bedroom_2_lamp
+  - platform: group
+    name: Upstairs  Lights
+    unique_id: bmuv7uigy7
+    entities:
+      - light.stairs_1
+      - light.stairs_2
+      - light.upstairs_top
+  - platform: group
+    name: Basement Lights
+    unique_id: ngfyd6yhdthj5e
+    entities:
+      - light.basement_1
+      - light.basement_2
+      - light.basement_3
+      - light.main_panel
+      - light.basement_4
+      - light.basement_5
+      - light.basement_6
+  - platform: group
+    name: Downstairs Lights
+    unique_id: cfb6hnf6het
+    entities:
+      - light.bottom_stairs
+      - light.middle_stairs
+      - light.top_stairs
+  - platform: group
+    name: Front Yard Lights
+    unique_id: ngf7jftyjrytjyk
+    entities:
+      - light.front_step_upper
+      - light.front_step_lower
+      - light.driveway_left
+      - light.driveway_right
+  - platform: template
+    lights:
+      master_bathroom_light:
+        friendly_name: "Master Bathroom Lights"
+        unique_id: sdfss658asdf4se65f4
+        value_template: "{{ states('switch.master_bathroom_lights') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.master_bathroom_lights
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.master_bathroom_lights
+  - platform: template
+    lights:
+      garage_lights_2:
+        friendly_name: "Garage Lights"
+        unique_id: s5d4asdfe56
+        value_template: "{{ states('switch.garage_lights') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.garage_lights
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.garage_lights
+

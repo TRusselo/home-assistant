@@ -1,0 +1,73 @@
+fan:
+  -  platform: template
+     fans:
+      bath_fan_1:
+        friendly_name: "Bath Fan"
+        unique_id: 3dkasdfefe3
+        value_template: "{{ states('light.bath_fan') }}"
+        percentage_template: >
+          {% set output = {0:0, 140:33, 200:66, 255:100} %}
+          {% set idx = state_attr('light.bath_fan', 'brightness') %}
+          {{ output[idx] }}
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: light.bath_fan
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: light.bath_fan
+        set_percentage:
+          service: light.turn_on
+          entity_id: light.bath_fan
+          data_template:
+            brightness: >
+              {% set mapper = {0: 0, 33: 140, 66: 200, 100: 255} %}
+              {{ mapper[percentage] }}
+        speed_count: 3
+  -  platform: template
+     fans:
+      master_bedroom_window:
+        friendly_name: "Master Bedroom Fan"
+        unique_id: 3df435serfe744vdg
+        value_template: "{{ states('switch.master_bedroom_fan') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.master_bedroom_fan
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.master_bedroom_fan
+  -  platform: template
+     fans:
+      den_fan:
+        friendly_name: "Den Fan"
+        unique_id: 3df43dgdagaa44vdg
+        value_template: "{{ states('switch.den_fan') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.den_fan
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.den_fan
+  -  platform: template
+     fans:
+      bedroom_window:
+        friendly_name: "Bedroom Window Fan"
+        unique_id: 3df435serasefsefvdg
+        value_template: "{{ states('switch.humidifier') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.bedroom_2_fan
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.bedroom_2_fan
+  -  platform: template
+     fans:
+      bedroom_desk:
+        friendly_name: "Bedroom Desk Fan"
+        unique_id: 3dfefasfrfe744vdg
+        value_template: "{{ states('switch.bedroom_2_fan') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: switch.humidifier
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: switch.humidifier

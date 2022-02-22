@@ -1,0 +1,1406 @@
+- id: '1578466646528'
+  alias: Master Bedroom Window Fan On
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: f0f5d38389fe2ed0c12cc101298101ac
+    entity_id: binary_sensor.master_bedroom_window_contact_2
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7d9d041ee5f366a69b17bc3f3bf0948a
+    entity_id: switch.master_bedroom_fan
+    domain: switch
+  mode: single
+- id: '1578466688232'
+  alias: Master Bedroom Window Fan Off
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: f0f5d38389fe2ed0c12cc101298101ac
+    entity_id: binary_sensor.master_bedroom_window_contact_2
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 7d9d041ee5f366a69b17bc3f3bf0948a
+    entity_id: switch.master_bedroom_fan
+    domain: switch
+  mode: single
+- id: '1578580241880'
+  alias: Bathroom 2 Fan Shut-off
+  description: Turn off Fan after 1 hour
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 320324f5ed743a544878bac263decc8d
+    entity_id: light.bath_fan
+    domain: light
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 320324f5ed743a544878bac263decc8d
+    entity_id: light.bath_fan
+    domain: light
+  mode: single
+- id: '1601933548957'
+  alias: Movie Mode Off
+  description: Turn off movie mode when Sony TV is turned off
+  trigger:
+  - platform: state
+    to: 'off'
+    entity_id: media_player.sony_bravia_tv
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  mode: single
+- alias: set Themes - by caulecriativo.com
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: input_select.themes
+  action:
+  - service: frontend.set_theme
+    data_template:
+      name: '{{ trigger.to_state.state }}'
+  id: c0a643d84bc24c0ba44d1ab8360d75b8
+- id: '1602877000479'
+  alias: Tristyn's Morning Workdays
+  description: ''
+  trigger:
+  - platform: time
+    at: 06:45:00
+  condition:
+  - condition: template
+    value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) > 0) }}'
+  - condition: zone
+    entity_id: person.tristyn
+    zone: zone.home
+  action:
+  - scene: scene.tristyn_morning_hass
+  - type: turn_on
+    device_id: 65f76838ebee7ca1d98948adfc22217c
+    entity_id: switch.coffee_machine
+    domain: switch
+  mode: single
+- id: '1603155361949'
+  alias: Dad leaving work Notification
+  description: ''
+  trigger:
+  - platform: zone
+    zone: zone.mcmurray_coin
+    event: leave
+    entity_id: device_tracker.pixel_4_xl
+  condition:
+  - condition: time
+    after: '16:30:00'
+    before: '22:00:00'
+  action:
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/>  Dad has left McMurray Coin. </speak>
+      cache: true
+  mode: single
+- id: '1603156991145'
+  alias: Dad arriving home Notification
+  description: ''
+  trigger:
+  - platform: zone
+    zone: zone.home
+    event: enter
+    entity_id: person.terry
+  condition:
+  - condition: time
+    after: '17:45:00'
+    before: '22:00:00'
+  action:
+  - device_id: 67c7c88fdea1705874b9368cf1be4a90
+    domain: lock
+    entity_id: lock.front_door_lock
+    type: unlock
+  - scene: scene.den_lights_on
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/>  Dad is Home.  </speak>
+      cache: true
+  mode: single
+- id: '1603417837218'
+  alias: Garage Lights on.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.blueiris_garage_camera_motion
+    to: 'on'
+  - type: opened
+    platform: device
+    device_id: 942da1a99ee1405269fa8b91b27a133d
+    entity_id: binary_sensor.garage_house_door_sensor_contact
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 3c0e1fb299794cbf01ddd0dcf5695aec
+    entity_id: binary_sensor.garage_side_door_contact
+    domain: binary_sensor
+  - platform: device
+    device_id: 125f7408d222cbbe4bc1f895e38f33f4
+    domain: cover
+    entity_id: cover.garage_door
+    type: opened
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 48f80993735ea7d9389c193049622112
+    entity_id: switch.garage_lights
+    domain: switch
+  mode: single
+- id: '1605765827939'
+  alias: Bedroom 2 Humidifier On
+  description: If humidity is below 35 and time is between 8pm and 4am - turn on humidifier
+  trigger:
+  - platform: numeric_state
+    below: '35'
+    entity_id: sensor.bedroom_2_temp_humidity_sensor_relative_humidity_measurement
+  condition:
+  - condition: time
+    after: '20:00:00'
+    before: 04:00:00
+  action:
+  - type: turn_on
+    device_id: 047c0643649a32cd89ea182f16d97caa
+    entity_id: switch.humidifier
+    domain: switch
+  mode: single
+- id: '1605766714738'
+  alias: Bedroom 2 Humidifier Off
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bedroom_2_temp_humidity_sensor_relative_humidity_measurement
+    above: '40'
+  - platform: time
+    at: 04:00:00
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 047c0643649a32cd89ea182f16d97caa
+    entity_id: switch.humidifier
+    domain: switch
+  mode: single
+- id: '1606063892572'
+  alias: Vacuum Undocked Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.bitch_vac
+    from: docked
+    to: idle
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Bitch is undocked.
+  mode: single
+- id: '1606065939947'
+  alias: Vacuum Done - Docked Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.bitch_vac
+    to: docked
+    from: cleaning
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Bitch has returned to its dock.
+  mode: single
+- id: '1606067377914'
+  alias: Vacuum Undocked (30 min) Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.bitch_vac
+    to: idle
+    for: 00:30:00
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Bitch has beem undocked for 30 minutes.
+  - service: notify.mobile_app_note_10
+    data:
+      title: BitchVac
+      message: The Bitch has been undocked for 30 min.
+      data:
+        channel: Vacuum
+  - service: notify.mobile_app_pixel_4_xl
+    data:
+      title: BitchVac
+      message: The Bitch has been undocked for 30 min.
+      data:
+        channel: Vacuum
+  mode: single
+- id: '1606185951384'
+  alias: Alert for open windows when raining Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.openweathermap_condition
+    to: rain
+  condition:
+  - condition: state
+    entity_id: binary_sensor.day
+    state: 'on'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
+        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        ') }} is opened.
+  - service: notify.mobile_app_note_10
+    data:
+      title: Alert
+      message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
+        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        ') }} is opened.
+      data:
+        channel: Alert
+  - service: notify.mobile_app_pixel_4_xl
+    data:
+      title: Alert
+      message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
+        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        ') }} is opened.
+      data:
+        channel: Alert
+  mode: single
+- id: '1606195208315'
+  alias: Start Van on Workdays
+  description: Start vehicle at set time if calendar says Tristyn works today
+  trigger:
+  - platform: time
+    at: 07:30:00
+  - platform: time
+    at: 07:46:00
+  condition:
+  - condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: weather.openweathermap
+      attribute: temperature
+      below: '10'
+    - condition: template
+      value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+        - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+        - as_timestamp(now())) > 0) }}'
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.fordpass_ignition_switch
+  mode: single
+- id: '1606854864368'
+  alias: Vacuum Done - Undocked Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.bitch_vac
+    to: idle
+    from: cleaning
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Bitch has finished but not returned to its dock.
+  mode: single
+- id: '1606859940715'
+  alias: Vacuum Stuck Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: vacuum.bitch_vac
+    to: error
+    for: 00:00:30
+    from: cleaning
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The bitch is stuck on something
+  mode: single
+- id: '1606927468760'
+  alias: Van Update when On
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: '15'
+  - platform: state
+    entity_id: switch.fordpass_ignition_switch
+    from: 'off'
+    to: 'on'
+    for: 00:00:30
+  condition:
+  - condition: state
+    entity_id: sensor.fordpass_ignitionstatus
+    state: Run
+    attribute: value
+  action:
+  - service: fordpass.refresh_status
+    data: {}
+  mode: single
+- id: '1606927500352'
+  alias: Van Update when Off
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '4'
+  condition:
+  - condition: state
+    entity_id: sensor.fordpass_ignitionstatus
+    state: 'Off'
+    attribute: value
+  action:
+  - service: fordpass.refresh_status
+    data: {}
+  mode: single
+- id: '1607059998499'
+  alias: Closet Light Off with bathroom lights
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 5e3d9ffcdfad66f789af3f39d4f82ac1
+    entity_id: switch.master_bathroom_lights
+    domain: switch
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 1bc4cb05aa790414c3f7a2cb1d3e25a7
+    entity_id: light.closet
+    domain: light
+  mode: single
+- id: '1607996304910'
+  alias: Weather Warning Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.warnings
+    attribute: alert time
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: '{{ states(''sensor.warnings'') }} in effect.'
+  mode: single
+- id: '1608000372569'
+  alias: Dryer Stopped Notification
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: 92b7756818a3c1d832367a00f6c3ff29
+    entity_id: binary_sensor.smartdry_motion
+    domain: binary_sensor
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Laundry Dryer is done.
+  mode: single
+- id: '1608778716366'
+  alias: Coffee Maker OFF after 2 hours
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.coffee_machine
+    from: 'off'
+    to: 'on'
+    for: 02:00:00
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: python_script.set_attribute
+    data_template:
+      entity_id: switch.coffee_machine
+      state: 'off'
+  mode: single
+- id: '1609006432042'
+  alias: Washer Done Notification
+  description: ''
+  trigger:
+  - type: moist
+    platform: device
+    device_id: 92b7756818a3c1d832367a00f6c3ff29
+    entity_id: binary_sensor.dryer_water
+    domain: binary_sensor
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The Washing machine may be done.
+  mode: single
+- id: '1610159219685'
+  alias: Driveway Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.blueiris_front_yard_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - type: turn_on
+    device_id: 3dca8ade7ecacdb686a7df2d51194228
+    entity_id: light.driveway_left
+    domain: light
+    brightness_pct: 60
+  - type: turn_on
+    device_id: 3a9e191abdaecb725d68b1b2d9b4994b
+    entity_id: light.driveway_right
+    domain: light
+    brightness_pct: 60
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.blueiris_front_yard_motion
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 2
+        seconds: 0
+    continue_on_timeout: true
+  - type: turn_off
+    device_id: 8ecec859e1b575f063ccfa1edf1e57b2
+    entity_id: light.driveway_left
+    domain: light
+  - type: turn_off
+    device_id: 7ef8d87219ff7e131ab4ecfdfe4d0c4f
+    entity_id: light.driveway_right
+    domain: light
+  mode: restart
+- id: '1610166256230'
+  alias: PTZ Front Door Opened
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 1abf48bef78976c98e45df54bbca0ae0
+    entity_id: binary_sensor.front_door_contact
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: shell_command.ptz_front_door
+    data: {}
+  - wait_for_trigger:
+    - type: not_opened
+      platform: device
+      device_id: 1abf48bef78976c98e45df54bbca0ae0
+      entity_id: binary_sensor.front_door_contact
+      domain: binary_sensor
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 10
+  - service: shell_command.ptz_living_room_home
+    data: {}
+  mode: restart
+- id: '1611541140303'
+  alias: Closet Motion
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      no_motion_wait: 120
+      motion_entity: binary_sensor.closet_motion_motion
+      light_target:
+        device_id: 1bc4cb05aa790414c3f7a2cb1d3e25a7
+- id: '1611548335833'
+  alias: Downstairs Motion
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      no_motion_wait: 120
+      motion_entity: binary_sensor.downstairs_motion_motion
+      light_target:
+        area_id: 29d411c511274ebd9ac1f36d90108150
+- id: '1611624120527'
+  alias: Front Door Left Open Notification
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 1abf48bef78976c98e45df54bbca0ae0
+    entity_id: binary_sensor.front_door_contact
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition:
+  - condition: time
+    after: 07:00
+    before: '21:00'
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.whole_home_group
+    data_template:
+      message: The front door has been open for 1 minute.
+  mode: single
+- id: '1620852053408'
+  alias: PC sleep, harmony off
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 422084e7ddc36dff63fee87dc687eacc
+    entity_id: switch.master_bedroom_samsung
+    domain: switch
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 29bc8e749b6d144ce52b3ad15d0923ca
+    entity_id: switch.watch_pc_harmony_activity
+    domain: switch
+  mode: single
+- id: '1623246395659'
+  alias: Van status every morning
+  description: ''
+  trigger:
+  - platform: time
+    at: '8:00'
+  - platform: time
+    at: '8:15'
+  - platform: time
+    at: '8:30'
+  - platform: time
+    at: '9:00'
+  - platform: time
+    at: '10:15'
+  - platform: time
+    at: '11:15'
+  condition: []
+  action:
+  - service: script.refresh_van_status
+  mode: single
+- id: '1623710777330'
+  alias: Entryway Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 426d4dadf45129480adc7eba29001d25
+    entity_id: binary_sensor.entryway_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: '21:00:00'
+        before: 06:00:00
+      sequence:
+      - scene: scene.entryway_night
+    default:
+    - scene: scene.entryway_day
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.entryway_motion_sensor_motion
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - scene: scene.entryway_lights_off
+  mode: restart
+- id: '1623973313137'
+  alias: Basement Lights Motion
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.basement_motion_sensor_motion
+      light_target:
+        area_id: a4843c495370486694b714a6d8059f0f
+      no_motion_wait: 1800
+- id: '1627523367951'
+  alias: PC Mode ON when Monitor ON
+  description: Turn on Master Bedroom Samsung when Monitor Energy is Above level
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.computer_monitor_power_meter
+    above: '100'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition:
+  - condition: device
+    type: is_off
+    device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+    entity_id: remote.harmony_hub_2
+    domain: remote
+  action:
+  - type: turn_on
+    device_id: 29bc8e749b6d144ce52b3ad15d0923ca
+    entity_id: switch.watch_pc_harmony_activity
+    domain: switch
+  mode: single
+- id: '1640303827755'
+  alias: Lava Lamp off with ceiling
+  description: Master Bedroom
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    entity_id: light.master_bedroom_ceiling
+    domain: light
+  condition: []
+  action:
+  - type: turn_off
+    device_id: a5b90327cf51253ab7260943bbfa0dc2
+    entity_id: switch.lava_lamp
+    domain: switch
+  mode: single
+- id: '1640801629505'
+  alias: Home Assistant Update Notification for Android
+  description: ''
+  use_blueprint:
+    path: fortepc/update-notif-for-android.yaml
+    input:
+      clickAction: https://russelo.duckdns.org/Docker
+      delay: 0
+      notify_device: 938e5464ad15197e2a41e5e255c145bd
+      include_hasspodcast: true
+- id: '1643769865590'
+  alias: Den fan and TV off with lights
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: f2f3d3cb5546e95da1e1ef24ab5b98c8
+    entity_id: light.den_2
+    domain: light
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 8e86c338ff52cbf5eee0c1eb6ac139ec
+    entity_id: switch.den_fan_1
+    domain: switch
+  - type: turn_off
+    device_id: ee9ef71468ecfd9bc08b3316889ed7a4
+    entity_id: remote.den_hub
+    domain: remote
+  mode: single
+- id: '1643999628413'
+  alias: Den Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 610fab9c5dd3a4c930e9257e96fb7b1e
+    entity_id: binary_sensor.den_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 890b3843ca6231858f521cf3d493b9a7
+    entity_id: light.den_1
+    domain: light
+  action:
+  - scene: scene.den_lights_on
+  mode: single
+- id: '1643999847452'
+  alias: Master Bathroom Off with Master Bedroom
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    entity_id: light.master_bedroom_ceiling
+    domain: light
+  condition: []
+  action:
+  - type: turn_off
+    device_id: f39d615f0c0436d4edc5bea541de402e
+    entity_id: switch.master_bathroom_lights
+    domain: switch
+  mode: single
+- id: '1643999963797'
+  alias: Master Bathroom Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 66d9d7fbf6c5eca82419f70bd7300828
+    entity_id: binary_sensor.master_bathroom_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    entity_id: light.master_bedroom_ceiling
+    domain: light
+  action:
+  - type: turn_on
+    device_id: f39d615f0c0436d4edc5bea541de402e
+    entity_id: switch.master_bathroom_lights
+    domain: switch
+  mode: single
+- id: '1644000768041'
+  alias: Bedroom 2 Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 7fc359d6bd078aea056c79c5ba54ea10
+    entity_id: binary_sensor.bedroom_2_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      after: 05:00:00
+      before: '21:00:00'
+    - condition: state
+      entity_id: media_player.android_tv_bedroom_2
+      state: 'off'
+    - condition: device
+      type: is_off
+      device_id: ef18381fcb995cb2db05df77185f09e3
+      entity_id: light.bedroom_2_ceiling
+      domain: light
+  action:
+  - scene: scene.bedroom_2_cool_white
+  mode: single
+- id: '1644004902127'
+  alias: Upstairs Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 43300729bf4b7b09da50b7486d5da1dc
+    entity_id: binary_sensor.upstairs_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.evening
+        state: 'on'
+      sequence:
+      - scene: scene.upstairs_evening
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.night
+        state: 'on'
+      sequence:
+      - scene: scene.upstairs_nightlight
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.morning
+        state: 'on'
+      sequence:
+      - scene: scene.upstairs_morning
+    default:
+    - scene: scene.upstairs_day
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.upstairs_motion_sensor_motion
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+  - type: turn_off
+    device_id: c61a51df3d748962daefa31ce7ae16c9
+    entity_id: light.upstairs_top
+    domain: light
+  - type: turn_off
+    device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+    entity_id: light.stairs_1
+    domain: light
+  - type: turn_off
+    device_id: 023f164143d1f5bebb0b5596929efefa
+    entity_id: light.stairs_2
+    domain: light
+  mode: restart
+- id: '1644006278146'
+  alias: Emby Movie Mode ON
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.android_tv_living_room
+    to: playing
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: media_player.android_tv_living_room
+      state: tv.emby.embyatv
+      attribute: app_id
+    - condition: device
+      type: is_off
+      device_id: b2bf370b92dceb98e6068a1b08c90e82
+      entity_id: light.kitchen_table_2
+      domain: light
+    - condition: time
+      after: '19:00:00'
+      before: 03:00:00
+  action:
+  - type: turn_on
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  - scene: scene.movie_mode_scene
+  mode: single
+- id: '1644007281071'
+  alias: Emby Movie Mode OFF
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.android_tv_living_room
+    from: playing
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  mode: single
+- id: '1644037075991'
+  alias: Den Monitors off with TV
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: ee9ef71468ecfd9bc08b3316889ed7a4
+    entity_id: remote.den_hub
+    domain: remote
+  condition: []
+  action:
+  - type: turn_off
+    device_id: ce4eaa7ee4badc5df6dba267a8888c02
+    entity_id: switch.den_left_monitor
+    domain: switch
+  - type: turn_off
+    device_id: 843249a9b2d8e364b80a4f27512fe449
+    entity_id: switch.den_right_monitor
+    domain: switch
+  mode: single
+- id: '1644081398256'
+  alias: Bedroom 2 Fan off with Wall Switch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.bedroom_wall_dimmer_switch
+    to: 1_click
+  condition:
+  - condition: device
+    type: is_on
+    device_id: ef18381fcb995cb2db05df77185f09e3
+    entity_id: light.bedroom_2_ceiling
+    domain: light
+  action:
+  - type: turn_off
+    device_id: 7a29c23aa9c21194a0645e99865806e3
+    entity_id: switch.bedroom_2_fan
+    domain: switch
+  mode: single
+- id: '1644099970720'
+  alias: Den Monitors on with TV
+  description: ''
+  trigger:
+  - platform: device
+    device_id: ee9ef71468ecfd9bc08b3316889ed7a4
+    domain: select
+    entity_id: select.den_hub_activities
+    type: current_option_changed
+    to: Watch PC
+  condition: []
+  action:
+  - type: turn_on
+    device_id: ce4eaa7ee4badc5df6dba267a8888c02
+    entity_id: switch.den_left_monitor
+    domain: switch
+  - type: turn_on
+    device_id: 843249a9b2d8e364b80a4f27512fe449
+    entity_id: switch.den_right_monitor
+    domain: switch
+  mode: single
+- id: '1644212226399'
+  alias: Bathroom 2 Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 858a2d3563f2b5464406ba44c0f41d2f
+    entity_id: binary_sensor.bathroom_2_motion_sensor_motion
+    domain: binary_sensor
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: 04:00:00
+        before: 05:00:00
+      sequence:
+      - type: turn_on
+        device_id: 9b0677bd56e3389db1e593ffaa229ccd
+        entity_id: light.bathroom_2_lights
+        domain: light
+        brightness_pct: 70
+    - conditions:
+      - condition: time
+        after: '21:00:00'
+        before: 04:00:00
+      sequence:
+      - type: turn_on
+        device_id: 9b0677bd56e3389db1e593ffaa229ccd
+        entity_id: light.bathroom_2_lights
+        domain: light
+        brightness_pct: 10
+    default:
+    - type: turn_on
+      device_id: 9b0677bd56e3389db1e593ffaa229ccd
+      entity_id: light.bathroom_2_lights
+      domain: light
+      brightness_pct: 100
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.bathroom_2_motion_sensor_motion
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 30
+        seconds: 0
+  - type: turn_off
+    device_id: 9b0677bd56e3389db1e593ffaa229ccd
+    entity_id: light.bathroom_2_lights
+    domain: light
+  mode: restart
+- id: '1644212766253'
+  alias: Kitchen Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 807029f040e042e0a7a3f691bf669cdb
+    entity_id: binary_sensor.kitchen_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 9ddf239a977d1af9ce01531c8c492bc5
+    entity_id: switch.movie_mode
+    domain: switch
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '23:00:00'
+      sequence:
+      - scene: scene.kitchen_dimmed
+    - conditions:
+      - condition: time
+        after: '23:00:00'
+        before: 04:00:00
+      sequence:
+      - scene: scene.kitchen_nightlight
+    - conditions:
+      - condition: time
+        after: 04:00:00
+        before: 08:00:00
+      sequence:
+      - scene: scene.kitchen_dimmed
+    default:
+    - scene: scene.kitchen_day
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor_motion
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 30
+        seconds: 0
+  - scene: scene.kitchen_lights_off
+  mode: restart
+- id: '1644310060878'
+  alias: Master Bedroom Button Pushed
+  description: ''
+  trigger:
+  - platform: event
+    event_type: smartthings.button
+    event_data:
+      device_id: 7b9d8adc-6f46-4d49-8022-0ce848a1881b
+      value: pushed
+  condition: []
+  action:
+  - scene: scene.master_bedroom_lights_off
+  mode: single
+- id: '1644354276109'
+  alias: Den Button
+  description: ''
+  trigger:
+  - platform: event
+    event_type: smartthings.button
+    event_data:
+      device_id: 28116e29-e384-4adf-969a-38df3d3b52de
+      value: pushed
+  condition: []
+  action:
+  - scene: scene.den_off
+  mode: single
+- id: '1644357814037'
+  alias: Master Bedroom Button Double Tap
+  description: ''
+  trigger:
+  - platform: event
+    event_type: smartthings.button
+    event_data:
+      device_id: 7b9d8adc-6f46-4d49-8022-0ce848a1881b
+      value: double
+  condition: []
+  action:
+  - scene: scene.master_bedroom_all_off
+  mode: single
+- id: '1644359293664'
+  alias: Garage Door Closed by virtual switch for Google Voice
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 629884e62c9cddb1e4b6e27553a512b3
+    entity_id: switch.overhead_door_switch
+    domain: switch
+  condition: []
+  action:
+  - device_id: 125f7408d222cbbe4bc1f895e38f33f4
+    domain: cover
+    entity_id: cover.garage_door
+    type: close
+  mode: single
+- id: '1644359312380'
+  alias: Garage Door Opened by virtual switch for Google Voice
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 629884e62c9cddb1e4b6e27553a512b3
+    entity_id: switch.overhead_door_switch
+    domain: switch
+  condition: []
+  action:
+  - device_id: 125f7408d222cbbe4bc1f895e38f33f4
+    domain: cover
+    entity_id: cover.garage_door
+    type: open
+  mode: single
+- id: '1644362689888'
+  alias: Kitchen Button Pressed
+  description: ''
+  trigger:
+  - platform: event
+    event_type: smartthings.button
+    event_data:
+      device_id: e382c358-ebd3-41d8-adfb-9026e0c7fe8b
+      value: pushed
+  condition: []
+  action:
+  - type: toggle
+    device_id: a96f078e50c5ded359c812fc352902e0
+    entity_id: light.kitchen_table
+    domain: light
+  - type: toggle
+    device_id: b2bf370b92dceb98e6068a1b08c90e82
+    entity_id: light.kitchen_table_2
+    domain: light
+  mode: single
+- id: '1644362748344'
+  alias: First Floor Button Pressed
+  description: ''
+  trigger:
+  - platform: event
+    event_type: smartthings.button
+    event_data:
+      device_id: 30e0fe39-d833-431b-9488-7f2d83c1d3b8
+      value: pushed
+  condition: []
+  action:
+  - scene: scene.kitchen_lights_off
+  - scene: scene.entryway_lights_off
+  - scene: scene.downstairs_lights_off
+  - scene: scene.basement_lights_off
+  - scene: scene.living_room_lights_off
+  - type: turn_off
+    device_id: 48f80993735ea7d9389c193049622112
+    entity_id: switch.garage_lights
+    domain: switch
+  mode: single
+- id: '1644372911069'
+  alias: Tristyn arriving home
+  description: ''
+  trigger:
+  - platform: zone
+    zone: zone.home
+    event: enter
+    entity_id: person.tristyn
+  condition: []
+  action:
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> Tristyn is Home. </speak>
+      cache: true
+  - scene: scene.master_bedroom_on
+  - device_id: 67c7c88fdea1705874b9368cf1be4a90
+    domain: lock
+    entity_id: lock.front_door_lock
+    type: unlock
+  mode: single
+- id: '1644800746134'
+  alias: Puppy at door.
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.front_step_dog
+    above: '0'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  condition:
+  - condition: time
+    after: 08:00:00
+    before: '20:30:00'
+  action:
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/>  Puppy is at the Front Door for 30 seconds. </speak>
+      cache: true
+  mode: single
+- id: '1644810045036'
+  alias: Living Room Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 65df8ed0b7d518187e33ca566370980b
+    entity_id: binary_sensor.motion_sensor_motion
+    domain: binary_sensor
+  condition: []
+  action:
+  - scene: scene.living_room_concentrate
+  mode: single
+- id: '1644810138458'
+  alias: Master Bedroom Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 8a1cadfc33a805ecde21ec6f17a8139d
+    entity_id: binary_sensor.master_bedroom_motion_motion
+    domain: binary_sensor
+  condition: []
+  action:
+  - scene: scene.master_bedroom_concentrate
+  mode: single
+- id: '1645411781240'
+  alias: Front Yard Lights
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      sequence:
+      - scene: scene.front_yard_lights_on_60
+    default:
+    - scene: scene.front_yard_lights_off
+- id: '1645412807968'
+  alias: New Automation
+  description: ''
+  trigger:
+  - type: energy
+    platform: device
+    device_id: 9730d207088ef1a02e48657fc5a326a8
+    entity_id: sensor.washer_energy_meter
+    domain: sensor
+    above: 5
+  condition: []
+  action:
+  - device_id: 416dff5732a808dc787c0474198951ae
+    domain: light
+    entity_id: light.desk_light
+    type: flash
+  mode: single
+- id: '1645413237498'
+  alias: Flash Driveway Left Light for Delivery Driver
+  trigger:
+  - platform: state
+    entity_id: input_boolean.delivery_enroute
+    to: 'on'
+  condition: []
+  action:
+  - service: scene.create
+    data:
+      scene_id: driveway_left_before_state
+      snapshot_entities:
+      - light.driveway_left
+  - delay:
+      seconds: 1
+  - service: light.turn_on
+    data:
+      brightness: 200
+      flash: long
+    target:
+      device_id: 8ecec859e1b575f063ccfa1edf1e57b2
+  - wait_for_trigger:
+    - type: opened
+      platform: device
+      device_id: 1abf48bef78976c98e45df54bbca0ae0
+      entity_id: binary_sensor.front_door_contact
+      domain: binary_sensor
+    - platform: state
+      entity_id: input_boolean.delivery_enroute
+      to: 'off'
+  - service: scene.turn_on
+    target:
+      entity_id:
+      - scene.driveway_left_before_state
+    data: {}
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.delivery_enroute
+- id: '1645480192958'
+  alias: House Occupied by family member
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.terry,person.tristyn
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.tristyn
+          state: home
+        - condition: state
+          entity_id: person.terry
+          state: home
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.family_is_home
+    default:
+    - service: input_boolean.turn_off
+      data: {}
+      target:
+        entity_id: input_boolean.family_is_home
+  mode: single
+- id: '1645554584946'
+  alias: Garage Lights off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.garage_safety
+  condition:
+  - condition: device
+    device_id: 125f7408d222cbbe4bc1f895e38f33f4
+    domain: cover
+    entity_id: cover.garage_door
+    type: is_closed
+  - type: is_not_open
+    condition: device
+    device_id: 3c0e1fb299794cbf01ddd0dcf5695aec
+    entity_id: binary_sensor.garage_side_door_contact
+    domain: binary_sensor
+  - type: is_not_open
+    condition: device
+    device_id: 942da1a99ee1405269fa8b91b27a133d
+    entity_id: binary_sensor.garage_house_door_sensor_contact
+    domain: binary_sensor
+  action:
+  - wait_for_trigger:
+    - type: no_motion
+      platform: device
+      device_id: c36bfa3cbf2ce035963e95b746c5f0bc
+      entity_id: binary_sensor.blueiris_garage_camera_motion
+      domain: binary_sensor
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - type: turn_off
+    device_id: 48f80993735ea7d9389c193049622112
+    entity_id: switch.garage_lights
+    domain: switch
+  mode: restart

@@ -1,0 +1,53 @@
+switch:
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/EmbyServer
+    name: Emby Server
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/binhex-delugevpn
+    name: Deluge
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/binhex-sonarr
+    name: Sonarr
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/binhex-radarr
+    name: Radarr
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/ubooquity
+    name: Ubooquity
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/NodeRed-Official-Docker
+    name: NodeRed
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/MQTT
+    name: MQTT
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: rest
+    resource: http://192.168.1.12:8126/container/duckdns
+    name: DuckDNS
+    body_on: '{"state": "start"}'
+    body_off: '{"state": "stop"}'
+    is_on_template: '{{ value_json is not none and value_json.state == "running" }}'
+  - platform: deluge
+    host: 192.168.1.12
+    username : !secret deluge_user
+    password : !secret deluge_pass

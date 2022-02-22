@@ -1,0 +1,1834 @@
+- id: '1602877444454'
+  name: Tristyn Morning HASS
+  entities:
+    light.master_bedroom_ceiling:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 84
+      hs_color:
+      - 42.902
+      - 75.686
+      rgb_color:
+      - 255
+      - 200
+      - 62
+      xy_color:
+      - 0.5
+      - 0.442
+      mode: normal
+      dynamics: none
+      friendly_name: Master Bedroom Ceiling
+      supported_features: 40
+      state: 'on'
+    light.master_bedroom_ceiling_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 92
+      hs_color:
+      - 43.03
+      - 77.647
+      rgb_color:
+      - 255
+      - 199
+      - 57
+      xy_color:
+      - 0.504
+      - 0.443
+      mode: normal
+      dynamics: none
+      friendly_name: Master Bedroom Ceiling
+      supported_features: 40
+      state: 'on'
+    light.bed_light:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 89
+      hs_color:
+      - 43.03
+      - 77.647
+      rgb_color:
+      - 255
+      - 199
+      - 57
+      xy_color:
+      - 0.504
+      - 0.443
+      mode: normal
+      dynamics: none
+      friendly_name: Bed light
+      supported_features: 40
+      state: 'on'
+    light.bedroom_spot:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 92
+      hs_color:
+      - 43.03
+      - 77.647
+      rgb_color:
+      - 255
+      - 199
+      - 57
+      xy_color:
+      - 0.504
+      - 0.443
+      mode: normal
+      dynamics: none
+      friendly_name: Bedroom Spot
+      supported_features: 40
+      state: 'on'
+    light.desk_light:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 89
+      hs_color:
+      - 46.364
+      - 43.137
+      rgb_color:
+      - 255
+      - 230
+      - 145
+      xy_color:
+      - 0.417
+      - 0.414
+      mode: normal
+      dynamics: none
+      friendly_name: Desk Light
+      supported_features: 40
+      state: 'on'
+    light.mbr_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 89
+      hs_color:
+      - 43.03
+      - 77.647
+      rgb_color:
+      - 255
+      - 199
+      - 57
+      xy_color:
+      - 0.504
+      - 0.443
+      mode: normal
+      dynamics: none
+      friendly_name: MBR Lamp
+      supported_features: 40
+      state: 'on'
+    switch.morning_harmony_activity_2:
+      friendly_name: Morning [Harmony Activity]
+      state: 'on'
+    switch.coffee_machine:
+      icon: mdi:coffee-maker
+      friendly_name: Coffee machine
+      state: 'on'
+  icon: mdi:weather-sunset-up
+- id: '1612993471869'
+  name: Entryway Day
+  entities:
+    light.entryway_upper:
+      brightness: 255
+      friendly_name: Entryway Upper
+      supported_features: 33
+      state: 'on'
+    light.entryway_lower:
+      brightness: 255
+      friendly_name: Entryway Lower
+      supported_features: 33
+      state: 'on'
+- id: '1612993573678'
+  name: Entryway Night
+  entities:
+    light.entryway_lower:
+      brightness: 128
+      friendly_name: Entryway Lower
+      supported_features: 33
+      state: 'on'
+    light.entryway_upper:
+      friendly_name: Entryway Upper
+      supported_features: 33
+      state: 'off'
+- id: '1643999550072'
+  name: Den Lights On
+  entities:
+    light.den_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 255
+      hs_color:
+      - 221.538
+      - 5.098
+      rgb_color:
+      - 242
+      - 246
+      - 255
+      xy_color:
+      - 0.312
+      - 0.321
+      mode: normal
+      dynamics: none
+      friendly_name: Den 1
+      supported_features: 40
+      state: 'on'
+    light.den_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 255
+      hs_color:
+      - 221.538
+      - 5.098
+      rgb_color:
+      - 242
+      - 246
+      - 255
+      xy_color:
+      - 0.312
+      - 0.321
+      mode: normal
+      dynamics: none
+      friendly_name: Den 2
+      supported_features: 40
+      state: 'on'
+    light.den_desk_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 255
+      hs_color:
+      - 221.538
+      - 5.098
+      rgb_color:
+      - 242
+      - 246
+      - 255
+      xy_color:
+      - 0.312
+      - 0.321
+      mode: normal
+      dynamics: none
+      friendly_name: Den Desk Lamp
+      supported_features: 40
+      state: 'on'
+    light.den_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 255
+      hs_color:
+      - 221.538
+      - 5.098
+      rgb_color:
+      - 242
+      - 246
+      - 255
+      xy_color:
+      - 0.312
+      - 0.321
+      mode: normal
+      dynamics: none
+      friendly_name: Den Lamp
+      supported_features: 40
+      state: 'on'
+    switch.den_fan:
+      icon: mdi:fan
+      friendly_name: Den Fan
+      state: 'on'
+    switch.den_left_monitor:
+      friendly_name: Den Monitor Left
+      state: 'on'
+    switch.den_right_monitor:
+      friendly_name: Den Monitor Right
+      state: 'on'
+    switch.watch_pc_harmony_activity_2:
+      friendly_name: Watch PC [Harmony Activity]
+      state: 'on'
+  icon: mdi:sofa
+- id: '1644000551046'
+  name: Bedroom 2 Cool White
+  entities:
+    light.bedroom_2_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 223.2
+      - 16
+      rgb_color:
+      - 214
+      - 225
+      - 255
+      xy_color:
+      - 0.289
+      - 0.296
+      color_temp: 200
+      friendly_name: Bedroom 2 Ceiling
+      supported_features: 51
+      state: 'on'
+    light.bedroom_2_lamp:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 223.2
+      - 16
+      rgb_color:
+      - 214
+      - 225
+      - 255
+      xy_color:
+      - 0.289
+      - 0.296
+      color_temp: 200
+      friendly_name: Bedroom 2 Lamp
+      supported_features: 51
+      state: 'on'
+    switch.bedroom_2_fan:
+      icon: mdi:fan
+      friendly_name: Bedroom 2 Fan
+      state: 'on'
+  icon: mdi:bed
+- id: '1644001553407'
+  name: Kitchen Day
+  entities:
+    light.kitchen_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 200
+      hs_color:
+      - 27.001
+      - 19.243
+      rgb_color:
+      - 255
+      - 228
+      - 205
+      xy_color:
+      - 0.372
+      - 0.35
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_ceiling_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 200
+      hs_color:
+      - 27.001
+      - 19.243
+      rgb_color:
+      - 255
+      - 228
+      - 205
+      xy_color:
+      - 0.372
+      - 0.35
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_ceiling_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 200
+      hs_color:
+      - 27.001
+      - 19.243
+      rgb_color:
+      - 255
+      - 228
+      - 205
+      xy_color:
+      - 0.372
+      - 0.35
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 200
+      hs_color:
+      - 27.001
+      - 19.243
+      rgb_color:
+      - 255
+      - 228
+      - 205
+      xy_color:
+      - 0.372
+      - 0.35
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 200
+      hs_color:
+      - 27.001
+      - 19.243
+      rgb_color:
+      - 255
+      - 228
+      - 205
+      xy_color:
+      - 0.372
+      - 0.35
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'on'
+- id: '1644001807480'
+  name: Kitchen Dimmed
+  entities:
+    light.kitchen_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 166
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_ceiling_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 166
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_ceiling_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 166
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 166
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 166
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'on'
+- id: '1644002034527'
+  name: Kitchen Nightlight
+  entities:
+    light.kitchen_table:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 26
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Table
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 26
+      color_temp: 370
+      hs_color:
+      - 28.391
+      - 65.659
+      rgb_color:
+      - 255
+      - 166
+      - 87
+      xy_color:
+      - 0.526
+      - 0.387
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'on'
+    light.kitchen_island:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'off'
+    light.kitchen_table_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Table 2
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+- id: '1644003671681'
+  name: Living Room Day
+  entities:
+    light.living_room_1:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 50.4
+      - 29
+      rgb_color:
+      - 255
+      - 243
+      - 181
+      xy_color:
+      - 0.381
+      - 0.393
+      color_temp: 303
+      friendly_name: Living Room 1
+      supported_features: 51
+      state: 'on'
+    light.living_room_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 50.4
+      - 29
+      rgb_color:
+      - 255
+      - 243
+      - 181
+      xy_color:
+      - 0.381
+      - 0.393
+      color_temp: 303
+      friendly_name: Living Room 2
+      supported_features: 51
+      state: 'on'
+    light.living_room_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 50.4
+      - 29
+      rgb_color:
+      - 255
+      - 243
+      - 181
+      xy_color:
+      - 0.381
+      - 0.393
+      color_temp: 303
+      friendly_name: Living Room 3
+      supported_features: 51
+      state: 'on'
+    light.living_room_4:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 50.4
+      - 29
+      rgb_color:
+      - 255
+      - 243
+      - 181
+      xy_color:
+      - 0.381
+      - 0.393
+      color_temp: 303
+      friendly_name: Living Room 4
+      supported_features: 51
+      state: 'on'
+    light.living_room_tv_light_strip:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 50.4
+      - 29
+      rgb_color:
+      - 255
+      - 243
+      - 181
+      xy_color:
+      - 0.381
+      - 0.393
+      color_temp: 303
+      friendly_name: Living Room TV Light Strip
+      supported_features: 51
+      state: 'on'
+- id: '1644004496145'
+  name: Upstairs Day 100%
+  entities:
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      friendly_name: Upstairs Top
+      supported_features: 33
+      state: 'on'
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 1
+      supported_features: 40
+      state: 'on'
+    light.stairs_2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 2
+      supported_features: 40
+      state: 'on'
+- id: '1644004533345'
+  name: Upstairs Evening 40%
+  entities:
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      friendly_name: Upstairs Top
+      supported_features: 33
+      state: 'off'
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 1
+      supported_features: 40
+      state: 'on'
+    light.stairs_2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 2
+      supported_features: 40
+      state: 'on'
+- id: '1644004567730'
+  name: Upstairs Morning 60%
+  entities:
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      friendly_name: Upstairs Top
+      supported_features: 33
+      state: 'on'
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 1
+      supported_features: 40
+      state: 'on'
+    light.stairs_2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 2
+      supported_features: 40
+      state: 'on'
+- id: '1644004694253'
+  name: Upstairs Nightlight
+  entities:
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 38
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 1
+      supported_features: 40
+      state: 'on'
+    light.stairs_2:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 2
+      supported_features: 40
+      state: 'off'
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      friendly_name: Upstairs Top
+      supported_features: 33
+      state: 'off'
+- id: '1644005701431'
+  name: Master Bedroom On
+  entities:
+    light.master_bedroom_ceiling:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Master Bedroom Ceiling
+      supported_features: 40
+      state: 'on'
+    light.master_bedroom_ceiling_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Master Bedroom Ceiling
+      supported_features: 40
+      state: 'on'
+    light.master_bedroom_tv_spotlight:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: MBR TV Spot
+      supported_features: 40
+      state: 'on'
+    light.desk_light:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Desk Light
+      supported_features: 40
+      state: 'on'
+    light.bed_light:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Bed light
+      supported_features: 40
+      state: 'on'
+    light.mbr_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: MBR Lamp
+      supported_features: 40
+      state: 'on'
+    light.bedroom_spot:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Bedroom Spot
+      supported_features: 40
+      state: 'on'
+    switch.clock_light:
+      icon: mdi:clock
+      friendly_name: Clock Light
+      state: 'on'
+    switch.phone_light:
+      icon: mdi:phone-classic
+      friendly_name: Phone Light
+      state: 'on'
+    switch.lava_lamp:
+      icon: mdi:lava-lamp
+      friendly_name: Lava Lamp
+      state: 'on'
+    switch.watch_pc_harmony_activity:
+      friendly_name: Watch PC [Harmony Activity]
+      state: 'on'
+    light.master_bedroom_ceiling_3:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      mode: normal
+      dynamics: none
+      friendly_name: Master Bedroom Ceiling
+      supported_features: 40
+      state: 'on'
+    switch.computer_monitor:
+      friendly_name: Computer Monitor
+      state: 'on'
+    switch.touchscreen_monitor_led:
+      icon: mdi:led-on
+      friendly_name: Touchscreen Monitor LED
+      state: 'on'
+    switch.touchscreen_monitor:
+      friendly_name: Touchscreen Monitor
+      state: 'on'
+- id: '1644007500447'
+  name: Movie Mode Scene
+  entities:
+    light.kitchen_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_table:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Table
+      supported_features: 35
+      state: 'off'
+    light.kitchen_island:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'off'
+    light.kitchen_island_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'off'
+    light.entryway_lower:
+      supported_color_modes:
+      - brightness
+      friendly_name: Entryway Lower
+      supported_features: 33
+      state: 'off'
+    light.entryway_upper:
+      supported_color_modes:
+      - brightness
+      friendly_name: Entryway Upper
+      supported_features: 33
+      state: 'off'
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      friendly_name: Stairs 1
+      supported_features: 33
+      state: 'off'
+    light.stairs_2:
+      supported_color_modes:
+      - brightness
+      friendly_name: Stairs 2
+      supported_features: 33
+      state: 'off'
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      friendly_name: Upstairs Top
+      supported_features: 33
+      state: 'off'
+- id: '1644212736941'
+  name: Kitchen Lights OFF
+  entities:
+    light.kitchen_ceiling:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_ceiling_3:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Ceiling
+      supported_features: 35
+      state: 'off'
+    light.kitchen_table:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Table
+      supported_features: 35
+      state: 'off'
+    light.kitchen_table_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Table 2
+      supported_features: 35
+      state: 'off'
+    light.kitchen_island:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'off'
+    light.kitchen_island_2:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 35
+      state: 'off'
+- id: '1644354387327'
+  name: Den Off
+  entities:
+    light.den_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den 1
+      supported_features: 40
+      state: 'off'
+    light.den_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den 2
+      supported_features: 40
+      state: 'off'
+    light.den_desk_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den Desk Lamp
+      supported_features: 40
+      state: 'off'
+    light.den_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den Lamp
+      supported_features: 40
+      state: 'off'
+- id: '1644356744585'
+  name: Master Bedroom ALL OFF
+  entities:
+    light.master_bedroom_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      entity_id:
+      - light.master_bedroom_ceiling
+      - light.master_bedroom_ceiling_2
+      - light.master_bedroom_ceiling_3
+      - light.bed_light
+      - light.bedroom_spot
+      - light.mbr_lamp
+      - light.master_bedroom_tv_spotlight
+      - light.desk_light
+      icon: mdi:lightbulb-group
+      friendly_name: Master Bedroom Lights
+      supported_features: 40
+      state: 'off'
+    switch.phone_light:
+      icon: mdi:phone-classic
+      friendly_name: Phone Light
+      state: 'off'
+    switch.clock_light_1:
+      icon: mdi:clock-outline
+      friendly_name: Clock Light
+      state: 'off'
+    remote.harmony_hub_2:
+      activity_list:
+      - PlayStation
+      - PC Mode
+      - Watch TV
+      - Morning
+      current_activity: PowerOff
+      activity_starting:
+      devices_list:
+      - Humidifier
+      - Polk Audio Amp
+      - LG TV
+      - Google Media Player
+      - Sony PS4
+      - Yamaha AV Receiver
+      - Master Bedroom TV
+      - TELUS DVR
+      - Windows Computer
+      last_activity: PC Mode
+      friendly_name: Master Bedroom Harmony Hub
+      supported_features: 4
+      state: 'off'
+    switch.harmony_hub_playstation:
+      friendly_name: Harmony Hub PlayStation
+      state: 'off'
+    switch.harmony_hub_pc_mode:
+      friendly_name: Harmony Hub PC Mode
+      state: 'off'
+    switch.harmony_hub_watch_tv:
+      friendly_name: Harmony Hub Watch TV
+      state: 'off'
+    switch.harmony_hub_morning:
+      friendly_name: Harmony Hub Morning
+      state: 'off'
+    select.harmony_hub_activities_2:
+      options:
+      - PowerOff
+      - Morning
+      - PC Mode
+      - PlayStation
+      - Watch TV
+      icon: mdi:remote-tv-off
+      friendly_name: Harmony Hub Activities
+      state: PowerOff
+    switch.touchscreen_monitor_led:
+      icon: mdi:led-on
+      friendly_name: Touchscreen Monitor LED
+      state: 'on'
+    switch.touchscreen_monitor:
+      friendly_name: Touchscreen Monitor
+      state: 'off'
+    switch.computer_monitor:
+      friendly_name: Computer Monitor
+      state: 'off'
+- id: '1644356870802'
+  name: Master Bedroom Lights OFF
+  entities:
+    light.master_bedroom_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      entity_id:
+      - light.master_bedroom_ceiling
+      - light.master_bedroom_ceiling_2
+      - light.master_bedroom_ceiling_3
+      - light.bed_light
+      - light.bedroom_spot
+      - light.mbr_lamp
+      - light.master_bedroom_tv_spotlight
+      - light.desk_light
+      icon: mdi:lightbulb-group
+      friendly_name: Master Bedroom Lights
+      supported_features: 40
+      state: 'off'
+    switch.phone_light:
+      icon: mdi:phone-classic
+      friendly_name: Phone Light
+      state: 'on'
+    switch.clock_light_1:
+      icon: mdi:clock-outline
+      friendly_name: Clock Light
+      state: 'on'
+- id: '1644362777794'
+  name: Basement Lights OFF
+  entities:
+    light.basement_lights:
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.basement_1
+      - light.basement_2
+      - light.basement_3
+      - light.main_panel
+      - light.basement_4
+      - light.basement_5
+      - light.basement_6
+      icon: mdi:lightbulb-group
+      friendly_name: Basement Lights
+      supported_features: 40
+      state: 'off'
+- id: '1644362810178'
+  name: Living Room Lights OFF
+  entities:
+    light.living_room_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      entity_id:
+      - light.living_room_1
+      - light.living_room_2
+      - light.living_room_3
+      - light.living_room_4
+      - light.living_room_tv_light_strip
+      icon: mdi:lightbulb-group
+      friendly_name: Living Room Lights
+      supported_features: 40
+      state: 'off'
+- id: '1644362837184'
+  name: Downstairs Lights OFF
+  entities:
+    light.downstairs_lights:
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.bottom_stairs
+      - light.middle_stairs
+      - light.top_stairs
+      icon: mdi:lightbulb-group
+      friendly_name: Downstairs Lights
+      supported_features: 40
+      state: 'off'
+- id: '1644362875324'
+  name: Entryway Lights OFF
+  entities:
+    light.entryway_lights:
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.entryway_lower
+      - light.entryway_upper
+      icon: mdi:lightbulb-group
+      friendly_name: Entryway Lights
+      supported_features: 32
+      state: 'off'
+- id: '1644861233299'
+  name: House Cleaning
+  entities:
+    light.entryway_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      entity_id:
+      - light.entryway_lower
+      - light.entryway_upper
+      icon: mdi:lightbulb-group
+      friendly_name: Entryway Lights
+      supported_features: 32
+      state: 'on'
+    light.living_room_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      entity_id:
+      - light.living_room_1
+      - light.living_room_2
+      - light.living_room_3
+      - light.living_room_4
+      - light.living_room_tv_light_strip
+      icon: mdi:lightbulb-group
+      friendly_name: Living Room Lights
+      supported_features: 40
+      state: 'on'
+    light.kitchen_lights:
+      min_mireds: 111
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 111
+      hs_color:
+      - 222.449
+      - 17.843
+      rgb_color:
+      - 209
+      - 222
+      - 255
+      xy_color:
+      - 0.285
+      - 0.292
+      entity_id:
+      - light.kitchen_ceiling
+      - light.kitchen_ceiling_3
+      - light.kitchen_ceiling_2
+      - light.kitchen_island
+      - light.kitchen_island_2
+      - light.kitchen_table
+      - light.kitchen_table_2
+      icon: mdi:lightbulb-group
+      friendly_name: Kitchen Lights
+      supported_features: 32
+      state: 'on'
+    light.downstairs_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      entity_id:
+      - light.bottom_stairs
+      - light.middle_stairs
+      - light.top_stairs
+      icon: mdi:lightbulb-group
+      friendly_name: Downstairs Lights
+      supported_features: 40
+      state: 'on'
+    light.basement_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      entity_id:
+      - light.basement_1
+      - light.basement_2
+      - light.basement_3
+      - light.main_panel
+      - light.basement_4
+      - light.basement_5
+      - light.basement_6
+      icon: mdi:lightbulb-group
+      friendly_name: Basement Lights
+      supported_features: 40
+      state: 'on'
+    light.upstairs_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      entity_id:
+      - light.stairs_1
+      - light.stairs_2
+      - light.upstairs_top
+      icon: mdi:lightbulb-group
+      friendly_name: Upstairs  Lights
+      supported_features: 40
+      state: 'on'
+    light.den_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      entity_id:
+      - light.den_1
+      - light.den_2
+      - light.den_desk_lamp
+      - light.den_lamp
+      icon: mdi:lightbulb-group
+      friendly_name: Den Lights
+      supported_features: 40
+      state: 'on'
+    light.bedroom_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      entity_id:
+      - light.bedroom_2_ceiling
+      - light.bedroom_2_lamp
+      icon: mdi:lightbulb-group
+      friendly_name: Bedroom Lights
+      supported_features: 40
+      state: 'on'
+    light.master_bedroom_lights:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      entity_id:
+      - light.master_bedroom_ceiling
+      - light.master_bedroom_ceiling_2
+      - light.master_bedroom_ceiling_3
+      - light.bed_light
+      - light.bedroom_spot
+      - light.mbr_lamp
+      - light.master_bedroom_tv_spotlight
+      - light.desk_light
+      icon: mdi:lightbulb-group
+      friendly_name: Master Bedroom Lights
+      supported_features: 40
+      state: 'on'
+    light.master_bathroom_light:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Master Bathroom Lights
+      supported_features: 0
+      state: 'on'
+    light.bathroom_2_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      friendly_name: Bathroom 2 Lights
+      supported_features: 33
+      state: 'on'
+- id: '1645410646606'
+  name: Front Yard Lights on 60%
+  entities:
+    light.driveway_left:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 153
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Left
+      supported_features: 40
+      state: 'on'
+    light.driveway_right:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 153
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Right
+      supported_features: 40
+      state: 'on'
+    light.front_step_lower:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 153
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Lower
+      supported_features: 40
+      state: 'on'
+    light.front_step_upper:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 153
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Upper
+      supported_features: 40
+      state: 'on'
+- id: '1645410699290'
+  name: Front Yard Lights on 40%
+  entities:
+    light.driveway_left:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 102
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Left
+      supported_features: 40
+      state: 'on'
+    light.driveway_right:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 102
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Right
+      supported_features: 40
+      state: 'on'
+    light.front_step_lower:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 102
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Lower
+      supported_features: 40
+      state: 'on'
+    light.front_step_upper:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 102
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Upper
+      supported_features: 40
+      state: 'on'
+- id: '1645410722300'
+  name: Front Yard Lights on 100%
+  entities:
+    light.driveway_left:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Left
+      supported_features: 40
+      state: 'on'
+    light.driveway_right:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Right
+      supported_features: 40
+      state: 'on'
+    light.front_step_lower:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Lower
+      supported_features: 40
+      state: 'on'
+    light.front_step_upper:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 255
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Upper
+      supported_features: 40
+      state: 'on'
+- id: '1645410752909'
+  name: Front Yard Lights off
+  entities:
+    light.driveway_left:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Left
+      supported_features: 40
+      state: 'off'
+    light.driveway_right:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Driveway Right
+      supported_features: 40
+      state: 'off'
+    light.front_step_lower:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Lower
+      supported_features: 40
+      state: 'off'
+    light.front_step_upper:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Front Step Upper
+      supported_features: 40
+      state: 'off'

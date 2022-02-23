@@ -97,7 +97,7 @@ automation:
     #     speech_message: It appears the washing machine has completed its cycle.
     - service: script.speech_engine
       data: 
-        who: media_player.whole_home_group
+        who: all_google
         message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
     # - service: script.turn_on
     #   entity_id: script.washer_finished_notification_audible
@@ -116,8 +116,8 @@ automation:
         topic: house/washer/status
         payload: Idle
         retain: true
-    # - service: script.turn_off
-    #   entity_id: script.washer_finished_notification_audible
+    - service: script.turn_off
+      entity_id: script.washer_finished_notification_audible
     - service: mqtt.publish
       data:
         topic: house/washer/time_emptied
@@ -169,18 +169,18 @@ automation:
 script:
 
 
-  # washer_finished_notification_audible:
-  #   sequence:
-  #   - repeat:
-  #       while:
-  #         - condition: state
-  #           entity_id: sensor.washer_status
-  #           state: 'Complete'
-  #       sequence:
-  #       - delay:
-  #           minutes: 45
-  #       #- service: script.washer_audible
-  #       - service: script.simplified_washer_audible
+  washer_finished_notification_audible:
+    sequence:
+    - repeat:
+        while:
+          - condition: state
+            entity_id: sensor.washer_status
+            state: 'Complete'
+        sequence:
+        - delay:
+            minutes: 45
+        - service: script.washer_audible
+        # - service: script.simplified_washer_audible
 
   # dryer_finished_notification_audible:
   #   sequence:
@@ -194,19 +194,19 @@ script:
   #       - delay:
   #           minutes: 45
 
-  # washer_audible:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: group.family
-  #     state: 'home'
-  #   - condition: state
-  #     entity_id: sensor.washer_status
-  #     state: complete
-  #   - service: script.status_annc
-  #     data_template:
-  #       who: '{{ states(''sensor.room_audio'') }}'
-  #       call_interuption: 1
-  #       call_washer_needs_emptying: 1
+  washer_audible:
+    sequence:
+    - condition: state
+      entity_id: group.family
+      state: 'home'
+    - condition: state
+      entity_id: sensor.washer_status
+      state: complete
+    - service: script.status_annc
+      data_template:
+        who: '{{ states(''sensor.room_audio'') }}'
+        call_interuption: 1
+        call_washer_needs_emptying: 1
 
   # simplified_washer_audible:
   #   sequence:
@@ -276,6 +276,7 @@ script:
         topic: house/washer/status
         payload: Idle
         retain: true
+
   washer_running:
     sequence:
     - service: mqtt.publish
@@ -283,6 +284,7 @@ script:
         topic: house/washer/status
         payload: Running
         retain: true
+
   washer_complete:
     sequence:
     - service: mqtt.publish
@@ -303,6 +305,7 @@ script:
   #       topic: house/dishwasher/status
   #       payload: Idle
   #       retain: true
+
   # dishwasher_running:
   #   sequence:
   #   - service: mqtt.publish

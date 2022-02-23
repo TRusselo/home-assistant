@@ -224,7 +224,7 @@ script:
         #     data:
         #       title: '{{ title }}'
         #       message: '{{ message }}'
-        # default: 
+        default: 
         - service: notify.all_android
           data:
             title: '{{ title }}'

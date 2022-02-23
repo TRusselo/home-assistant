@@ -1,0 +1,10 @@
+tristyn_bad_traffic_home:
+  name: Leave Now! Currently {{states.sensor.tristyn_ett_home.attributes.duration | round}} mins home!
+  done_message: Canceling Traffic Alert
+  entity_id: input_boolean.tristyn_traffic_alert_home
+  state: 'on'
+  repeat: 10
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - tristyn_android

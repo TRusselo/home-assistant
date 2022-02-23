@@ -20,7 +20,8 @@ weather_alert_tts:
   - service: tts.google_translate_say
     entity_id: media_player.whole_home_group
     data_template:
-      message: '{{ states(''sensor.warnings'') }} in effect.'
+      message: '{{ states(''sensor.canada_weather_alerts'') }} in effect.'
+  mode: single
 date_notification:
   alias: Date Notification
   sequence:
@@ -34,26 +35,27 @@ improved_randomize_vacation_lights:
       until:
       - condition: state
         entity_id: sun.sun
-        state: 'above_horizon'
+        state: above_horizon
       sequence:
       - service: notify.mobile_app_note_10
         data:
           message: Running Vacation Lights
       - service: homeassistant.turn_on
         data:
-          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'', ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
+          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'',
+            ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
       - delay:
           minutes: '{{ range(1,3) | random | int }}'
-      - service: >
-          {% set service = ['homeassistant.turn_on', 'homeassisant.turn_off' ] | random %}
-          {{ service }}
+      - service: '{% set service = [''homeassistant.turn_on'', ''homeassisant.turn_off''
+          ] | random %} {{ service }}
+
+          '
         data:
-          entity_id: >
-            {% if service == 'homeassistant.turn_on'  %}
-              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list | random }}
-            {% else %}
-              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'on') | map(attribute='entity_id') | list | random }}
-            {% endif %}
+          entity_id: "{% if service == 'homeassistant.turn_on'  %}\n  {{ expand('group.vacation_lights')\
+            \ | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list\
+            \ | random }}\n{% else %}\n  {{ expand('group.vacation_lights') | selectattr('state',\
+            \ 'eq', 'on') | map(attribute='entity_id') | list | random }}\n{% endif\
+            \ %}\n"
       - delay:
           minutes: '{{ range(1,3) | random | int }}'
   mode: single
@@ -65,17 +67,18 @@ randomize_vacation_lights_demo:
       sequence:
       - service: homeassistant.turn_on
         data:
-          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'', ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
+          entity_id: '{{ expand(''group.vacation_lights'') | selectattr(''state'',
+            ''eq'', ''off'') | map(attribute=''entity_id'') | list | random }}'
       - delay:
           seconds: '{{ range(2,5) | random | int }}'
-      - service: >
-          {% set service = ['homeassistant.turn_on', 'homeassisant.turn_off' ] | random %}
-          {{ service }}
+      - service: '{% set service = [''homeassistant.turn_on'', ''homeassisant.turn_off''
+          ] | random %} {{ service }}
+
+          '
         data:
-          entity_id: >
-            {% if service == 'homeassistant.turn_on'  %}
-              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list | random }}
-            {% else %}
-              {{ expand('group.vacation_lights') | selectattr('state', 'eq', 'on') | map(attribute='entity_id') | list | random }}
-            {% endif %}
+          entity_id: "{% if service == 'homeassistant.turn_on'  %}\n  {{ expand('group.vacation_lights')\
+            \ | selectattr('state', 'eq', 'off') | map(attribute='entity_id') | list\
+            \ | random }}\n{% else %}\n  {{ expand('group.vacation_lights') | selectattr('state',\
+            \ 'eq', 'on') | map(attribute='entity_id') | list | random }}\n{% endif\
+            \ %}\n"
   mode: single

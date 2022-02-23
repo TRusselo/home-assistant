@@ -1,0 +1,10 @@
+unauthorized_access:
+  name: Potential Unauthorized Access Detected at Anchorage House
+  done_message: Security Issue Cleared
+  entity_id: input_boolean.security_issue
+  state: 'on'
+  repeat: 2
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - all_android

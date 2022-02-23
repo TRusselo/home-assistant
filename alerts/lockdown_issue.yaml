@@ -1,0 +1,10 @@
+lockdown_issue:
+  name: Issue Preventing Lockdown...Please Check
+  done_message: Issue Resolved...The House Ready to Sleep
+  entity_id: input_boolean.lockdown_issue
+  state: 'on'
+  repeat: 2
+  can_acknowledge: false
+  skip_first: False
+  notifiers:
+  - all_android

@@ -57,18 +57,18 @@
       ]|random }}
       </p>
       
-        {% if is_state('binary_sensor.garage_door', 'on') %} 
+        {% if is_state('cover.garage_door', 'open') %} 
         <p>
           {{ [ 'The garage door is open. ',
             'Someone forgot to close the garage.'
           ] | random }}
           Someone should close it. 
           </p>
-        {% elif is_state('binary_sensor.side_door', 'on') %}
+        {% elif is_state('binary_sensor.garage_side_door_contact', 'on') %}
         <p> 
           {{ [ 'The side door is ajar. ',
             'The side door is open. ',
-            'Someone forgot to close the side door.'
+            'Someone forgot to close the garage side door.'
           ] | random }}
           Someone might want to check it.
           </p>
@@ -78,35 +78,16 @@
   
         {% if is_state('input_boolean.freeze_warning','on') %}
         <p>
-        {{ [ 'The temperature is expected to be near or below freezing. Someone might want to bring the lemon tree in. ',
-            'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor plants.',
-            'I suggest bringing in the plants other wise, the temperature might kill them. And that will be on you.',
+        {{ [ 'The temperature is expected to be near or below freezing. Someone might want to plug the truck in. ',
+            'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor vehicle batteries.',
+            'I suggest bringing plugging in the truck other wise, the temperature might kill the battery. And that will be on you.',
             'I would say winter is coming. But, based on the weather forecast it appears to be here.',
-            'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
+            'It will be freezing cold tonight. I would plug in the truck but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
           ] | random }}
           </p>
         {% endif %}
 
-        {% if is_state('sensor.today_is', 'Monday') %}
-            {% if now().strftime('%H')|int > 17 %}
-            {{ [ 'Do not forget tomorrow is Trash Day. ',
-              'I advise you move the trash cans to the curb for the weekly pickup. ',
-              ' The trash and recycle should go out'
-            ] | random }}
-            {% endif %}
-          {% endif %}
       
-        {% if is_state('sensor.today_is', 'Tuesday') %}
-          
-          {% if now().strftime('%H')|int > 17 %}
-          <p>
-            {{ [ 'Do not forget to bring in the trash cans. ',
-            'The trash cans will feel lonely if you leave them out all night. ',
-            'The <say-as interpret-as="characters">HOA</say-as> will get mad if you leave those trash cans out on the street.'
-          ] | random }}
-          </p>
-          {% endif %}
-        {% endif %}
       
   {%- endmacro -%}
 
@@ -124,3 +105,26 @@
     
     {# Call the macro  #}
     {{- cleanup(mother_of_all_macros()) -}}
+  {%- endmacro -%}
+
+# ##########
+#         {% if is_state('sensor.today_is', 'Monday') %}
+#             {% if now().strftime('%H')|int > 17 %}
+#             {{ [ 'Do not forget tomorrow is Trash Day. ',
+#               'I advise you move the trash cans to the curb for the weekly pickup. ',
+#               ' The trash and recycle should go out'
+#             ] | random }}
+#             {% endif %}
+#           {% endif %}
+
+#         {% if is_state('sensor.today_is', 'Tuesday') %}
+
+#           {% if now().strftime('%H')|int > 17 %}
+#           <p>
+#             {{ [ 'Do not forget to bring in the trash cans. ',
+#             'The trash cans will feel lonely if you leave them out all night. ',
+#             'The <say-as interpret-as="characters">HOA</say-as> will get mad if you leave those trash cans out on the street.'
+#           ] | random }}
+#           </p>
+#           {% endif %}
+#         {% endif %}

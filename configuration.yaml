@@ -123,7 +123,7 @@ watchman:
   ignored_files:
     # wildcards must be enclosed in quotes!
     # - "*.yaml" # exclude all yaml files from the report (useless)
-    - "/CHOPPINGBLOCK/*" # exclude all files in /config/entities
+    - "/.cuttingroom/*" # exclude all files in /config/entities
     # - "*/automations.yaml" # exclude automations.yaml file only
 
 # samsungtv:

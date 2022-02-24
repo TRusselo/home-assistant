@@ -294,7 +294,7 @@ script:
         state: 'off'
       - service: tts.google_translate_say
         data_template:
-          entity_id: media_player.guest_tv
+          entity_id: media_player.living_room_speaker
           message: >
             {{ message }}
 
@@ -333,10 +333,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
             {% else %}
             media_player.whole_home_group
             {% endif %}
@@ -369,10 +369,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              media_player.ha_speaker
+              media_player.living_room_speaker
             {% else %}
               media_player.whole_home_group
             {% endif %}
@@ -437,10 +437,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              media_player.ha_speaker
+              media_player.living_room_speaker
             {% else %}
               media_player.whole_home_group
             {% endif %}
@@ -449,7 +449,7 @@ script:
           <speak>
           
             {{ message }}
-         
+
           </speak>
         cache: true
 
@@ -513,7 +513,7 @@ script:
   # Use this Simplfied Script by calling in automaint or script like:
   # service: script.speech_engine_simplified
   # data:
-  #   who: media_player.ha_speaker
+  #   who: media_player.living_room_speaker
   #   #who:  “{{ states(‘sensor.room_presence’) }}”
   #   #who: notify.kitchen_echo_show
   #   message: something to say
@@ -583,9 +583,9 @@ script:
             notify.alexa_media_kitchen_echo
           {% elif who == 'garage_echo' %}
             notify.alexa_media_garage_echo
-          {% elif who == 'livingroom_echo' and is_state('media_player.ha_speaker','playing')  %}
-            {% set old_volume = states.media_player.ha_speaker.attributes.volume_level %}
-            media_player.ha_speaker
+          {% elif who == 'livingroom_echo' and is_state('media_player.living_room_speaker','playing')  %}
+            {% set old_volume = states.media_player.living_room_speaker.attributes.volume_level %}
+            media_player.living_room_speaker
           {% else %}
             notify.alexa_media_living_room
           {% endif %}
@@ -612,11 +612,9 @@ script:
             type: tts
     - delay: 00:00:20
     - service: script.raise_main_volume
- 
 
 
 
- 
   # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:
     sequence:
@@ -648,10 +646,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
             {% else %}
             media_player.whole_home_group
             {% endif %}
@@ -684,10 +682,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
             {% else %}
             media_player.whole_home_group
             {% endif %}
@@ -738,10 +736,10 @@ script:
           {% elif who == 'all_google' %}
             media_player.whole_home_group
           {% elif who == 'main' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.ha_speaker
+            media_player.living_room_speaker
             {% else %}
             media_player.whole_home_group
             {% endif %}
@@ -773,10 +771,10 @@ script:
   #         {% elif who == 'all_google' %}
   #           media_player.whole_home_group
   #         {% elif who == 'main' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #         {% else %}
   #           {% if states.input_boolean.audible_notifications.state == 'on' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #           {% else %}
   #           media_player.whole_home_group
   #           {% endif %}
@@ -787,7 +785,7 @@ script:
   #         {% if who == 'kitchen' %}
   #           media_player.kitchen_display
   #         {% elif who == 'living_room' %}
-  #           media_player.upstairs_speaker
+  #           media_player
   #         {% elif who == 'den' %}
   #           media_player.den_speaker
   #         {% elif who == 'bedroom_2' %}
@@ -799,10 +797,10 @@ script:
   #         {% elif who == 'all_google' %}
   #           media_player.whole_home_group
   #         {% elif who == 'main' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #         {% else %}
   #           {% if states.input_boolean.audible_notifications.state == 'on' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #           {% else %}
   #           media_player.whole_home_group
   #           {% endif %}
@@ -841,10 +839,10 @@ script:
   #         {% elif who == 'all_google' %}
   #           media_player.whole_home_group
   #         {% elif who == 'main' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #         {% else %}
   #           {% if states.input_boolean.audible_notifications.state == 'on' %}
-  #           media_player.ha_speaker
+  #           media_player.living_room_speaker
   #           {% else %}
   #           media_player.whole_home_group
   #           {% endif %}
@@ -860,26 +858,26 @@ script:
   dim_main_volume:
     sequence:
     - condition: state
-      entity_id: 'media_player.ha_speaker'
+      entity_id: 'media_player.living_room_speaker'
       state: 'playing'
     - service: input_number.set_value
       data_template:
         entity_id: input_number.old_volume
         value: >
-          {{ states.media_player.ha_speaker.attributes.volume_level }}
+          {{ states.media_player.living_room_speaker.attributes.volume_level }}
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.living_room_speaker
         volume_level: .2
   
   raise_main_volume:
     sequence:
     - condition: state
-      entity_id: 'media_player.ha_speaker'
+      entity_id: 'media_player.living_room_speaker'
       state: 'playing'
     - service: media_player.volume_set
       data_template:
-        entity_id: media_player.ha_speaker
+        entity_id: media_player.living_room_speaker
         volume_level: >
           {{ states.input_number.old_volume.state }}    
 

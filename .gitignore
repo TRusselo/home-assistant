@@ -13,7 +13,7 @@ watchman_report.txt
 *.gz
 *.js
 *.mp3
-*token.txt
+fordpass_token.txt
 
 
 # You can whitelist files/folders with !, these will not be ignored.

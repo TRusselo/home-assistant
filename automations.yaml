@@ -107,7 +107,7 @@
   - service: tts.amazon_polly_say
     data:
       entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/>  Dad has left McMurray Coin. </speak>
+      message: <speak> <break time="1s"/> Dad has left McMurray Coin. </speak>
       cache: true
   mode: single
 - id: '1603156991145'
@@ -158,7 +158,7 @@
     type: opened
   condition: []
   action:
-  - type: turn_off
+  - type: turn_on
     device_id: 48f80993735ea7d9389c193049622112
     entity_id: switch.garage_lights
     domain: switch
@@ -209,10 +209,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Bitch is undocked.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The Bitch is undocked. </speak>
+      cache: true
   mode: single
 - id: '1606065939947'
   alias: Vacuum Done - Docked Notification
@@ -227,10 +228,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Bitch has returned to its dock.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/>  The Bitch has returned to its dock. </speak>
+      cache: true
   mode: single
 - id: '1606067377914'
   alias: Vacuum Undocked (30 min) Notification
@@ -245,10 +247,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Bitch has beem undocked for 30 minutes.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The Bitch has beem undocked for 30 minutes. </speak>
+      cache: true
   - service: notify.mobile_app_note_10
     data:
       title: BitchVac
@@ -334,10 +337,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Bitch has finished but not returned to its dock.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The Bitch has finished but not returned to its dock. </speak>
+      cache: true
   mode: single
 - id: '1606859940715'
   alias: Vacuum Stuck Notification
@@ -353,10 +357,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The bitch is stuck on something
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The bitch is stuck on something </speak>
+      cache: true
   mode: single
 - id: '1606927468760'
   alias: Van Update when On
@@ -440,10 +445,11 @@
     after: 07:00
     before: '21:00:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Laundry Dryer is done.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The Laundry Dryer is done.  </speak>
+      cache: true
   mode: single
 - id: '1608778716366'
   alias: Coffee Maker OFF after 2 hours
@@ -477,10 +483,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The Washing machine may be done.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The Washing machine may be done. </speak>
+      cache: true
   mode: single
 - id: '1610159219685'
   alias: Driveway Lights
@@ -566,7 +573,7 @@
   use_blueprint:
     path: homeassistant/motion_light.yaml
     input:
-      no_motion_wait: 120
+      no_motion_wait: 60
       motion_entity: binary_sensor.downstairs_motion_motion
       light_target:
         area_id: 29d411c511274ebd9ac1f36d90108150
@@ -588,10 +595,11 @@
     after: 07:00
     before: '21:00'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: The front door has been open for 1 minute.
+  - service: tts.amazon_polly_say
+    data:
+      entity_id: media_player.whole_home_group
+      message: <speak> <break time="1s"/> The front door has been open for 1 minute. </speak>
+      cache: true
   mode: single
 - id: '1620852053408'
   alias: PC sleep, harmony off
@@ -1236,7 +1244,8 @@
   - service: tts.amazon_polly_say
     data:
       entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/>  Puppy is at the Front Door for 30 seconds. </speak>
+      message: <speak> <break time="1s"/>  Puppy is at the Front Door for 30 seconds.
+        </speak>
       cache: true
   mode: single
 - id: '1644810045036'
@@ -1281,23 +1290,23 @@
       - scene: scene.front_yard_lights_on_60
     default:
     - scene: scene.front_yard_lights_off
-- id: '1645412807968'
-  alias: New Automation
-  description: ''
-  trigger:
-  - type: energy
-    platform: device
-    device_id: 9730d207088ef1a02e48657fc5a326a8
-    entity_id: sensor.washer_energy_meter
-    domain: sensor
-    above: 5
-  condition: []
-  action:
-  - device_id: 416dff5732a808dc787c0474198951ae
-    domain: light
-    entity_id: light.desk_light
-    type: flash
-  mode: single
+# - id: '1645412807968'
+#   alias: New Automation
+#   description: ''
+#   trigger:
+#   - type: energy
+#     platform: device
+#     device_id: 9730d207088ef1a02e48657fc5a326a8
+#     entity_id: sensor.washer_energy_meter
+#     domain: sensor
+#     above: 5
+#   condition: []
+#   action:
+#   - device_id: 416dff5732a808dc787c0474198951ae
+#     domain: light
+#     entity_id: light.desk_light
+#     type: flash
+#   mode: single
 - id: '1645413237498'
   alias: Flash Driveway Left Light for Delivery Driver
   trigger:
@@ -1373,21 +1382,15 @@
   - platform: state
     entity_id: group.garage_safety
   condition:
-  - condition: device
-    device_id: 125f7408d222cbbe4bc1f895e38f33f4
-    domain: cover
+  - condition: state
     entity_id: cover.garage_door
-    type: is_closed
-  - type: is_not_open
-    condition: device
-    device_id: 3c0e1fb299794cbf01ddd0dcf5695aec
+    state: closed
+  - condition: state
     entity_id: binary_sensor.garage_side_door_contact
-    domain: binary_sensor
-  - type: is_not_open
-    condition: device
-    device_id: 942da1a99ee1405269fa8b91b27a133d
+    state: 'off'
+  - condition: state
     entity_id: binary_sensor.garage_house_door_sensor_contact
-    domain: binary_sensor
+    state: 'off'
   action:
   - wait_for_trigger:
     - type: no_motion
@@ -1404,3 +1407,24 @@
     entity_id: switch.garage_lights
     domain: switch
   mode: restart
+- id: '1645641913596'
+  alias: Espresso Machine OFF after 30 min
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.espresso_machine
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+    from: 'off'
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: python_script.set_attribute
+    data_template:
+      entity_id: switch.espresso_machine
+      state: 'off'
+  mode: single

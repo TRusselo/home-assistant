@@ -16,7 +16,7 @@ garage_safety:
     - binary_sensor.garage_side_door_contact
     - binary_sensor.garage_house_door_sensor_contact
     - binary_sensor.garage_door_contact
-    - binary_sensor.blueiris_garage_motion
+    - binary_sensor.blueiris_garage_camera_motion
 kitchen_safety:
   name: Kitchen Safety
   entities:
@@ -48,9 +48,7 @@ windows:
     - binary_sensor.master_bedroom_window_contact_2
     - binary_sensor.bedroom_2_window_contact
 
-family:
-  name: Family
-  entities:
+Family:
     - person.tristyn
     - person.terry
 
@@ -66,3 +64,27 @@ occupancy:
     - binary_sensor.blueiris_garage_camera_motion
     - binary_sensor.basement_motion_sensor_motion
     - binary_sensor.bedroom_2_motion_sensor_motion
+
+arriving:
+  name: Arriving
+  entities: []
+
+external_doors:
+  name: external doors
+  entities:
+    - binary_sensor.back_door_contact
+    - binary_sensor.front_door_contact
+    - binary_sensor.garage_side_door_contact
+    - binary_sensor.garage_door_contact
+
+vacation_lights:
+  name: Vacation Light Group
+  entities:
+    - light.kitchen_table
+    - light.kitchen_island_2
+
+Garage Doors:
+  - binary_sensor.garage_door_contact
+  - binary_sensor.garage_side_door_contact
+  - binary_sensor.garage_house_door
+  

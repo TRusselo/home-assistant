@@ -17,6 +17,13 @@ websocket_api:
 
 media_extractor:
 
+wake_on_lan:
+
+### INCLUDES ###
+input_select: !include input_select.yaml
+input_boolean: !include input_boolean.yaml
+alert: !include_dir_merge_named alerts/
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
@@ -46,9 +53,9 @@ influxdb:
   password: !secret influxpass
   exclude:
     entity_globs:
-       - glances
+      - glances
     domains:
-       - automation
+      - automation
 
 mqtt:
   broker: 192.168.1.12
@@ -118,3 +125,10 @@ watchman:
     # - "*.yaml" # exclude all yaml files from the report (useless)
     - "/CHOPPINGBLOCK/*" # exclude all files in /config/entities
     # - "*/automations.yaml" # exclude automations.yaml file only
+
+# samsungtv:
+#   - host: IP_ADDRESS
+#     turn_on_action:
+#       - service: wake_on_lan.send_magic_packet
+#         data:
+#           mac: MAC_ADDRESS

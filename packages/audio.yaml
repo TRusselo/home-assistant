@@ -143,6 +143,11 @@ automation:
       - platform: state
         entity_id: sensor.room_audio
     action:
+      - service: mqtt.publish
+        data:
+          topic: house/presence/last_room
+          payload: '{{ states(''sensor.room_presence'') }}'
+          retain: true
       - service: input_text.set_value
         data_template:
           entity_id: input_text.room_presence
@@ -215,6 +220,10 @@ sensor:
   - platform: mqtt
     name: "Room Presence"
     state_topic: "house/presence/current_room"
+
+  - platform: mqtt
+    name: "Room Presence Last"
+    state_topic: "house/presence/last_room"
 
   - platform: template
     sensors:

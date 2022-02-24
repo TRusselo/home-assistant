@@ -78,7 +78,6 @@ automation:
         state: 'off'
     action:
     - service: script.morning_briefing
-    - service: script.twitter_notify
       data:
         message: >-
           {{ [ "I just provided a morning briefing including weather, and traffic
@@ -89,7 +88,7 @@ automation:
                 "Sometimes I just like to be snarky, but this morning I decided to just tell everyone what is going on in the world.",
                 "#Homeassistant gives me the ability to make daily announcements like the one I just did using #Amazon Polly.",
                 "Each day at this time I provide the residents of this house an update that includes everything they need to know about the upcoming day. But with more snark."
-             ] | random }}
+            ] | random }}
     - service: input_boolean.turn_on
       entity_id: input_boolean.good_morning_report
 
@@ -133,30 +132,30 @@ script:
   #       who: '{{ states.sensor.room_presence.state }}'
   #       message: !include ../templates/speech/security_briefing.yaml
 
-  # welcome_briefing:
-  #   sequence:
-  #   - condition: state
-  #     entity_id: input_boolean.welcome_home
-  #     state: 'on'
-  #   - delay: 00:04:00
-  #   - service: script.speech_engine
-  #     data:
-  #       who: main
-  #       message: !include ../templates/speech/welcome_briefing.yaml
-  #   - delay: 00:02:00
-  #   - service: input_boolean.turn_off
-  #     entity_id: input_boolean.welcome_home
+  welcome_briefing:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.welcome_home
+      state: 'on'
+    - delay: 00:04:00
+    - service: script.speech_engine
+      data:
+        who: main
+        message: !include ../templates/speech/welcome_briefing.yaml
+    - delay: 00:02:00
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.welcome_home
 
-  # sundown_briefing:
-  #   sequence:
-  #   - service: script.speech_engine
-  #     data:
-  #       who: '{{ states.sensor.room_presence.state }}'
-  #       message: !include ../templates/speech/sundown_briefing.yaml
-  #   - service: script.text_notify
-  #     data_template:
-  #       who: "all_android"
-  #       message: "Sun is almost down. Time to call it a day."
+  sundown_briefing:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: '{{ states.sensor.room_presence.state }}'
+        message: !include ../templates/speech/sundown_briefing.yaml
+    - service: script.text_notify
+      data_template:
+        who: "all_android"
+        message: "Sun is almost down. Time to call it a day."
 
   # morning_briefing:
   #   sequence:
@@ -179,18 +178,18 @@ script:
   #       who: master_bedroom
   #       message: !include ../templates/speech/morning_wakeup_report.yaml
   
-  haiku_day:
-    sequence:
-    - service: script.speech_engine_simplified
-      data:
-        who: media_player.ha_speaker
-        message: >
-          I know a Haiku. This one is called,
-              {{ [
-              'Good Morning From the Cat. <break time="1s"/>In the morning light, You sleep despite my meow, I stand on your face.',
-              'Tee Rex Hug. <break time="1s"/> The Tee Rex likes you, But he cant give you a hug, His arms are too short.',
-              'It Fits. <break time="1s"/> It Fits perfectly, because every box is the, Right size for a cat.',
-              'Minecraft Creepers. <break time="1s"/> Creepers are so cruel, I hear a hiss from behind, Bam! There goes my stuff.'
-            ]|random }}
+  # haiku_day:
+  #   sequence:
+  #   - service: script.speech_engine_simplified
+  #     data:
+  #       who: media_player.ha_speaker
+  #       message: >
+  #         I know a Haiku. This one is called,
+  #             {{ [
+  #             'Good Morning From the Cat. <break time="1s"/>In the morning light, You sleep despite my meow, I stand on your face.',
+  #             'Tee Rex Hug. <break time="1s"/> The Tee Rex likes you, But he cant give you a hug, His arms are too short.',
+  #             'It Fits. <break time="1s"/> It Fits perfectly, because every box is the, Right size for a cat.',
+  #             'Minecraft Creepers. <break time="1s"/> Creepers are so cruel, I hear a hiss from behind, Bam! There goes my stuff.'
+  #           ]|random }}
 
  

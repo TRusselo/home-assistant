@@ -1381,11 +1381,11 @@
     switch.phone_light:
       icon: mdi:phone-classic
       friendly_name: Phone Light
-      state: 'on'
+      state: 'off'
     switch.clock_light_1:
       icon: mdi:clock-outline
       friendly_name: Clock Light
-      state: 'on'
+      state: 'off'
 - id: '1644362777794'
   name: Basement Lights OFF
   entities:

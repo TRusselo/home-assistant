@@ -1,5 +1,5 @@
 ###############################################################################
-#   @author         :   Jeffrey Stone 
+#   @author         :   Tristyn Stone 
 #   @date           :   02/19/2019
 #   @package        :   Presence
 #   @description    :   A Collection of Presence Related Trackers and Sensors 
@@ -15,6 +15,17 @@ input_datetime:
     has_date: true
     has_time: true
 
+input_boolean:
+  tristyn_travel_monitor:
+    name: Tristyn Travel Monitor
+  terry_travel_monitor:
+    name: Terry Travel Monitor
+  freeze_warning:
+    name: Freeze Warning
+  guest_mode:
+    name: Guest Mode
+  sentry_mode:
+    name: Sentry Mode
 
 sensor:
   - platform: template
@@ -77,7 +88,7 @@ sensor:
       tristyn_home:
         value_template: >-
           {{ is_state('device_tracker.note_10', 'home') or is_state('device_tracker.s9', 'home')
-             or is_state('device_tracker.fordpass_tracker', 'home') }}
+            or is_state('device_tracker.fordpass_tracker', 'home') }}
 
   - platform: template
     sensors:
@@ -184,7 +195,68 @@ automation:
         data:
           object_id: "arriving"
           entities: []     
-          
+
+  - id: family_has_arrived
+    alias: Family Has arrived
+    trigger:
+    - entity_id: sensor.family_status
+      from: Away
+      platform: state
+      to: Home
+      id: family
+    - platform: zone
+      entity_id: person.tristyn
+      zone: zone.home
+      event: enter
+      id: tristyn
+    - platform: zone
+      entity_id: person.terry
+      zone: zone.home
+      event: enter
+      id: terry
+    condition: []
+    action:
+    - service: script.family_is_home
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: tristyn
+        sequence:
+        - service: input_boolean.turn_off
+          data: {}
+          entity_id: input_boolean.tristyn_travel_monitor
+      - conditions:
+        - condition: trigger
+          id: terry
+        sequence:
+        - service: input_boolean.turn_off
+          data: {}
+          entity_id: input_boolean.terry_travel_monitor
+      default: []
+    - service: script.driveway_on
+      data: {}
+    mode: single
+    initial_state: true
+
+  - id: family_has_left
+    alias: Family Has Left
+    initial_state: true
+    trigger:
+    - entity_id: sensor.family_status
+      from: Home
+      platform: state
+      to: Away
+    - entity_id: group.family
+      from: home
+      platform: state
+      to: not_home
+    mode: single
+    condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'off'
+    action:
+    - service: script.family_is_away
 
 script:
   family_is_home:
@@ -192,7 +264,7 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Away
-    - service: script.standby
+    # - service: script.standby
     - service: mqtt.publish
       data:
         topic: house/family/status

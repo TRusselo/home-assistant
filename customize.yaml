@@ -1,6 +1,6 @@
 binary_sensor.motion_sensor_motion:
   friendly_name: Living Room Motion
-binary_sensor.tristyn_russelo_s_tristyn_s_note_10_presence:
+binary_sensor.tristyn_s_note10_presence:
   device_class: presence
 cover.garage_door:
   device_class: garage

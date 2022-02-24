@@ -17,9 +17,9 @@ automation:
     - platform: state
       entity_id: input_boolean.house_party_protocol_switch
       to: 'on'
-    action:
-    - service: homeassistant.turn_on
-      entity_id: group.incense
+    # action:
+    # - service: homeassistant.turn_on
+    #   entity_id: group.incense
     - delay: 00:00:05
     - service: script.status_annc
       data_template:
@@ -34,8 +34,8 @@ automation:
       entity_id: input_boolean.house_party_protocol_switch
       to: 'off'
     action:
-    - service: homeassistant.turn_off
-      entity_id: group.incense
+    # - service: homeassistant.turn_off
+    #   entity_id: group.incense
     - delay: 00:00:05
     - service: script.status_annc
       data_template:

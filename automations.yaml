@@ -414,23 +414,23 @@
     entity_id: light.closet
     domain: light
   mode: single
-- id: '1607996304910'
-  alias: Weather Warning Notification
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.warnings
-    attribute: alert time
-  condition:
-  - condition: time
-    after: 07:00
-    before: '21:00'
-  action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
-    data_template:
-      message: '{{ states(''sensor.warnings'') }} in effect.'
-  mode: single
+# - id: '1607996304910'
+#   alias: Weather Warning Notification
+#   description: ''
+#   trigger:
+#   - platform: state
+#     entity_id: sensor.warnings
+#     attribute: alert time
+#   condition:
+#   - condition: time
+#     after: 07:00
+#     before: '21:00'
+#   action:
+#   - service: tts.google_translate_say
+#     entity_id: media_player.whole_home_group
+#     data_template:
+#       message: '{{ states(''sensor.warnings'') }} in effect.'
+#   mode: single
 - id: '1608000372569'
   alias: Dryer Stopped Notification
   description: ''
@@ -469,26 +469,26 @@
       entity_id: switch.coffee_machine
       state: 'off'
   mode: single
-- id: '1609006432042'
-  alias: Washer Done Notification
-  description: ''
-  trigger:
-  - type: moist
-    platform: device
-    device_id: 92b7756818a3c1d832367a00f6c3ff29
-    entity_id: binary_sensor.dryer_water
-    domain: binary_sensor
-  condition:
-  - condition: time
-    after: 07:00
-    before: '21:00'
-  action:
-  - service: tts.amazon_polly_say
-    data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Washing machine may be done. </speak>
-      cache: true
-  mode: single
+# - id: '1609006432042'
+#   alias: Washer Done Notification
+#   description: ''
+#   trigger:
+#   - type: moist
+#     platform: device
+#     device_id: 92b7756818a3c1d832367a00f6c3ff29
+#     entity_id: binary_sensor.dryer_water
+#     domain: binary_sensor
+#   condition:
+#   - condition: time
+#     after: 07:00
+#     before: '21:00'
+#   action:
+#   - service: tts.amazon_polly_say
+#     data:
+#       entity_id: media_player.whole_home_group
+#       message: <speak> <break time="1s"/> The Washing machine may be done. </speak>
+#       cache: true
+#   mode: single
 - id: '1610159219685'
   alias: Driveway Lights
   description: ''

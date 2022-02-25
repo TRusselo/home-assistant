@@ -3,12 +3,7 @@ living_room_safety:
   entities:
     # - binary_sensor.living_room_window_contact
     # - binary_sensor.motion_sensor_motion
-garage_doors:
-  name: Garage Doors
-  entities:
-    - binary_sensor.garage_house_door_sensor_contact
-    - binary_sensor.garage_side_door_contact
-    - binary_sensor.garage_door_contact
+
 garage_safety:
   name: Garage Safety
   entities:
@@ -86,5 +81,5 @@ vacation_lights:
 Garage Doors:
   - binary_sensor.garage_door_contact
   - binary_sensor.garage_side_door_contact
-  - binary_sensor.garage_house_door
+  - binary_sensor.garage_house_door_sensor_contact
   

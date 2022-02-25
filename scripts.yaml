@@ -3,7 +3,7 @@ message_temperature:
   - service: tts.google_translate_say
     entity_id: media_player.whole_home_group
     data_template:
-      message: Current temperature is {{ states('sensor.temperature') }}
+      message: Current temperature feels like {{ states('sensor.openweathermap_feels_like_temperature') }}
   mode: single
 restart_hass:
   alias: Restart Home Assistant

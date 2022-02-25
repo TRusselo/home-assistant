@@ -233,8 +233,8 @@ automation:
           data: {}
           entity_id: input_boolean.terry_travel_monitor
       default: []
-    - service: script.driveway_on
-      data: {}
+    # - service: script.driveway_on
+    #   data: {}
     mode: single
     initial_state: true
 

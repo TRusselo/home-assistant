@@ -310,8 +310,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -346,8 +345,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -414,8 +412,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -623,8 +620,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -659,8 +655,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -695,7 +690,7 @@ script:
               {% if who == 'master_bedroom' %}
                 .6
               {% elif who == 'living_room' %}
-                {% if is_state('media_player.tv', 'on') %}
+                {% if is_state('media_player.sony_bravia_tv', 'on') %}
                   .3
                 {% else %}
                   .5
@@ -713,8 +708,7 @@ script:
         entity_id: >
           {% if who == 'kitchen' %}
             media_player.kitchen_display
-          {% elif who == 'living_room' %}
-            media_player.upstairs_speaker
+
           {% elif who == 'den' %}
             media_player.den_speaker
           {% elif who == 'bedroom_2' %}
@@ -758,8 +752,7 @@ script:
   #       entity_id: >
   #         {% if who == 'kitchen' %}
   #           media_player.kitchen_display
-  #         {% elif who == 'living_room' %}
-  #           media_player.upstairs_speaker
+
   #         {% elif who == 'den' %}
   #           media_player.den_speaker
   #         {% elif who == 'bedroom_2' %}
@@ -784,8 +777,7 @@ script:
   #       entity_id: >
   #         {% if who == 'kitchen' %}
   #           media_player.kitchen_display
-  #         {% elif who == 'living_room' %}
-  #           media_player
+
   #         {% elif who == 'den' %}
   #           media_player.den_speaker
   #         {% elif who == 'bedroom_2' %}
@@ -816,8 +808,7 @@ script:
   #       entity_id: >
   #         {% if who == 'kitchen' %}
   #           media_player.kitchen_display
-  #         {% elif who == 'living_room' %}
-  #           media_player.upstairs_speaker
+
   #         {% elif who == 'den' %}
   #           media_player.den_speaker
   #         {% elif who == 'bedroom_2' %}

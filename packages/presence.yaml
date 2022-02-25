@@ -278,10 +278,10 @@ script:
     - condition: state
       entity_id: sensor.family_status
       state: Home
-    - service: scene.turn_on
-      entity_id: scene.lights_out
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.sentry_mode
+    # - service: scene.turn_on
+    #   entity_id: scene.lights_out
+    # - service: input_boolean.turn_on
+    #   entity_id: input_boolean.sentry_mode
     # - service: scene.turn_on
     #   entity_id: scene.all_fans_off
     - service: mqtt.publish

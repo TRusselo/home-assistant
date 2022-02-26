@@ -1,6 +1,6 @@
 fan:
-  -  platform: template
-     fans:
+  - platform: template
+    fans:
       bath_fan_1:
         friendly_name: "Bath Fan"
         unique_id: 3dkasdfefe3
@@ -23,8 +23,8 @@ fan:
               {% set mapper = {0: 0, 33: 140, 66: 200, 100: 255} %}
               {{ mapper[percentage] }}
         speed_count: 3
-  -  platform: template
-     fans:
+  - platform: template
+    fans:
       master_bedroom_window:
         friendly_name: "Master Bedroom Fan"
         unique_id: 3df435serfe744vdg
@@ -35,8 +35,8 @@ fan:
         turn_off:
           service: homeassistant.turn_off
           entity_id: switch.master_bedroom_fan
-  -  platform: template
-     fans:
+  - platform: template
+    fans:
       den_fan:
         friendly_name: "Den Fan"
         unique_id: 3df43dgdagaa44vdg
@@ -47,8 +47,8 @@ fan:
         turn_off:
           service: homeassistant.turn_off
           entity_id: switch.den_fan
-  -  platform: template
-     fans:
+  - platform: template
+    fans:
       bedroom_window:
         friendly_name: "Bedroom Window Fan"
         unique_id: 3df435serasefsefvdg
@@ -59,8 +59,8 @@ fan:
         turn_off:
           service: homeassistant.turn_off
           entity_id: switch.bedroom_2_fan
-  -  platform: template
-     fans:
+  - platform: template
+    fans:
       bedroom_desk:
         friendly_name: "Bedroom Desk Fan"
         unique_id: 3dfefasfrfe744vdg

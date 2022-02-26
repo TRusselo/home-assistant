@@ -171,12 +171,12 @@ script:
   #       who: '{{ states.sensor.room_presence.state }}'
   #       message: !include ../templates/speech/daily_briefing.yaml
 
-  # morning_wakeup_report:
-  #   sequence:
-  #   - service: script.speech_engine
-  #     data:
-  #       who: master_bedroom
-  #       message: !include ../templates/speech/morning_wakeup_report.yaml
+  morning_wakeup_report:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: master_bedroom
+        message: !include ../templates/speech/morning_wakeup_report.yaml
   
   # haiku_day:
   #   sequence:

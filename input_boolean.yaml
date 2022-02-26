@@ -7,16 +7,16 @@ welcome_greeting:
   icon: mdi:speaker-wireless
 
 terry_heading_home:
-  name: Kat Heading Home
+  name: Terry Heading Home
   icon: mdi:car
 tristyn_heading_home:
-  name: Jeff Heading Home
+  name: Tristyn Heading Home
   icon: mdi:car
 tristyn_traffic_alerts:
-  name: Jeff Traffic Alerts
+  name: Tristyn Traffic Alerts
   icon: mdi:bell-plus
 tristyn_traffic_alert_home:
-  name: Jeff Traffic Alert Home
+  name: Tristyn Traffic Alert Home
   icon: mdi:traffic-light
 tornado_watch:
   name: Tornado Watch

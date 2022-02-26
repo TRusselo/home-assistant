@@ -146,6 +146,21 @@
       icon: mdi:coffee-maker
       friendly_name: Coffee machine
       state: 'on'
+    switch.espresso_machine:
+      friendly_name: Espresso machine
+      state: 'off'
+    switch.computer_monitor:
+      icon: mdi:monitor
+      friendly_name: Computer Monitor
+      state: 'on'
+    switch.touchscreen_monitor_led:
+      icon: mdi:led-on
+      friendly_name: Touchscreen Monitor LED
+      state: 'on'
+    switch.touchscreen_monitor:
+      icon: mdi:monitor
+      friendly_name: Touchscreen Monitor
+      state: 'on'
   icon: mdi:weather-sunset-up
 - id: '1612993471869'
   name: Entryway Day

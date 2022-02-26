@@ -125,6 +125,39 @@ sensor:
       - 'time_utc'
       - 'beat'
 
+# Use Home Assistant to Suggest Clothing Based On The Weather
+# Creating a Template sensor to map the ambient temperature to clothing options
+  - platform: template
+    sensors:
+      # Give it a name to be meaningful
+      clothing_forecast:
+        friendly_name: Weather Dress Code
+        # Use a value template to return a different clothing suggestion, by interrogating the outside temperature
+        value_template: >-
+          {% if state_attr('weather.openweathermap', 'temperature') |float < 0 %}
+            Full Winter Gear
+          {% elif state_attr('weather.openweathermap', 'temperature') |float < 7 %}
+            Gloves & Winter Coat
+          {% elif state_attr('weather.openweathermap', 'temperature') |float < 12 %}
+            Your Coat & Scarf
+          {% elif state_attr('weather.openweathermap', 'temperature') |float < 17 %}
+            A Sport Coat
+          {% elif state_attr('weather.openweathermap', 'temperature') |float < 22 %}
+            Jeans & A T-Shirt
+          {% else %}
+            Shorts & A Vest
+          {% endif %}
+        # Set icon based on general weather range outside; snow for cold, clouds for average, and sun for hot
+        icon_template: >-
+          {% if state_attr('weather.openweathermap', 'temperature') |float < 10 %}
+            mdi:weather-snowy-heavy
+          {% elif state_attr('weather.openweathermap', 'temperature') |float < 20 %}
+            mdi:weather-partly-cloudy
+          {% else %}
+            mdi:weather-sunny
+          {% endif %}
+
+
 binary_sensor:
   # - platform: torque
   #   name: Tristyn's Ram

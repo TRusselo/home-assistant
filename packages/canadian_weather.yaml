@@ -13,7 +13,7 @@ sensor:
         friendly_name: Weather Alerts
         entity_id:
           - sensor.canada_weather_alerts
-          - sensor.time_hour
+          # - sensor.time_hour
         unit_of_measurement: Alerts
         icon_template: mdi:alert-rhombus
         value_template: >-
@@ -32,7 +32,7 @@ sensor:
         friendly_name: Weather Alerts
         entity_id:
           - sensor.canada_weather_alerts
-          - sensor.time_hour
+          # - sensor.time_hour
         unit_of_measurement: Alerts
         icon_template: mdi:alert-rhombus
         value_template: >-

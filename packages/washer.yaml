@@ -95,19 +95,19 @@ automation:
         who: '{{ states.sensor.room_presence.state }}'
         call_interuption: 1
         speech_message: It appears the washing machine has completed its cycle.
-    # - service: script.speech_engine
-    #   data: 
-    #     who: all_google
-    #     message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
-    # - service: script.turn_on
-    #   entity_id: script.washer_finished_notification_audible
+    - service: script.speech_engine
+      data: 
+        who: all_google
+        message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
+    - service: script.turn_on
+      entity_id: script.washer_finished_notification_audible
 
   - id: washer_emptied
     initial_state: true
     alias: Washer Emptied
     trigger:
     - platform: state
-      entity_id: binary_sensor.washer_door
+      entity_id: binary_sensor.washer_door_contact
       from: 'off'
       to: 'on'
     action:

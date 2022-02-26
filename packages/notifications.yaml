@@ -125,6 +125,7 @@ notify:
     services:
       - service: mobile_app_note_10
       - service: mobile_app_tristyn_s_dodge
+      - service: mobile_app_s9
   - name: terry_android
     platform: group
     services:

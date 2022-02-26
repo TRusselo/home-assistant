@@ -11,7 +11,7 @@
     </p>
 
     <p>
-      The Weather in Grayson is {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
+      The temperature in Fort McMurray feels like {{states('sensor.openweathermap_feels_like_temperature')|round}} degrees 
       {% if is_state('weather.home', 'rainy') %}
         {{ [
         'with rain.', 
@@ -45,8 +45,8 @@
       {% endif %}
 
 
-      {% if states.sensor.weatheralerts_active_alerts.state | int > 0 %}
-        There are currently {{states.sensor.weatheralerts_active_alerts.state }} active weather alerts for our area.
+      {% if states.sensor.canada_weather_alerts.state | int > 0 %}
+        There are currently {{states.sensor.canada_weather_alerts.state }} active weather alerts for our area.
       {% endif %}
 
       Based on the forecasted high temperature, 
@@ -193,3 +193,4 @@
     
     {# Call the macro  #}
     {{- cleanup(mother_of_all_macros()) -}}
+

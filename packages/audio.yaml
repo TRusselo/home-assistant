@@ -152,13 +152,19 @@ automation:
     action:
       - service: mqtt.publish
         data:
+          topic: house/presence/3rd_last_room
+          payload: '{{ states(''sensor.room_presence_2nd_last'') }}'
+          retain: true
+      - service: mqtt.publish
+        data:
+          topic: house/presence/2nd_last_room
+          payload: '{{ states(''sensor.room_presence_last'') }}'
+          retain: true
+      - service: mqtt.publish
+        data:
           topic: house/presence/last_room
           payload: '{{ states(''sensor.room_presence'') }}'
           retain: true
-      - service: input_text.set_value
-        data_template:
-          entity_id: input_text.room_presence
-          value: '{{ states(''sensor.room_audio'') }}'
       - service: mqtt.publish
         data:
           topic: house/presence/current_room
@@ -233,6 +239,15 @@ sensor:
     name: "Room Presence Last"
     state_topic: "house/presence/last_room"
 
+  - platform: mqtt
+    name: "Room Presence 2nd Last"
+    state_topic: "house/presence/2nd_last_room"
+
+  - platform: mqtt
+    name: "Room Presence 3rd Last"
+    state_topic: "house/presence/3rd_last_room"
+
+
   - platform: template
     sensors:
       room_audio:
@@ -247,14 +262,14 @@ sensor:
                   kitchen      
                 {%- endif %}
               {% else %} 
-                {% if sensor.name == 'Master Bedroom Motion motion' %}
-                    master_bedroom
+                {% if sensor.name == 'Den Motion Sensor motion' %}
+                    den
                 {% elif sensor.name in ('Kitchen Motion Sensor motion' ) %}
                     kitchen
                 {% elif sensor.name in ('Living Room Motion' ) %}
                     living_room
-                {% elif sensor.name in ('Den Motion Sensor motion' ) %}
-                    den
+                {% elif sensor.name in ('Master Bedroom Motion motion','Master Bathroom Motion Sensor motion' ) %}
+                    master_bedroom
                 {% elif sensor.name in ('BlueIris Garage Camera Motion' ) %}
                     garage
                 {% elif sensor.name in ('Bathroom 2 Motion Sensor motion' ) %}
@@ -265,8 +280,6 @@ sensor:
                     basement
                 {% elif sensor.name in ('Entryway Motion Sensor' ) %}
                     entryway
-                {% elif sensor.name in ('Master Bathroom Motion Sensor motion' ) %}
-                    master_bathroom
                 {% else %}
                   main
                 {%- endif %}

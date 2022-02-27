@@ -250,7 +250,8 @@
   - service: tts.amazon_polly_say
     data:
       entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Bitch has beem undocked for 30 minutes. </speak>
+      message: <speak> <break time="1s"/> The Bitch has beem undocked for 30 minutes.
+        </speak>
       cache: true
   - service: notify.mobile_app_note_10
     data:
@@ -340,7 +341,8 @@
   - service: tts.amazon_polly_say
     data:
       entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Bitch has finished but not returned to its dock. </speak>
+      message: <speak> <break time="1s"/> The Bitch has finished but not returned
+        to its dock. </speak>
       cache: true
   mode: single
 - id: '1606859940715'
@@ -414,23 +416,6 @@
     entity_id: light.closet
     domain: light
   mode: single
-# - id: '1607996304910'
-#   alias: Weather Warning Notification
-#   description: ''
-#   trigger:
-#   - platform: state
-#     entity_id: sensor.warnings
-#     attribute: alert time
-#   condition:
-#   - condition: time
-#     after: 07:00
-#     before: '21:00'
-#   action:
-#   - service: tts.google_translate_say
-#     entity_id: media_player.whole_home_group
-#     data_template:
-#       message: '{{ states(''sensor.warnings'') }} in effect.'
-#   mode: single
 - id: '1608000372569'
   alias: Dryer Stopped Notification
   description: ''
@@ -469,26 +454,6 @@
       entity_id: switch.coffee_machine
       state: 'off'
   mode: single
-# - id: '1609006432042'
-#   alias: Washer Done Notification
-#   description: ''
-#   trigger:
-#   - type: moist
-#     platform: device
-#     device_id: 92b7756818a3c1d832367a00f6c3ff29
-#     entity_id: binary_sensor.dryer_water
-#     domain: binary_sensor
-#   condition:
-#   - condition: time
-#     after: 07:00
-#     before: '21:00'
-#   action:
-#   - service: tts.amazon_polly_say
-#     data:
-#       entity_id: media_player.whole_home_group
-#       message: <speak> <break time="1s"/> The Washing machine may be done. </speak>
-#       cache: true
-#   mode: single
 - id: '1610159219685'
   alias: Driveway Lights
   description: ''
@@ -598,7 +563,8 @@
   - service: tts.amazon_polly_say
     data:
       entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The front door has been open for 1 minute. </speak>
+      message: <speak> <break time="1s"/> The front door has been open for 1 minute.
+        </speak>
       cache: true
   mode: single
 - id: '1620852053408'
@@ -1290,23 +1256,6 @@
       - scene: scene.front_yard_lights_on_60
     default:
     - scene: scene.front_yard_lights_off
-# - id: '1645412807968'
-#   alias: New Automation
-#   description: ''
-#   trigger:
-#   - type: energy
-#     platform: device
-#     device_id: 9730d207088ef1a02e48657fc5a326a8
-#     entity_id: sensor.washer_energy_meter
-#     domain: sensor
-#     above: 5
-#   condition: []
-#   action:
-#   - device_id: 416dff5732a808dc787c0474198951ae
-#     domain: light
-#     entity_id: light.desk_light
-#     type: flash
-#   mode: single
 - id: '1645413237498'
   alias: Flash Driveway Left Light for Delivery Driver
   trigger:
@@ -1428,19 +1377,17 @@
       entity_id: switch.espresso_machine
       state: 'off'
   mode: single
-
 - id: e1cb2d02-0423-11eb-adc1-0242ac120002
   alias: Tristyn work today
   initial_state: true
   trigger:
   - platform: time
-    at: '06:00:00'
+    at: 06:00:00
   condition:
   - condition: template
-    value_template: >
-      {%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-        true
-      {%- endif -%}
+    value_template: "{%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work',\
+      \ 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom(\"%Y-%m-%d\") == now().strftime(\"\
+      %Y-%m-%d\") %}\n  true\n{%- endif -%}\n"
   action:
   - service: input_boolean.turn_on
-    entity_id: input_boolean.tristyn_workday  
+    entity_id: input_boolean.tristyn_workday

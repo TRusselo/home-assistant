@@ -18,38 +18,40 @@ tristyn_traffic_alerts:
 tristyn_traffic_alert_home:
   name: Tristyn Traffic Alert Home
   icon: mdi:traffic-light
-tornado_watch:
-  name: Tornado Watch
-  icon: mdi:message-alert
+# tornado_watch:
+#   name: Tornado Watch
+#   icon: mdi:message-alert
 
 
-weather_reports:
-  name: Weather Info 
-traffic_reports:
-  name: traffic_reports
-sun_reports:
-  name: Sun Reports 
-new_ha_announcement:
-  name: New HA Announcement
-  icon: mdi:twitter
-showing_now:
-  name: Showing Now
-  icon: mdi:popcorn
-shuffle_spotify:
-  name: Spotify Shuffle
+# weather_reports:
+#   name: Weather Info 
+# traffic_reports:
+#   name: traffic_reports
+# sun_reports:
+#   name: Sun Reports 
+# new_ha_announcement:
+#   name: New HA Announcement
+#   icon: mdi:twitter
+# showing_now:
+#   name: Showing Now
+#   icon: mdi:popcorn
+# shuffle_spotify:
+#   name: Spotify Shuffle
 good_morning_report:
   name: Good Morning Report 
-master_bedroom_alarm:
-  name: Master Bedroom Alarm
+# master_bedroom_alarm:
+#   name: Master Bedroom Alarm
 
-lockdown_issue:
-  name: Lockdown Issue
-security_issue:
-  name: Security Issue
-washer_finished:
-  name: Washer Finished
-garage_after_dark:
-  name: Garage After Dark
+# lockdown_issue:
+#   name: Lockdown Issue
+# security_issue:
+#   name: Security Issue
+# washer_finished:
+#   name: Washer Finished
+# garage_after_dark:
+#   name: Garage After Dark
 
 tristyn_workday:
   name: Tristyn Workday
+terry_workday:
+  name: Terry Workday

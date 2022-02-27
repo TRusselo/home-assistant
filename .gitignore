@@ -93,3 +93,4 @@ keys
 **pyozw.sqlite
 **ipchange.yaml
 **production_auth.json
+custom_components/fordpass/fordpass_token.txt

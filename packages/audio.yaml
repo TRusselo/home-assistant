@@ -135,6 +135,13 @@ script:
         media_content_id: >
           {{ media }}
 
+
+#####################################################
+# Automations
+#
+#
+#
+
 automation:
   - id: e1cb2fdc-0423-11eb-adc1-0242ac120002
     alias: Set Room Presence
@@ -231,37 +238,34 @@ sensor:
       room_audio:
         friendly_name: "Room Audio"
         value_template: >-
-          {%- set last_alexa_called_seconds = (now() - as_local(states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='last_updated') | first)).seconds -%}
-          {%- if last_alexa_called_seconds <= 60 %}  
-            {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
-          {% elif expand('group.occupancy') | selectattr('state', 'eq', 'on') | list | count >= 1 %}
+          {% if expand('group.occupancy') | selectattr('state', 'eq', 'on') | list | count >= 1 %}
             {% set sensor = expand('group.occupancy') | selectattr('state', 'eq', 'on') | sort(attribute='last_changed') | last %}
               {% if is_state('input_boolean.audible_notifications', 'off') %}
-                {% if sensor.name == 'Master Bedroom Motion' %}
+                {% if sensor.name == 'Master Bedroom Motion motion' %}
                   master_bedroom
                 {% else %}
                   kitchen      
                 {%- endif %}
               {% else %} 
-                {% if sensor.name == 'Master Bedroom Motion' %}
+                {% if sensor.name == 'Master Bedroom Motion motion' %}
                     master_bedroom
-                {% elif sensor.name in ('Back Door Motion','Kitchen Motion' ) %}
+                {% elif sensor.name in ('Kitchen Motion Sensor motion' ) %}
                     kitchen
-                {% elif sensor.name in ('Living Room Motion','Motion Sensor Motion' ) %}
+                {% elif sensor.name in ('Living Room Motion' ) %}
                     living_room
-                {% elif sensor.name in ('Den Motion' ) %}
+                {% elif sensor.name in ('Den Motion Sensor motion' ) %}
                     den
-                {% elif sensor.name in ('Garage Motion' ) %}
+                {% elif sensor.name in ('BlueIris Garage Camera Motion' ) %}
                     garage
-                {% elif sensor.name in ('Bathroom 2 Motion' ) %}
+                {% elif sensor.name in ('Bathroom 2 Motion Sensor motion' ) %}
                     bathroom_2
-                {% elif sensor.name in ('Bedroom 2 Motion' ) %}
+                {% elif sensor.name in ('Bedroom 2 Motion Sensor motion' ) %}
                     bedroom_2
-                {% elif sensor.name in ('Basement Motion' ) %}
+                {% elif sensor.name in ('Basement Motion Sensor motion' ) %}
                     basement
-                {% elif sensor.name in ('Entryway Motion' ) %}
+                {% elif sensor.name in ('Entryway Motion Sensor' ) %}
                     entryway
-                {% elif sensor.name in ('Master Bathroom Motion','Closet Motion' ) %}
+                {% elif sensor.name in ('Master Bathroom Motion Sensor motion' ) %}
                     master_bathroom
                 {% else %}
                   main
@@ -272,6 +276,7 @@ sensor:
           {% else %}
             {{ states('sensor.room_presence') }}
           {% endif %}
+  
       alexa_audio:
         friendly_name: "Alexa Audio"
         value_template: >-
@@ -280,6 +285,7 @@ sensor:
             {% else %}
               kitchen
             {%- endif %}
+  
       last_alexa:
         value_template: >
           {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}

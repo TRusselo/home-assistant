@@ -81,7 +81,7 @@ automation:
   #     data:
   #       message: >-
   #         {{ [ "I just provided a morning briefing including weather, and traffic
-  #         conditions, and other things that ensure the residents of Anchorage House know what to expect today.",
+  #         conditions, and other things that ensure the residents of The House know what to expect today.",
   #               "Time for the daily update. It was like that scene in Ironman where JARVIS gives the daily briefing but no one was listening. ",
   #               "I have prepared a safety briefing to present to my residents but they would just ignore it.",
   #               "Do you like to be prepared for the day? So do my residents. So I provided them with an update on whats happening today.",
@@ -101,23 +101,23 @@ automation:
       at: input_datetime.daily_report
     condition:
       condition: state 
-      entity_id: binary_sensor.workday_sensor
+      entity_id: input_boolean.tristyn_workday
       state: 'on'
     action:
     - service: script.morning_wakeup_report
         
-  - alias: Lightning Detected Demo
-    trigger:
-      - platform: state
-        entity_id: sensor.lightning_warning
-        to: 'Unsafe'
-    action:
-    - service: script.status_annc
-      data:
-        who: '{{ states.sensor.room_presence.state }}'
-        call_greeting: 1
-        call_time_is: 1
-        call_lighting_warning: 1
+  # - alias: Lightning Detected Demo
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.lightning_warning
+  #       to: 'Unsafe'
+  #   action:
+  #   - service: script.status_annc
+  #     data:
+  #       who: '{{ states.sensor.room_presence.state }}'
+  #       call_greeting: 1
+  #       call_time_is: 1
+  #       call_lighting_warning: 1
 
 script:
   reset_annc_switches:

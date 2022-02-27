@@ -10,7 +10,7 @@ sensor:
     sensors:
       #sensor that only counts active alerts
       canada_weatheralerts_active_alerts:
-        friendly_name: Weather Alerts
+        friendly_name: Weather Alerts Active
         entity_id:
           - sensor.canada_weather_alerts
           # - sensor.time_hour
@@ -29,7 +29,7 @@ sensor:
 
       #sensor that counts all active and ended/expired alerts
       canada_weatheralerts_total_alerts:
-        friendly_name: Weather Alerts
+        friendly_name: Weather Alerts Total
         entity_id:
           - sensor.canada_weather_alerts
           # - sensor.time_hour

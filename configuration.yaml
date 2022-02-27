@@ -102,6 +102,10 @@ panel_iframe:
     title: 'Windy'
     url: 'https://embed.windy.com/embed2.html?lat=56.715&lon=-111.484&detailLat=56.749&detailLon=-111.484&width=650&height=450&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1'
     icon: mdi:weather-partly-snowy
+  # waze:
+  #   title: 'Waze'
+  #   url: 'https://embed.waze.com/iframe'
+  #   icon: mdi:map
   # blueiris1:
   #   title: 'Blue Iris'
   #   url: 'http://192.168.1.14:81/ui3.htm'
@@ -132,3 +136,28 @@ watchman:
 #       - service: wake_on_lan.send_magic_packet
 #         data:
 #           mac: MAC_ADDRESS
+
+weather:
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    # Additional optional values:
+    #latitude: Location latitude
+    #longitude: Location longitude
+    mode: "hourly"
+    name: Fort McMurray Pirate Weather
+    
+
+# you can also get a sensor data
+sensor:
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    scan_interval: '00:15:00'
+    monitored_conditions:
+      - temperature
+      - precip_probability
+      - precip_type
+      - humidity
+      - cloud_cover
+      - nearest_storm_distance
+      - precip_intensity
+      - wind_speed

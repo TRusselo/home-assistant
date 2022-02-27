@@ -1,5 +1,5 @@
 >
-  {# DAily Briefing #}
+  {# Daily Briefing #}
   {%- macro getReport() -%}
       <p>
         {% if now().strftime('%H')|int < 12 %}
@@ -24,7 +24,7 @@
       
       
       <p>
-        The Weather in Grayson is {{states('sensor.acurite_6045m_3078_f')|round}} degrees 
+        The Weather in Fort McMurray feels like {{states('openweathermap_feels_LIKE_temperature')|round}} degrees 
         {% if is_state('weather.home', 'rainy') %}
           {{ [
           'with rain.', 
@@ -127,41 +127,6 @@
       <p>
         You have some things on the calendar. 
 
-        {% if is_state('input_boolean.heartworm', 'on') %}
-          Today is the day Winston gets his heartworm medicine. 
-        {% endif %}
-          
-        {% if dow == 'Sunday' and is_state('binary_sensor.midday','on') %}
-          {% if now().strftime('%H')|int > 17 %}
-          {{ [ 'Do not forget to do Skylars laundry. ',
-            'Skylars laundry needs to be done today. ',
-          ] | random }}
-          {% endif %}
-        {% endif %}
-
-        {% if dow == 'Monday' %}
-          {% if is_state('binary_sensor.evening','on') %}
-            {{ [ 'Do not forget tomorrow is Trash Day. ',
-              ' The trash and recycle should go out.'
-            ] | random }}
-          {% endif %}
-        {% endif %}
-
-        {% if dow == 'Tuesday' %}
-          {% if is_state('binary_sensor.evening','on') %}
-              {{ [ 'Do not forget to bring in the trash cans. ',
-              'The trash cans will feel lonely if you leave them out all night. ',
-              'The <say-as interpret-as="characters">HOA</say-as> will get mad if you leave those trash cans out on the street.'
-            ] | random }}
-          {% endif %}
-          {% if is_state('binary_sensor.morning','on') %}
-            {{ [ 'Today is Trash Day.',
-              ' The trash and recycle should go out this morning.',
-              'Do not forget to take the trash out.'
-            ] | random }}
-          {% endif %}
-        {% endif %}
-
         
 
         {% if is_state('binary_sensor.evening','on') %}
@@ -187,7 +152,7 @@
           {% elif states.sensor.christmas_countdown.state | int < 31 %}
             There are only {{states.sensor.christmas_countdown.state}} days until christmas.
             {{ [ 'All I want for Christmas, is a hippopotamus.',
-            'Hey Skylar, I know what you are getting for Christmas. But I am not telling.',
+            'Hey, I know what you are getting for Christmas. But I am not telling.',
             'Do not forget to put something under the tree for your favorite smarthome.',
             'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
             'I do not want to be a smarthome. I want to be a dentist.',
@@ -196,12 +161,6 @@
           {% else %}
           {% endif %}
           
-         
-
-          {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-            Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-          {% endif %}
-      
         {% else %}
           {% if is_state('sensor.halloween_countdown','0') %}
             Happy Halloween!
@@ -209,26 +168,17 @@
           {% if is_state('sensor.christmas_countdown','0') %}
             Merry Christmas!
           {% endif %}
-          {% if is_state('sensor.anniversary_our_wedding','0') %}
-            Happy Anniversary! It been an amazing {{ states.sensor.anniversary_our_wedding.attributes.years }} years!
+          {% if states.calendar.google_cal_birthdays.state == 'on' %}
+            Today is {{ states.calendar.google_cal_birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
           {% endif %}
-          {% if is_state('calendar.holidays_in_united_states', 'on') %}
-            Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
-          {% endif %}
-          {% if is_state('calendar.anchorage_holidays', 'on') %}
-            And do not forget. Today is also {{states.calendar.anchorage_holidays.attributes.message}}. 
-          {% endif %}
-          {% if states.calendar.birthdays.state == 'on' %}
-            Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
-          {% endif %}
-          {%- set event=states.calendar.national_holidays.attributes.message %}
+          {%- set event=states.calendar.holidays_in_canada.attributes.message %}
           {% if 'Day' in event and 'National' in event%}
             {{ [
               'Today is also known as ',
               'Today we are also celebrating'
           ]|random }}
           
-          {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
+          {{states.calendar.holidays_in_canada.attributes.message | replace("&"," and ") }}.
             {% if 'Chocolate' in event %}
               {{ [
               'Oh. You had me at Chocolate. I like Chocolate.',
@@ -304,152 +254,57 @@
               {{ [
                 'Today is a special birthday. We are celebrating '
               ]|random }}
-              {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
+              {{states.calendar.holidays_in_canada.attributes.message | replace("&"," and ") }}.
             {%- endif -%}
           {%- endif -%}
 
-
-          {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
-            {% if is_state('sensor.school_start_days2go', '0') %}
-              Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
-            {% else %}
-              {{ [ 'Today is a school day.',
-                'Skylar has school today.',
-                'It is a school day. '
-              ] | random }}
-            {% endif %}
-            <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
-            {% if 'Digital Learning' in states('sensor.school_event') %}
-              But it is a digital learning day so the commute will be short.
-            {% endif %} 
-            {% if 'Early Release' in states('sensor.school_event') %}
-              And It is early release!
-            {% endif %}
-          {% endif %}
-          {% if is_state('input_boolean.school_today', 'on') %}
-            {% if is_state('sensor.school_lunch', 'Nothing') %}
-              I am not sure what the school menu is for today, so plan on Skylar taking his lunch 
-            {% else %}
-              Today's school lunch is {{ states.sensor.school_lunch.state }}, so he might be interested in buying his lunch.
-            {% endif %}
-          {% endif %}
-
-          {% if states.sensor.school_end_days2go.state | int <= 35 and states.sensor.school_end_days2go.state | int > 0  %}
-              {{ [ 'Oh, and look at that.',
-              'For those trying to keep count. ',
-              'In case you were wondering.',
-              'Also, did you know.'
-            ] | random }}
-              There are only {{ states.sensor.school_end_days2go.state }} days left in the school year!
-          {% endif %}
-          {% if states.sensor.school_end_days2go.state | int == -1 -%}
-            Today is the first day of Summer Break! 
-          {%- endif %}
-
-          {% if is_state('calendar.skylar_events', 'on') %}
-            Skylar has {{ states.calendar.skylar_events.attributes.message }} today as well!
-          {% endif %}
-
-        {% endif %}
-
-        {% if states.sensor.vacation_days2go.state | int < 32 and states.sensor.vacation_days2go.state | int < 0 and states.sensor.vacation_days2go.state != 'unknown' %}
-          {% if states.sensor.vacation_days2go.state | int > 1 %}
-            There are {{ states.sensor.vacation_days2go.state }} days until {{ states.calendar.vacation.attributes.message }}!
-          {% else %}
-            Oh, and there is {{ states.sensor.vacation_days2go.state }} one more sleep until {{ states.calendar.vacation.attributes.message }}!
-          {% endif %}
         {% endif %}
 
       </p>
-      
-      
-      
-      
-      {% if is_state('binary_sensor.morning','on') %}
-      <p>
-        {%- if states.sensor.home_to_zoo.state|round > 50 %}
-          Traffic to the Zoo appears heavy than normnal.
-        {% else %}
-          Traffic to the Zoo is normal.
-        {% endif %}
-        Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo taking {{ states.sensor.home_to_zoo.attributes.route }}.
 
-        {%- if states.sensor.home_to_summit.state|round > 50 %}
-          Traffic to Summit appears heavy than normnal.
-        {% else %}
-          Traffic to Summit is normal.
-        {% endif %}
-        Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}
-      </p>
-      {%- endif -%}
-      
         
       <p>
         Around the house,
-          {% if is_state('binary_sensor.morning','on') %}
-             {% if is_state('input_boolean.skylar_awake', 'on') %}
-              Skylar was up and moving at {{ states.input_datetime.skylar_awake_at.state }}.
-              {% if is_state('media_player.theater_tv', 'on') %}
-                and he appears to be in the Theater.
-              {% elif is_state('media_player.croft_tv', 'playing') %}
-                and he appears to be in the Croft watching {{ states.media_player.croft_tv.attributes.app_name }}
-              {% elif is_state('input_boolean.skylar_school', 'on') %}
-                and he appears to be at School.  
-              {% else %}
-                but I currently cannot find him on any of my sensors. 
-              {% endif %}
-            {% else %}
-              It doesn't appear that Skylar is out of bed yet. 
-            {% endif %}
-          {% endif %}
 
-          {%- if is_state('climate.home','off') %}
-            The internal climate control system is off. The temperature inside is {{ states.climate.home.attributes.current_temperature }} degrees. 
-          {%- elif is_state('climate.home','heat_cool') %}
-            The internal climate control system will try to keep the temperature between {{ states.climate.home.attributes.target_temp_low }} and {{ states.climate.home.attributes.target_temp_high }}.
+          {%- if is_state('climate.thermostat','off') %}
+            The internal climate control system is off. The temperature inside is {{ states.climate.thermostat.attributes.current_temperature }} degrees. 
+          {%- elif is_state('climate.thermostat','heat_cool') %}
+            The internal climate control system will try to keep the temperature between {{ states.climate.thermostat.attributes.target_temp_low }} and {{ states.climate.thermostat.attributes.target_temp_high }}.
           {% else %}
-            The internal climate control system is set to {{ states.climate.home.state }} with a current temperature of {{ states.climate.home.attributes.current_temperature }} which is 
+            The internal climate control system is set to {{ states.climate.thermostat.state }} with a current temperature of {{ states.climate.thermostat.attributes.current_temperature }} which is 
             
-              {%- if states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int |round > 0 %}
-                {{ states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int }} degrees above 
-              {%- elif states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int |round < 0 %}
-                {{ (states.climate.home.attributes.current_temperature | int - states.climate.home.attributes.temperature | int) | abs }} degrees below
+              {%- if states.climate.thermostat.attributes.current_temperature | int - states.climate.thermostat.attributes.temperature | int |round > 0 %}
+                {{ states.climate.thermostat.attributes.current_temperature | int - states.climate.thermostat.attributes.temperature | int }} degrees above 
+              {%- elif states.climate.thermostat.attributes.current_temperature | int - states.climate.thermostat.attributes.temperature | int |round < 0 %}
+                {{ (states.climate.thermostat.attributes.current_temperature | int - states.climate.thermostat.attributes.temperature | int) | abs }} degrees below
               {% else %}
                 right at 
               {% endif %}
-              the set point of {{ states.climate.home.attributes.temperature }}
+              the set point of {{ states.climate.thermostat.attributes.temperature }}
             degrees.
           {%- endif -%}
-          And The internal humidity is currently {{ states.climate.home.attributes.current_humidity }} percent.
-          The garage is {{states.sensor.acurite_tower_10968_t.state|round}} degrees with a humidity of {{states.sensor.acurite_tower_10968_h.state|round}} percent.
+          And The internal humidity is currently {{ states.climate.thermostat.attributes.current_humidity }} percent.
 
-          {%- if is_state('media_player.croft_tv','playing') or is_state('binary_sensor.croft_occupancy','on') %}
-            There appears to be activity in the Croft.
-            {%- if is_state('media_player.croft_tv','playing') %}
-            The croft TV is currently playing 
-              {%- if states.media_player.croft_tv.attributes.app_name == 'YouTube' %}
+          {%- if is_state('media_player.android_tv_living_room','playing') or is_state('binary_sensor.living_room_motion','on') %}
+            There appears to be activity in the Living Room.
+            {%- if is_state('media_player.android_tv_living_room','playing') %}
+            The living room TV is currently playing 
+              {%- if states.media_player.android_tv_living_room.attributes.app_name == 'YouTube' %}
                 You Tube.
               {% else %}
-                {{ states.media_player.croft_tv.attributes.app_name }}.
+                {{ states.media_player.android_tv_living_room.attributes.app_name }}.
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
 
-          {%- if is_state('media_player.theater_tv','on') or is_state('binary_sensor.theater_occupancy','on') %}
-            The theater is currently occupied.
-            {%- if is_state('media_player.home_theater_2','playing') %}
-              and the Apple TV is currently playing. 
-            {%- endif -%}
-          {%- endif -%}
-
-           There are currently {{ (states.light | selectattr('state', 'eq', 'on') | list | count) | int + (states.switch | selectattr('state', 'eq', 'on') | list | count) | int }} lights
+          There are currently {{ (states.light | selectattr('state', 'eq', 'on') | list | count) | int + (states.switch | selectattr('state', 'eq', 'on') | list | count) | int }} lights
           and switches on. 
             
-         </p>
+        </p>
 
-       
+      
           {%- if is_state('sensor.washer_status','complete') %}
-             <p>
+            <p>
             The washing machine completed its cycle 
             {% set seconds = now().timestamp() - as_timestamp(states.sensor.washer_status.last_changed) %}
             {% set hours = seconds / 60 %}
@@ -506,3 +361,27 @@
     
     {# Call the macro  #}
     {{- cleanup(mother_of_all_macros()) -}}
+
+# #########################################
+      
+      
+      
+      
+#       {% if is_state('binary_sensor.morning','on') %}
+#       <p>
+#         {%- if states.sensor.home_to_zoo.state|round > 50 %}
+#           Traffic to the Zoo appears heavy than normnal.
+#         {% else %}
+#           Traffic to the Zoo is normal.
+#         {% endif %}
+#         Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo taking {{ states.sensor.home_to_zoo.attributes.route }}.
+
+#         {%- if states.sensor.home_to_summit.state|round > 50 %}
+#           Traffic to Summit appears heavy than normnal.
+#         {% else %}
+#           Traffic to Summit is normal.
+#         {% endif %}
+#         Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}
+#       </p>
+#       {%- endif -%}
+      

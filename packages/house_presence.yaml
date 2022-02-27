@@ -112,7 +112,7 @@ automation:
     - service: script.status_annc
       data:
         who: '{{ states.sensor.room_presence.state }}'
-        speech_message: 'Terry has arrived at work.'
+        speech_message: "Terry has arrived at work."
   
   - id: terry_leaves_work
     alias: Terry Leaves McMurray Coin Notification
@@ -199,11 +199,11 @@ automation:
   - id: family_has_arrived
     alias: Family Has arrived
     trigger:
-    - entity_id: sensor.family_status
-      from: Away
+    - entity_id: group.family
       platform: state
-      to: Home
+      to: home
       id: family
+      from: not_home
     - platform: zone
       entity_id: person.tristyn
       zone: zone.home
@@ -242,10 +242,11 @@ automation:
     alias: Family Has Left
     initial_state: true
     trigger:
-    - entity_id: sensor.family_status
-      from: Home
+    - entity_id: group.family
       platform: state
-      to: Away
+      to: home
+      id: family
+      from: not_home
     - entity_id: group.family
       from: home
       platform: state

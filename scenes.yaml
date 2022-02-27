@@ -1313,7 +1313,7 @@
       icon: mdi:phone-classic
       friendly_name: Phone Light
       state: 'off'
-    switch.clock_light_1:
+    switch.clock_light:
       icon: mdi:clock-outline
       friendly_name: Clock Light
       state: 'off'
@@ -1397,7 +1397,7 @@
       icon: mdi:phone-classic
       friendly_name: Phone Light
       state: 'off'
-    switch.clock_light_1:
+    switch.clock_light:
       icon: mdi:clock-outline
       friendly_name: Clock Light
       state: 'off'
@@ -1419,6 +1419,7 @@
       friendly_name: Basement Lights
       supported_features: 40
       state: 'off'
+      
 - id: '1644362810178'
   name: Living Room Lights OFF
   entities:

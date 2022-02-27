@@ -11,13 +11,18 @@
     name: Tristyn Vacation 
     track: true
     search: Vacation
+  - device_id: google_cal_birthdays
+    ignore_availability: true
+    name: Birthdays
+    search: "#Birthday"
+    track: true
 
 - cal_id: p#weather@group.v.calendar.google.com
   entities:
   - device_id: weather
     ignore_availability: true
     name: Weather
-    track: false
+    track: true
 
 - cal_id: tristynrusselo@gmail.com
   entities:
@@ -52,3 +57,4 @@
     ignore_availability: true
     name: Holidays in Canada
     track: true
+

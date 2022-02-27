@@ -36,27 +36,27 @@
           'Do you know what day of the week it is? Today is',
           'I hate to be the bearer of bad news, but today is '
       ]|random }}
-      {{states.sensor.today_is.state }}.
+      {{states.sensor.sensor.dayoftheweek.state }}.
       </p>
       <p>
-        It is currently {{states.weather.home_2.state}} and {{states.sensor.acurite_6045m_3078_t.state|round}} degrees in Grayson. 
+        It is currently {{states.weather.openweathermap.state}} and feels like {{states.sensor.openweathermap_feels_like_temperature.state|round}} degrees in Fort McMurray. 
       </p>
       <p>
-        {% if states.sensor.nws_alerts.state | int > 0 %}
-          There are currently {{states.sensor.nws_alerts.state }} active weather alerts for our area.
+        {% if states.sensor.canada_weatheralerts_active_alerts.state | int > 0 %}
+          There are currently {{states.sensor.canada_weatheralerts_active_alerts.state }} active weather alerts for our area.
           The National Weather Service Has issued,
-          {% if states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
-          a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
-          {% elif states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
+          {% if states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] is defined %}
+            a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[5] }}.
+          {% elif states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] is defined %}
+          a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[4] }}.
+          {% elif states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] is defined %}
+            a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[3] }}.
+          {% elif states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] is defined %}
+            a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[2] }}.
+          {% elif states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] is defined %}
+            a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[1] }}.
           {% else %}
-            a {{ states.sensor.nws_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
+            a {{ states.sensor.canada_weatheralerts_active_alerts.attributes.spoken_desc.split('\n\n-\n\n')[0] }}.
           {% endif %}
         {% endif %}
       </p>
@@ -68,40 +68,16 @@
           {{ states.sensor.nws_current_forecast.state }} 
         </p>
         <p>
-          {% if is_state('input_boolean.heartworm', 'on') %}
-            Today is the day Winston gets his heartworm medicine. 
-          {% endif %}
-        </p>
-        <p>
-          {% if is_state('sensor.today_is', 'Monday') %}
-            {% if now().strftime('%H')|int > 17 %}
-            {{ [ 'Do not forget tomorrow is Trash Day. ',
-              'I advise you move the trash cans to the curb for the weekly pickup. ',
-              ' The trash and recycle should go out.'
-            ] | random }}
-            {% endif %}
-          {% endif %}
-        </p>
-        <p>
-        {% if is_state('sensor.halloween_countdown','0') %}
+        {% if is_state('sensor.holiday_halloween','0') %}
           Happy Halloween!
         {% endif %}
-        {% if is_state('sensor.christmas_countdown','0') %}
+        {% if is_state('sensor.holiday_christmas','0') %}
           Merry Christmas Everyone!
         {% endif %}
-        {% if is_state('sensor.anniversary_our_wedding','0') %}
-          Happy Anniversary! It been an amazing {{ states.sensor.anniversary_our_wedding.attributes.years }} years!
+        {% if states.calendar.google_cal_birthdays.state == 'on' %}
+          Today is {{ states.calendar.google_cal_birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
         {% endif %}
-        {% if is_state('calendar.holidays_in_united_states', 'on') %}
-          Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
-        {% endif %}
-        {% if is_state('calendar.anchorage_holidays', 'on') %}
-          And do not forget. Today is also {{states.calendar.anchorage_holidays.attributes.message}}. 
-        {% endif %}
-        {% if states.calendar.birthdays.state == 'on' %}
-          Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
-        {% endif %}
-        {%- set event=states.calendar.national_holidays.attributes.message %}
+        {%- set event=states.calendar.holidays_in_canada.attributes.message %}
         {% if 'Day' in event and 'National' in event%}
           {{ [
             'And a very special Happy ',
@@ -111,25 +87,11 @@
             'Want to know a fact? Today is ',
             'Everyday can be a holiday. So today is '
         ]|random }}
-        {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
+        {{states.calendar.holidays_in_canada.attributes.message | replace("&"," and ") }}.
         {%- endif -%}
         </p>
         <p>
 
-          {%- if states.sensor.home_to_zoo.state|round > 50 %}
-            Traffic to the Zoo appears heavy than normnal.
-          {% else %}
-            Traffic to the Zoo is normal.
-          {% endif %}
-          Currently it will take {{states.sensor.home_to_zoo.state|round}} minutes to get to the Zoo.
-
-          {%- if states.sensor.home_to_summit.state|round > 50 %}
-            Traffic to Summit appears heavy than normnal.
-          {% else %}
-            Traffic to Summit is normal.
-          {% endif %}
-          Currently it will take {{states.sensor.home_to_summit.state|round}} minutes to get to Summit taking {{ states.sensor.home_to_summit.attributes.route }}.
-      </p>
   {%- endmacro -%}
 
 

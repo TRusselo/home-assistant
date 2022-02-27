@@ -2,14 +2,11 @@
   {# Event Report #}
   {%- macro getReport() -%}
     <p>
-      {% if is_state('calendar.holidays_in_united_states', 'on') %}
-        Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
+      {% if is_state('calendar.holidays_in_canada', 'on') %}
+        Today is {{states.calendar.holidays_in_canada.attributes.message}}. 
       {% endif %}
-      {% if is_state('calendar.anchorage_holidays', 'on') %}
-        Today is {{states.calendar.anchorage_holidays.attributes.message}}. 
-      {% endif %}
-      {% if states.calendar.birthdays.state == 'on' %}
-        Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper.
+      {% if states.calendar.google_cal_birthdays.state == 'on' %}
+        Today is {{ states.calendar.google_cal_birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper.
       {% endif %}
       {%- set event=states.calendar.national_holidays.attributes.message %}
       {% if 'Day' in event and 'National' in event%}
@@ -25,34 +22,28 @@
       {%- endif -%}
     </p>
     <p>
-        {% if states.sensor.birthday_skylar.state | int == 1 %}
-          Tomorrow is Skylar's Birthday.
-        {% elif states.sensor.birthday_skylar.state | int > 1 and states.sensor.birthday_skylar.state | int < 15 %}
-          Skylar's Birthday is in {{ states.sensor.birthday_skylar.state }} days!
+        {% if states.sensor.anniversary_dad_s_birthday.state | int == 1 %}
+          Tomorrow is Dad's Birthday.
+        {% elif states.sensor.anniversary_dad_s_birthday.state | int > 1 and states.sensor.anniversary_dad_s_birthday.state | int < 15 %}
+          Dad's Birthday is in {{ states.sensor.anniversary_dad_s_birthday.state }} days!
         {% else %}
         {% endif %}
-        {% if states.sensor.birthday_jeff.state | int == 1 %}
-          Tomorrow is Jeff's Birthday.
-        {% elif states.sensor.birthday_jeff.state | int > 1 and states.sensor.birthday_jeff.state | int < 15 %}
-          Jeff's Birthday is in {{ states.sensor.birthday_jeff.state }} days!
-        {% else %}
-        {% endif %}
-        {% if states.sensor.birthday_kat.state | int == 1 %}
-          Tomorrow is Katherine's Birthday.
-        {% elif states.sensor.birthday_kat.state | int > 1 and states.sensor.birthday_kat.state | int < 15 %}
-          Katherine's Birthday is in {{ states.sensor.birthday_kat.state }} days!
+        {% if states.sensor.anniversary_tristyn_s_birthday.state | int == 1 %}
+          Tomorrow is Tristyn's Birthday.
+        {% elif states.sensor.anniversary_tristyn_s_birthday.state | int > 1 and states.sensor.anniversary_tristyn_s_birthday.state | int < 15 %}
+          Tristyn's Birthday is in {{ states.sensor.anniversary_tristyn_s_birthday.state }} days!
         {% else %}
         {% endif %}
       </p>
       <p>
-        {% if states.sensor.halloween_countdown.state | int == 1 %}
+        {% if states.sensor.holiday_halloween.state | int == 1 %}
           Tomorrow is Halloween. I hope you have picked out a costume.
           {{ [ 'I will be going as a dumb home. ',
             'I have prepped the scary music. Just in case.',
             'I will be going as HAL 9000. The Pod Bay Doors are being installed today. I <emphasis>dare</emphasis> you to ask me to open them. '
           ] | random }}
-        {% elif states.sensor.halloween_countdown.state | int < 30 and states.sensor.halloween_countdown.state | int > 1 %}
-          There are only {{states.sensor.halloween_countdown.state}} days 
+        {% elif states.sensor.holiday_halloween.state | int < 30 and states.sensor.holiday_halloween.state | int > 1 %}
+          There are only {{states.sensor.holiday_halloween.state}} days 
           {{ [ 'until Halloween.',
             'until Halloween. It might not be enough time. ',
             'and counting until the best holiday ever.',
@@ -61,12 +52,12 @@
           
         {% else %}  
         {% endif %}
-        {% if states.sensor.christmas_countdown.state | int == 1 %}
+        {% if states.sensor.holiday_christmas.state | int == 1 %}
           Tomorrow is Christmas. <break time="1s"/> It is practically here! <break time="1s"/> Santa is coming tonight! Do not forget the cookies!
-        {% elif states.sensor.christmas_countdown.state | int < 31 and states.sensor.christmas_countdown.state | int > 1 %}
-          There are only {{states.sensor.christmas_countdown.state}} days until christmas.
+        {% elif states.sensor.holiday_christmas.state | int < 31 and states.sensor.holiday_christmas.state | int > 1 %}
+          There are only {{states.sensor.holiday_christmas.state}} days until christmas.
           {{ [ 'All I want for Christmas, is a hippopotamus.',
-            'Hey Skylar, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
+            'Hey, I know what you are getting for Christmas. But <emphasis>I am</emphasis> not telling.',
             'Do not forget to put something under the tree for <emphasis>your</emphasis> favorite smarthome.',
             'It is starting to smell a lot like Christmas. Or it could be the christmas tree is on fire.',
             'I do not want to be a smarthome. I want to be a dentist.',
@@ -75,25 +66,6 @@
         {% else %}
         {% endif %}
       </p>
-      <p>
-        {% if states.sensor.trip_disney.state | int == 120 %}
-          There are only one hundred and twenty days until the next Disney Trip. 
-        {% endif %}
-        {% if states.sensor.trip_disney.state | int == 60 %}
-          There are only on sixty days until the next Disney Trip. 
-        {% endif %}
-        {% if states.sensor.trip_disney.state | int < 32 %}
-            {% if states.sensor.trip_disney.state | int > 1 %}
-            There are {{ states.sensor.trip_disney.state }} days until the next Disney Trip!
-            {% else %}
-            There is {{ states.sensor.trip_disney.state }} day until the next Disney Trip!
-            {% endif %}
-        {% endif %}
-        {% if states.sensor.anniversary_our_wedding.state | int == 1 %}
-          Tomorrow is Jeff and Katherine's Wedding Anniversary. 
-        {% endif %}
-      </p>
-  {%- endmacro -%}
 
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

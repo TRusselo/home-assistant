@@ -8,14 +8,14 @@
         'Sentry mode is currently active.',
         'Barn Door Protocol is currently in effect.',
         'My security system is currently armed.',
-        'Anchorage House is in lockdown mode. '
+        'The House is in lockdown mode. '
         ] | random}} 
     {% else %}
       {{ [
         'Sentry Mode is disabled.',
         'Sentry mode is currently inactive.',
         'My security system is currently disarmed.',
-        'Anchorage House is currently in standby. '
+        'The House is currently in standby. '
         ] | random}} 
     {% endif %}
     {%- if states.group.external_doors.state == 'off' %}

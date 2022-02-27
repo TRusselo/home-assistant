@@ -1,5 +1,5 @@
 unauthorized_access:
-  name: Potential Unauthorized Access Detected at Anchorage House
+  name: Potential Unauthorized Access Detected at The House
   done_message: Security Issue Cleared
   entity_id: input_boolean.security_issue
   state: 'on'

@@ -1,8 +1,8 @@
 living_room_safety:
   name: Living Room Safety
   entities:
-    # - binary_sensor.living_room_window_contact
-    # - binary_sensor.motion_sensor_motion
+    - binary_sensor.living_room_window_contact
+    - binary_sensor.motion_sensor_motion
 
 garage_safety:
   name: Garage Safety
@@ -16,34 +16,22 @@ kitchen_safety:
   name: Kitchen Safety
   entities:
     - binary_sensor.back_door_contact
-#      - binary_sensor.kitchen_motion_sensor_motion
+    - binary_sensor.kitchen_motion_sensor_motion
 entryway_safety:
   name: Entryway Safety
   entities:
     - lock.front_door_lock
     - binary_sensor.front_door_contact
 #      - binary_sensor.entryway_motion_sensor_motion
-#    name: Living Room Safety
-#    entities:
-#      - binary_sensor.living_room_window_contact
-#      - binary_sensor.living_room_motion_sensor_motion
-#    name: Living Room Safety
-#    entities:
-#      - binary_sensor.living_room_window_contact
-#      - binary_sensor.living_room_motion_sensor_motion
-#    name: Living Room Safety
-#    entities:
-#      - binary_sensor.living_room_window_contact
-#      - binary_sensor.living_room_motion_sensor_motion
 
 windows:
   name: Windows
   entities: 
-#    - binary_sensor.living_room_window_contact
-    - binary_sensor.master_bedroom_window_contact_2
+    - binary_sensor.living_room_window_contact
+    - binary_sensor.master_bedroom_window_contact
     - binary_sensor.bedroom_2_window_contact
 
-Family:
+family:
     - person.tristyn
     - person.terry
 

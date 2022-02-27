@@ -5,7 +5,7 @@
   - type: opened
     platform: device
     device_id: f0f5d38389fe2ed0c12cc101298101ac
-    entity_id: binary_sensor.master_bedroom_window_contact_2
+    entity_id: binary_sensor.master_bedroom_window_contact
     domain: binary_sensor
   condition: []
   action:
@@ -21,7 +21,7 @@
   - type: not_opened
     platform: device
     device_id: f0f5d38389fe2ed0c12cc101298101ac
-    entity_id: binary_sensor.master_bedroom_window_contact_2
+    entity_id: binary_sensor.master_bedroom_window_contact
     domain: binary_sensor
   condition: []
   action:
@@ -745,7 +745,7 @@
   action:
   - type: turn_off
     device_id: 8e86c338ff52cbf5eee0c1eb6ac139ec
-    entity_id: switch.den_fan_1
+    entity_id: switch.den_fan
     domain: switch
   - type: turn_off
     device_id: ee9ef71468ecfd9bc08b3316889ed7a4
@@ -1428,3 +1428,19 @@
       entity_id: switch.espresso_machine
       state: 'off'
   mode: single
+
+- id: e1cb2d02-0423-11eb-adc1-0242ac120002
+  alias: Tristyn work today
+  initial_state: true
+  trigger:
+  - platform: time
+    at: '06:00:00'
+  condition:
+  - condition: template
+    value_template: >
+      {%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+        true
+      {%- endif -%}
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.tristyn_workday  

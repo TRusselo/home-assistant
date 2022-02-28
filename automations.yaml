@@ -678,14 +678,14 @@
   trigger:
   - platform: device
     type: turned_off
-    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    device_id: 6399bfd7526749b56e40ba57d3147c9b
     entity_id: light.master_bedroom_ceiling
     domain: light
   condition: []
   action:
   - type: turn_off
     device_id: a5b90327cf51253ab7260943bbfa0dc2
-    entity_id: switch.lava_lamp
+    entity_id: switch.lava_lamp_2
     domain: switch
   mode: single
 - id: '1640801629505'
@@ -742,14 +742,14 @@
   trigger:
   - platform: device
     type: turned_off
-    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    device_id: 6399bfd7526749b56e40ba57d3147c9b
     entity_id: light.master_bedroom_ceiling
     domain: light
   condition: []
   action:
   - type: turn_off
     device_id: f39d615f0c0436d4edc5bea541de402e
-    entity_id: switch.master_bathroom_lights
+    entity_id: switch.master_bathroom_lights_2
     domain: switch
   mode: single
 - id: '1643999963797'
@@ -764,13 +764,13 @@
   condition:
   - condition: device
     type: is_on
-    device_id: 7cfe3af9811cf8d9e1aa935c2bf463ea
+    device_id: 6399bfd7526749b56e40ba57d3147c9b
     entity_id: light.master_bedroom_ceiling
     domain: light
   action:
   - type: turn_on
     device_id: f39d615f0c0436d4edc5bea541de402e
-    entity_id: switch.master_bathroom_lights
+    entity_id: switch.master_bathroom_lights_2
     domain: switch
   mode: single
 - id: '1644000768041'
@@ -1382,7 +1382,7 @@
   initial_state: true
   trigger:
   - platform: time
-    at: 06:00:00
+    at: 00:01:00
   condition:
   - condition: template
     value_template: "{%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work',\
@@ -1391,3 +1391,16 @@
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.tristyn_workday
+- id: asldfasdfasdf4rw4rtwrw
+  alias: Reset Tristyn Workday Boolean at midnight
+  description: ''
+  mode: single
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.tristyn_workday

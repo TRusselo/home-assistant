@@ -22,12 +22,13 @@ wake_on_lan:
 ### INCLUDES ###
 input_select: !include input_select.yaml
 input_boolean: !include input_boolean.yaml
-alert: !include_dir_merge_named alerts/
+alert: !include_dir_named alerts/
 
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
 
 homeassistant:
   customize: !include customize.yaml

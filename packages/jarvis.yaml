@@ -17,7 +17,7 @@ automation:
     - platform: state
       entity_id: input_boolean.house_party_protocol_switch
       to: 'on'
-    # action:
+    action:
     # - service: homeassistant.turn_on
     #   entity_id: group.incense
     - delay: 00:00:05
@@ -44,13 +44,13 @@ automation:
             
 script:
   
-  # To Use:
-  # service: script.amp_voice
-  # Data
-  #  who: media_player_ha_speaker
-  #   #who:  “{{ states(‘sensor.room_presence’) }}” 
-  #   message: something to say
-  #
+  # # To Use:
+  # # service: script.amp_voice
+  # # Data
+  # #  who: media_player_ha_speaker
+  # #   #who:  “{{ states(‘sensor.room_presence’) }}” 
+  # #   message: something to say
+  # #
   amp_voice:
     sequence:
     - service: media_player.turn_on

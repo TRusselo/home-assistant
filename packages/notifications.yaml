@@ -240,7 +240,7 @@ script:
             {% elif who == 'terry' %}
               notify.terry_android
             {% else %}
-              notify.all_android
+              notify.all_mobile_apps
             {% endif %}
         data:
           title: '{{ title }}'
@@ -264,7 +264,7 @@ script:
             {% elif who == 'terry' %}
               notify.terry_android
             {% else %}
-              notify.all_android
+              notify.all_mobile_apps
             {% endif %}
         data:
           title: '{{ title }}'

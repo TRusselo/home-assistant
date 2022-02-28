@@ -50,7 +50,7 @@
         the set point of {{ states.climate.thermostat.attributes.temperature }}
       degrees</s>
     {%- endif -%}
-    <s>And The internal humidity is currently {{ states.climate.thermostat.attributes.current_humidity }} percent</s>
+    <s>And The internal humidity is currently {{ states.sensor.thermostat_humidity.state }} percent</s>
     </p>
 
     <p>
@@ -89,13 +89,6 @@
     {% endif %}
     </p>
 
-    <p>
-    {%- if is_state('sensor.front_door_motion_away_count','0') %}
-      While you were gone there was no motion detected at the front door.
-    {% else %}
-      While you were out I detected motion at the front door {{ states.sensor.front_door_motion_away_count.state | int }} times.
-    {% endif %}
-    </p>
 
 
 
@@ -118,3 +111,12 @@
     
     {# Call the macro  #}
     {{- cleanup(mother_of_all_macros()) -}}
+
+########
+    # <p>
+    # {%- if is_state('sensor.front_door_motion_away_count','0') %}
+    #   While you were gone there was no motion detected at the front door.
+    # {% else %}
+    #   While you were out I detected motion at the front door {{ states.sensor.front_door_motion_away_count.state | int }} times.
+    # {% endif %}
+    # </p>

@@ -105,7 +105,7 @@
     
     {# Call the macro  #}
     {{- cleanup(mother_of_all_macros()) -}}
-  {%- endmacro -%}
+
 
 # ##########
 #         {% if is_state('sensor.today_is', 'Monday') %}

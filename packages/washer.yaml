@@ -89,16 +89,20 @@ automation:
       entity_id: sensor.washer_status
       from: Running
       to: Complete
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
     action:
     - service: script.status_annc
       data:
         who: '{{ states.sensor.room_presence.state }}'
         call_interuption: 1
-        speech_message: It appears the washing machine has completed its cycle.
-    - service: script.speech_engine
-      data: 
-        who: all_google
-        message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
+        speech_message: The washing machine has completed its cycle.
+    # - service: script.speech_engine
+    #   data: 
+    #     who: all_google
+    #     message: 'Just a quick heads up, It appears the washing machine has completed its cycle'
     - service: script.turn_on
       entity_id: script.washer_finished_notification_audible
 

@@ -7,4 +7,4 @@ garage_after_dark:
   can_acknowledge: false
   skip_first: False
   notifiers:
-  - all_android
+  - all_mobile_apps

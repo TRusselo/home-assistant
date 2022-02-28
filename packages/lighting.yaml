@@ -1,0 +1,354 @@
+###############################################################################
+#   @author         :   thejefreystone 
+#   @date           :   10/05/2020
+#   @package        :   Lighting
+#   @description    :   All the Lightning specific configs. 
+###############################################################################
+
+input_number:
+  master_bedroom_wakeup:
+    name: Master Bedroom Wakeup Lighting Initial %
+    initial: 17
+    min: 8.5
+    max: 255
+    step: 8.5
+
+# device_sun_light_trigger:
+#   light_group: group.kitchen
+#   light_profile: concentrate
+#   device_group: group.family
+
+
+automation:
+# MAster Bedroom lights turn on if dark and no other lights already on.
+  - id: e1cb39dc-0423-11eb-adc1-0242ac120002
+    alias: Master Bedroom Lights Needed
+    initial_state: true
+    trigger:
+    - entity_id: binary_sensor.master_bedroom_motion_motion
+      from: 'off'
+      platform: state
+      to: 'on'
+    condition:
+    - below: 20
+      condition: numeric_state
+      entity_id: sensor.master_bedroom_motion_illuminance
+    - condition: time
+      after: '07:30:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: light.master_bedroom_lights
+      state: 'off'
+    action:
+    - service: script.master_bedroom_lights_w_level  
+      data:
+        level: 255
+
+# Increase the light level in master bedroom from 15% to 100% over 30 minutes. 
+  - id: 1feafed1-0de9-44a4-a2f0-e693bc637ea1
+    alias: Master bedroom Wake Up
+    initial_state: true
+    trigger:
+    - platform: time
+      at: 06:45:00
+    condition:
+    - condition: state
+      entity_id: input_boolean.tristyn_workday
+      state: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.master_bedroom_morning_wakeup_lighting
+    - delay: 00:33:00
+    - service: script.turn_off
+      entity_id: script.master_bedroom_morning_wakeup_lighting
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.master_bedroom_wakeup
+        value: 17
+    # - service: scene.turn_on
+    #   entity_id: scene.master_bedroom_on
+
+
+  # Kitchen lights needed when dark and there is motion
+  # - id: e1cb3d56-0433-12eb-adc1-0242ac120002
+  #   alias: Kitchen Lights Needed
+  #   mode: restart
+  #   initial_state: true
+  #   trigger:
+  #   - entity_id: binary_sensor.kitchen_motion_occupancy
+  #     from: 'off'
+  #     platform: state
+  #     to: 'on'
+  #   action:
+  #   - choose:
+  #     - conditions:
+  #       - condition: state
+  #         entity_id: binary_sensor.quiet_time
+  #         state: 'on'
+  #       sequence:
+  #       - scene: scene.diminished_kitchen_lighting
+  #       - delay: 00:18:00
+  #       - scene: scene.kitchen_lighting_off
+  #     default:
+  #       - scene: scene.normal_kitchen_lighting
+
+  # # Living lights needed when dark and there is motion
+  # - id: e1c9379a-0423-11eb-adc1-0242ac120002
+  #   alias: Living Room Lights Needed
+  #   initial_state: true
+  #   trigger:
+  #   - entity_id: binary_sensor.motion_sensor_motion
+  #     from: 'off'
+  #     platform: state
+  #     to: 'on'
+  #   # condition:
+  #   # - below: 50
+  #   #   condition: numeric_state
+  #   #   entity_id: sensor.living_room_motion_illuminance_lux
+  #   - condition: time
+  #     after: '05:30:00'
+  #     before: '22:30:00'
+  #   action:
+  #   - service: scene.turn_on  
+  #     data:
+  #       entity_id: scene.normal_livingroom_lighting
+
+
+  # Inside lights are not needed when it gets bright enough...using living lux sensor as proxy for kitchen
+  # - id: e1c9352e-0423-11eb-adc1-0242ac120002
+  #   alias: Inside Lights Not Needed
+  #   initial_state: true
+  #   trigger:
+  #   - entity_id: sensor.living_room_motion_illuminance_lux
+  #     above: 99
+  #     platform: numeric_state
+  #   condition:
+  #     - condition: state
+  #       entity_id: light.living_room_tower_lamp
+  #       state: "on"
+  #   action:
+  #   - service: scene.turn_on  
+  #     data:
+  #       entity_id: scene.livingroom_lighting_off
+  #   - service: script.twitter_notify
+  #     data:
+  #       message: >-
+  #         {{ [ "Looks like it is bright enough now, so I am turning off the inside lights.",
+  #               "It is now bright enough to turn off the inside lights, so thats what I did. Just now. ",
+  #               "There is enough natural light, so I am turning off the inside lights.",
+  #               "Thanks to #homeassistant and an Aqara Sensor I know it is bright enought to turn off the inside lights."
+  #             ] | random }}
+
+
+script:
+
+  inside_all_off:
+    sequence:
+    - data:
+        entity_id: light.master_bedroom_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.kitchen_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.living_room_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.entryway_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.den_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.bedroom_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.upstairs_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.basement_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.downstairs_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.front_yard_lights
+      service: light.turn_off
+    - data:
+        entity_id: light.light.bathroom_2_lights
+      service: light.turn_off
+    - entity_id: switch.garage_lights
+      service: switch.turn_off
+    - entity_id: switch.clock_light
+      service: switch.turn_off
+    - entity_id: switch.phone_light
+      service: switch.turn_off
+
+  # inside_all_on:
+  #   sequence:
+  #   - service: scene.turn_on
+  #     entity_id: scene.normal_livingroom_lighting
+  #   - service: scene.turn_on
+  #     entity_id: scene.normal_kitchen_lighting
+  #   - service: switch.turn_on
+  #     entity_id: switch.fireplace_lights
+  #   - service: switch.turn_on
+  #     entity_id: switch.croft_light
+  #   - service: switch.turn_on
+  #     entity_id: switch.rail_lights
+  #   - service: scene.turn_on
+  #     entity_id: scene.jeff_light_on
+    
+  driveway_on:
+    sequence:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    - data:
+        entity_id: light.driveway_left
+      service: switch.turn_on
+    - data:
+        entity_id: light.driveway_right
+      service: light.turn_on
+  
+  driveway_off:
+    sequence:
+    - delay:
+        seconds: 120
+    - condition: state
+      entity_id: binary_sensor.garage_side_door_contact
+      state: 'off'
+    - condition: state
+      entity_id: cover.garage_door
+      state: 'closed'
+    - service: switch.turn_off
+      entity_id: light.driveway_light
+    - service: light.turn_off
+      entity_id: light.driveway_right
+
+#   # Turn on Living Room Lights if sun is down or cloud coverage is above 70%
+#   livingroom_lamps_on:
+#     sequence:
+#     - condition: or
+#       conditions:
+#         - condition: state  
+#           entity_id: sun.sun
+#           state: 'below_horizon'
+#     - service: scene.turn_on 
+#       entity_id: scene.normal_livingroom_lighting
+
+#   # Turn off Living Room Lights if sun is up and it is sunny or partly cloudy
+#   livingroom_lights_off:
+#     sequence:
+#     - condition: and
+#       conditions:
+#         - condition: state  
+#           entity_id: sun.sun
+#           state: 'above_horizon'
+#         - condition: state
+#           entity_id: binary_sensor.living_room_occupancy
+#           state: 'off'
+#         - condition: template
+#           value_template: >
+#             {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+#               true
+#             {%- endif -%}
+#     - service: group.turn_off 
+#       entity_id: group.livingroom
+
+
+#   # Turn off Kitchen Lights if sun is up and it is sunny or partly cloudy
+#   kitchen_lights_off:
+#     sequence:
+#     - condition: and
+#       conditions:
+#         - condition: state  
+#           entity_id: sun.sun
+#           state: 'above_horizon'
+#         - condition: state
+#           entity_id: binary_sensor.kitchen_occupancy
+#           state: 'off'
+#         - condition: template
+#           value_template: >
+#             {%- if states.weather.home.state == "sunny" or states.weather.home.state == "partlycloudy" -%}
+#               true
+#             {%- endif -%}
+#     - service: group.turn_off 
+#       entity_id: group.kitchen
+    
+#   good_night_loft:
+#     sequence:
+#     - condition: state
+#       entity_id: media_player.pn60e550_pn60e550
+#       state: "off"
+#     - service: switch.turn_off
+#       entity_id: switch.croft_fan
+#     - service: switch.turn_off
+#       entity_id: switch.croft_light
+
+
+# #################################################
+  
+#   theater_lights_out:
+#     sequence:
+#     - condition: and
+#       conditions:
+#       - condition: state
+#         entity_id: media_player.theater_tv
+#         state: 'off'
+#       - condition: state  
+#         entity_id: binary_sensor.theater_occupancy
+#         state: 'off'
+#     - service: scene.turn_on
+#       entity_id: scene.theater_dark
+#     - service: switch.turn_off
+#       entity_id: switch.theater_fan
+
+#   theater_lights_down:
+#     sequence:
+#     - service: scene.turn_on
+#       entity_id: scene.theater_dim 
+#     - delay:
+#         minutes: 1
+#     - service: scene.turn_on
+#       entity_id: scene.theater_dark 
+
+#   theater_lights_up:
+#     sequence:
+#     - service: scene.turn_on
+#       entity_id: scene.theater_dim 
+#     - delay:
+#         minutes: 1
+#     - service: scene.turn_on
+#       entity_id: scene.theater_bright
+
+# #################################################
+
+  master_bedroom_lights_w_level:
+    sequence:
+      - service: light.turn_on
+        entity_id: light.jeff_lamp, light.master_bedroom_tower_lamp, light.kat_lamp
+        data:
+          brightness: >
+              {{ level | int }}
+          color_temp: 369
+        
+      
+  master_bedroom_morning_wakeup_lighting:
+    sequence:
+      - repeat:
+          while:
+            - condition: template
+              value_template: '{{ states("input_number.master_bedroom_wakeup") | int < 256 }}'
+          sequence:
+            - service: script.master_bedroom_lights_w_level
+              data:
+                  level: '{{ states("input_number.master_bedroom_wakeup") }}'
+            - service: input_number.increment
+              entity_id: input_number.master_bedroom_wakeup
+            - delay: 00:01:00
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.master_bedroom_wakeup
+          value: 17
+      

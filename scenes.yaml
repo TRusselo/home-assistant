@@ -1,156 +1,16 @@
 - id: '1602877444454'
   name: Tristyn Morning HASS
   entities:
-    light.master_bedroom_ceiling:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 84
-      hs_color:
-      - 42.902
-      - 75.686
-      rgb_color:
-      - 255
-      - 200
-      - 62
-      xy_color:
-      - 0.5
-      - 0.442
-      mode: normal
-      dynamics: none
-      friendly_name: Master Bedroom Ceiling
-      supported_features: 40
-      state: 'on'
-    light.master_bedroom_ceiling_2:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 92
-      hs_color:
-      - 43.03
-      - 77.647
-      rgb_color:
-      - 255
-      - 199
-      - 57
-      xy_color:
-      - 0.504
-      - 0.443
-      mode: normal
-      dynamics: none
-      friendly_name: Master Bedroom Ceiling
-      supported_features: 40
-      state: 'on'
-    light.bed_light:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 89
-      hs_color:
-      - 43.03
-      - 77.647
-      rgb_color:
-      - 255
-      - 199
-      - 57
-      xy_color:
-      - 0.504
-      - 0.443
-      mode: normal
-      dynamics: none
-      friendly_name: Bed light
-      supported_features: 40
-      state: 'on'
-    light.bedroom_spot:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 92
-      hs_color:
-      - 43.03
-      - 77.647
-      rgb_color:
-      - 255
-      - 199
-      - 57
-      xy_color:
-      - 0.504
-      - 0.443
-      mode: normal
-      dynamics: none
-      friendly_name: Bedroom Spot
-      supported_features: 40
-      state: 'on'
-    light.desk_light:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 89
-      hs_color:
-      - 46.364
-      - 43.137
-      rgb_color:
-      - 255
-      - 230
-      - 145
-      xy_color:
-      - 0.417
-      - 0.414
-      mode: normal
-      dynamics: none
-      friendly_name: Desk Light
-      supported_features: 40
-      state: 'on'
-    light.mbr_lamp:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 89
-      hs_color:
-      - 43.03
-      - 77.647
-      rgb_color:
-      - 255
-      - 199
-      - 57
-      xy_color:
-      - 0.504
-      - 0.443
-      mode: normal
-      dynamics: none
-      friendly_name: MBR Lamp
-      supported_features: 40
-      state: 'on'
     switch.morning_harmony_activity_2:
       friendly_name: Morning [Harmony Activity]
       state: 'on'
     switch.coffee_machine:
-      icon: mdi:coffee-maker
       friendly_name: Coffee machine
       state: 'on'
     switch.espresso_machine:
       friendly_name: Espresso machine
       state: 'off'
     switch.computer_monitor:
-      icon: mdi:monitor
       friendly_name: Computer Monitor
       state: 'on'
     switch.touchscreen_monitor_led:
@@ -1419,7 +1279,6 @@
       friendly_name: Basement Lights
       supported_features: 40
       state: 'off'
-      
 - id: '1644362810178'
   name: Living Room Lights OFF
   entities:

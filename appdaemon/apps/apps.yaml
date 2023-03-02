@@ -5,3 +5,4 @@ qolsys_panel:
   panel_token: !secret panel_token
   panel_user_code: 2536
   discovery_topic: homeassistant
+  

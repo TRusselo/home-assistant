@@ -1,5 +1,7 @@
 qolsys_panel:
   module: gateway
   class: QolsysGateway
-  panel_host: http://192.168.1.130
-  panel_token: 6an0bc
+  panel_host: 192.168.1.95
+  panel_token: uu30x6
+  panel_user_code: 2536
+  discovery_topic: homeassistant

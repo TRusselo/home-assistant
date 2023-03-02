@@ -1,4 +1,8 @@
 sensor:
+  - platform: torque
+    name: Tristyn's Ram
+    email: tristynrusselo@gmail.com
+
   - platform: emby_upcoming_media
     api_key: !secret emby_api
     user_id: !secret emby_id
@@ -11,57 +15,6 @@ sensor:
       - Movies
       - TV shows
 
-  - platform: sonarr_upcoming_media
-    api_key: !secret sonarr_api
-    host: 192.168.1.12
-    port: 8989
-    days: 3
-    ssl: false
-    max: 10
-
-  - platform: radarr_upcoming_media
-    api_key: !secret radarr_api
-    host: 192.168.1.12
-    port: 7878
-    days: 14
-    ssl: false
-    theaters: false
-    max: 10
-
-  - platform: integration
-    source: sensor.computer_monitor_power_meter
-    name: computer_monitor_energy_spent
-    unit_prefix: k
-    round: 2
-
-  - platform: integration
-    source: sensor.humidifier_power_meter
-    name: humidifier_energy_spent
-    unit_prefix: k
-    round: 2
-
-  - platform: integration
-    source: sensor.lava_lamp_power_meter
-    name: lava_lamp_energy_spent
-    unit_prefix: k
-    round: 2
-
-  - platform: integration
-    source: sensor.washer_power_meter
-    name: washer_energy_spent
-    unit_prefix: k
-    round: 2
-
-##  - platform: mqtt
-##    name: "Ram Torque"
-##    state_topic: "devices/ram1500/torque"
-##    value_template: "{{ state_attr('sensor.ram_torque','GPS Time') }}"
-##    jason_attributes_topic: "devices/ram1500/torque"
-
-#  - platform: pushbullet
-#    api_key: !secret pushbullet_api
-
-
   - platform: template
     sensors:
       van_dte:
@@ -69,51 +22,27 @@ sensor:
         unit_of_measurement: 'Km'
         value_template: "{{ state_attr('sensor.fordpass_fuel','distanceToEmpty') }}"
         icon_template: mdi:gas-station
-      big_d_array_total_space:
-        friendly_name: "Array Total Space"
-        unit_of_measurement: 'TB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','arrayTotalSpace') }}"
-      big_d_array_free_space:
-        friendly_name: "Array Free Space"
-        unit_of_measurement: 'TB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','arrayFreeSpace') }}"
-      big_d_array_used_space:
-        friendly_name: "Array Used Space"
-        unit_of_measurement: 'TB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','arrayUsedSpace') }}"
-      big_d_cache_total_space:
-        friendly_name: "Cache Total Space"
-        unit_of_measurement: 'GB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','cacheTotalSpace') }}"
-      big_d_cache_free_space:
-        friendly_name: "Cache Free Space"
-        unit_of_measurement: 'GB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','cacheFreeSpace') }}"
-      big_d_cache_used_space:
-        friendly_name: "Cache Used Space"
-        unit_of_measurement: 'GB'
-        value_template: "{{ state_attr('binary_sensor.big_d_server','cacheUsedSpace') }}"
       fordpass_oil_actual:
         friendly_name: "Oil Life"
         unit_of_measurement: '%'
         value_template: "{{ state_attr('sensor.fordpass_oil','OilLifeActual') }}"
 
       dayoftheweek:
+        friendly_name: Day of the Week
         value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}"
       month:
         value_template: "{{ ['January','February','March','April','May','June','July','August','September','October','November','December'][now().month-1] }}"
       dateofthemonth:
         value_template: "{{ ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','13th','14th','15th','16th','17th','18th','19th','20th','21th','22th','23th','24th','25th','26th','27th','28th','29th','30th','31th' ][ now().day-1] }}"
-
-  - platform: deluge
-    host: 192.168.1.12
-    username: !secret deluge_user
-    password: !secret deluge_pass
-    monitored_variables:
-      - 'current_status'
-      - 'download_speed'
-      - 'upload_speed'
       
+      count_zwave_devices:
+        friendly_name: 'ZWave'
+        icon_template: mdi:z-wave
+        value_template: >
+          {% set total = states|selectattr('object_id', 'search', 'node_status')|list|count %}
+          {% set dead = states|selectattr('object_id', 'search', 'node_status')|selectattr('state', 'in', 'dead, unavailable, unknown') | list | count %}
+          {{ total - dead }} Alive/{{ total }} Total
+
   - platform: time_date
     display_options:
       - 'time'
@@ -125,55 +54,25 @@ sensor:
       - 'time_utc'
       - 'beat'
 
-# Use Home Assistant to Suggest Clothing Based On The Weather
-# Creating a Template sensor to map the ambient temperature to clothing options
-  - platform: template
-    sensors:
-      # Give it a name to be meaningful
-      clothing_forecast:
-        friendly_name: Weather Dress Code
-        # Use a value template to return a different clothing suggestion, by interrogating the outside temperature
-        value_template: >-
-          {% if state_attr('weather.openweathermap', 'temperature') |float < 0 %}
-            Full Winter Gear
-          {% elif state_attr('weather.openweathermap', 'temperature') |float < 7 %}
-            Gloves & Winter Coat
-          {% elif state_attr('weather.openweathermap', 'temperature') |float < 12 %}
-            Your Coat & Scarf
-          {% elif state_attr('weather.openweathermap', 'temperature') |float < 17 %}
-            A Sport Coat
-          {% elif state_attr('weather.openweathermap', 'temperature') |float < 22 %}
-            Jeans & A T-Shirt
-          {% else %}
-            Shorts & A Vest
-          {% endif %}
-        # Set icon based on general weather range outside; snow for cold, clouds for average, and sun for hot
-        icon_template: >-
-          {% if state_attr('weather.openweathermap', 'temperature') |float < 10 %}
-            mdi:weather-snowy-heavy
-          {% elif state_attr('weather.openweathermap', 'temperature') |float < 20 %}
-            mdi:weather-partly-cloudy
-          {% else %}
-            mdi:weather-sunny
-          {% endif %}
+  - platform: radarr_upcoming_media
+    api_key: !secret radarr_api
+    host: 192.168.1.12
+    port: 7878
+    days: 14
+    ssl: false
+    theaters: false
+    max: 10
 
-  # - platform: waze_travel_time
-  #   name: "Tristyn ETT Home"
-  #   #api_key: !secret google_api
-  #   origin: device_tracker.note_10
-  #   destination: zone.home
-  #   region: 'US'
-  # - platform: waze_travel_time
-  #   name: "Terry ETT Home"
-  #   #api_key: !secret google_api
-  #   origin: device_tracker.pixel_4_xl
-  #   destination: zone.home
-  #   region: 'US'
+  - platform: sonarr_upcoming_media
+    api_key: !secret sonarr_api
+    host: 192.168.1.12
+    port: 8989
+    days: 7
+    ssl: false
+    max: 10
+
 
 binary_sensor:
-  # - platform: torque
-  #   name: Tristyn's Ram
-  #   email: tristynrusselo@gmail.com
 
   - platform: tod
     name: Daylight
@@ -205,3 +104,8 @@ binary_sensor:
     after: '21:00'
     before: '04:00'
 
+template:
+  - binary_sensor:
+      name: "Thermostat Fan Mode"
+      state: "{{ state_attr('climate.thermostat','fan_mode') }}"
+      unique_id: 2q3o4iu23odj0-sdfsdfs-w3r34f3essdf34e

@@ -1,16 +1,16 @@
 - id: '1602877444454'
   name: Tristyn Morning HASS
   entities:
-    switch.morning_harmony_activity_2:
-      friendly_name: Morning [Harmony Activity]
-      state: 'on'
     switch.coffee_machine:
+      icon: mdi:coffee-maker
       friendly_name: Coffee machine
       state: 'on'
     switch.espresso_machine:
+      icon: mdi:coffee
       friendly_name: Espresso machine
-      state: 'off'
+      state: 'on'
     switch.computer_monitor:
+      icon: mdi:desktop-classic
       friendly_name: Computer Monitor
       state: 'on'
     switch.touchscreen_monitor_led:
@@ -21,32 +21,153 @@
       icon: mdi:monitor
       friendly_name: Touchscreen Monitor
       state: 'on'
+    switch.harmony_hub_morning:
+      friendly_name: Morning
+      state: 'on'
+    select.harmony_hub_activities_2:
+      options:
+      - power_off
+      - Morning
+      - PC Mode
+      - Watch TV
+      device_class: harmony__activities
+      icon: mdi:remote-tv
+      friendly_name: Master Bedroom Harmony Hub Activities
+      state: Morning
+    remote.harmony_hub_2:
+      activity_list:
+      - Watch TV
+      - PC Mode
+      - Morning
+      current_activity: Morning
+      activity_starting:
+      devices_list:
+      - Humidifier
+      - Polk Audio Amp
+      - LG TV
+      - Google Media Player
+      - Sony PS4
+      - Yamaha AV Receiver
+      - Master Bedroom TV
+      - TELUS DVR
+      - Windows Computer
+      last_activity: Morning
+      friendly_name: Master Bedroom Master Bedroom Harmony Hub
+      supported_features: 4
+      state: 'on'
   icon: mdi:weather-sunset-up
+  metadata:
+    switch.harmony_hub_morning:
+      entity_only: true
+    select.harmony_hub_activities_2:
+      entity_only: true
+    remote.harmony_hub_2:
+      entity_only: true
 - id: '1612993471869'
   name: Entryway Day
   entities:
-    light.entryway_upper:
-      brightness: 255
-      friendly_name: Entryway Upper
-      supported_features: 33
-      state: 'on'
     light.entryway_lower:
-      brightness: 255
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 254
+      off_with_transition: false
+      off_brightness:
       friendly_name: Entryway Lower
-      supported_features: 33
+      supported_features: 40
       state: 'on'
+    light.hue_white_lamp_1_3:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Entryway Lower 2
+      supported_features: 44
+      color_mode: brightness
+      brightness: 252
+      effect: None
+      state: 'on'
+    light.entryway_upper:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Entryway Upper 2
+      supported_features: 44
+      color_mode: brightness
+      brightness: 255
+      effect: None
+      state: 'on'
+    light.entryway_upper_2:
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - brightness
+      friendly_name: Entryway Upper
+      supported_features: 44
+      color_mode: brightness
+      state: 'on'
+  metadata: {}
 - id: '1612993573678'
   name: Entryway Night
   entities:
     light.entryway_lower:
-      brightness: 128
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 69
+      off_with_transition: false
+      off_brightness:
       friendly_name: Entryway Lower
-      supported_features: 33
+      supported_features: 40
       state: 'on'
-    light.entryway_upper:
-      friendly_name: Entryway Upper
-      supported_features: 33
+    light.hue_white_lamp_1_3:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Entryway Lower 2
+      supported_features: 44
       state: 'off'
+    light.entryway_upper:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Entryway Upper 2
+      supported_features: 44
+      state: 'off'
+    light.entryway_upper_2:
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - brightness
+      friendly_name: Entryway Upper
+      supported_features: 44
+      state: 'off'
+  metadata: {}
 - id: '1643999550072'
   name: Den Lights On
   entities:
@@ -56,6 +177,10 @@
       supported_color_modes:
       - color_temp
       - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den 1
+      supported_features: 40
       color_mode: xy
       brightness: 255
       hs_color:
@@ -68,10 +193,6 @@
       xy_color:
       - 0.312
       - 0.321
-      mode: normal
-      dynamics: none
-      friendly_name: Den 1
-      supported_features: 40
       state: 'on'
     light.den_2:
       min_mireds: 153
@@ -79,6 +200,10 @@
       supported_color_modes:
       - color_temp
       - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den 2
+      supported_features: 40
       color_mode: xy
       brightness: 255
       hs_color:
@@ -91,10 +216,6 @@
       xy_color:
       - 0.312
       - 0.321
-      mode: normal
-      dynamics: none
-      friendly_name: Den 2
-      supported_features: 40
       state: 'on'
     light.den_desk_lamp:
       min_mireds: 153
@@ -102,6 +223,10 @@
       supported_color_modes:
       - color_temp
       - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den Desk Lamp
+      supported_features: 40
       color_mode: xy
       brightness: 255
       hs_color:
@@ -114,10 +239,6 @@
       xy_color:
       - 0.312
       - 0.321
-      mode: normal
-      dynamics: none
-      friendly_name: Den Desk Lamp
-      supported_features: 40
       state: 'on'
     light.den_lamp:
       min_mireds: 153
@@ -125,6 +246,10 @@
       supported_color_modes:
       - color_temp
       - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den Lamp
+      supported_features: 40
       color_mode: xy
       brightness: 255
       hs_color:
@@ -137,87 +262,57 @@
       xy_color:
       - 0.312
       - 0.321
-      mode: normal
-      dynamics: none
-      friendly_name: Den Lamp
-      supported_features: 40
       state: 'on'
     switch.den_fan:
       icon: mdi:fan
       friendly_name: Den Fan
       state: 'on'
-    switch.den_left_monitor:
-      friendly_name: Den Monitor Left
-      state: 'on'
-    switch.den_right_monitor:
-      friendly_name: Den Monitor Right
-      state: 'on'
-    switch.watch_pc_harmony_activity_2:
-      friendly_name: Watch PC [Harmony Activity]
+    light.den_3:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Den 3
+      supported_features: 44
+      color_mode: xy
+      brightness: 255
+      hs_color:
+      - 0
+      - 0.392
+      rgb_color:
+      - 255
+      - 254
+      - 254
+      xy_color:
+      - 0.323
+      - 0.329
+      effect: None
       state: 'on'
   icon: mdi:sofa
-- id: '1644000551046'
-  name: Bedroom 2 Cool White
-  entities:
-    light.bedroom_2_ceiling:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 223.2
-      - 16
-      rgb_color:
-      - 214
-      - 225
-      - 255
-      xy_color:
-      - 0.289
-      - 0.296
-      color_temp: 200
-      friendly_name: Bedroom 2 Ceiling
-      supported_features: 51
-      state: 'on'
-    light.bedroom_2_lamp:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 223.2
-      - 16
-      rgb_color:
-      - 214
-      - 225
-      - 255
-      xy_color:
-      - 0.289
-      - 0.296
-      color_temp: 200
-      friendly_name: Bedroom 2 Lamp
-      supported_features: 51
-      state: 'on'
-    switch.bedroom_2_fan:
-      icon: mdi:fan
-      friendly_name: Bedroom 2 Fan
-      state: 'on'
-  icon: mdi:bed
+  metadata: {}
 - id: '1644001553407'
   name: Kitchen Day
   entities:
     light.kitchen_ceiling:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
       color_mode: color_temp
       brightness: 255
+      color_temp_kelvin: 5000
       color_temp: 200
       hs_color:
       - 27.001
@@ -229,16 +324,25 @@
       xy_color:
       - 0.372
       - 0.35
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      effect: None
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 2
+      supported_features: 44
       state: 'on'
     light.kitchen_ceiling_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
       color_mode: color_temp
       brightness: 255
+      color_temp_kelvin: 5000
       color_temp: 200
       hs_color:
       - 27.001
@@ -250,16 +354,25 @@
       xy_color:
       - 0.372
       - 0.35
+      effect: None
+      mode: normal
+      dynamics: none
       friendly_name: Kitchen Ceiling
-      supported_features: 35
+      supported_features: 44
       state: 'on'
     light.kitchen_ceiling_3:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
       color_mode: color_temp
       brightness: 255
+      color_temp_kelvin: 5000
       color_temp: 200
       hs_color:
       - 27.001
@@ -271,61 +384,91 @@
       xy_color:
       - 0.372
       - 0.35
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      effect: None
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 1
+      supported_features: 44
       state: 'on'
     light.kitchen_island:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 44
       color_mode: color_temp
-      brightness: 255
-      color_temp: 200
+      brightness: 253
+      color_temp_kelvin: 5524
+      color_temp: 181
       hs_color:
-      - 27.001
-      - 19.243
+      - 28.004
+      - 12.556
       rgb_color:
       - 255
-      - 228
-      - 205
+      - 237
+      - 222
       xy_color:
-      - 0.372
-      - 0.35
-      friendly_name: Kitchen Island
-      supported_features: 35
+      - 0.354
+      - 0.343
       state: 'on'
     light.kitchen_island_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
+      friendly_name: Kitchen Island 2
+      supported_features: 44
       color_mode: color_temp
-      brightness: 255
-      color_temp: 200
+      brightness: 253
+      color_temp_kelvin: 5291
+      color_temp: 189
       hs_color:
-      - 27.001
-      - 19.243
+      - 27.423
+      - 15.428
       rgb_color:
       - 255
-      - 228
-      - 205
+      - 233
+      - 215
       xy_color:
-      - 0.372
-      - 0.35
-      friendly_name: Kitchen Island
-      supported_features: 35
+      - 0.362
+      - 0.346
       state: 'on'
+  metadata: {}
 - id: '1644001807480'
   name: Kitchen Dimmed
   entities:
-    light.kitchen_ceiling:
-      min_mireds: 111
-      max_mireds: 500
+    light.kitchen_ceiling_4:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
       color_mode: color_temp
       brightness: 166
+      color_temp_kelvin: 2702
       color_temp: 370
       hs_color:
       - 28.391
@@ -337,16 +480,32 @@
       xy_color:
       - 0.526
       - 0.387
+      effect: None
+      entity_id:
+      - light.kitchen_ceiling_2
+      - light.kitchen_ceiling_3
+      - light.kitchen_ceiling
+      icon: mdi:lightbulb-group
       friendly_name: Kitchen Ceiling
-      supported_features: 35
+      supported_features: 44
       state: 'on'
-    light.kitchen_ceiling_2:
-      min_mireds: 111
-      max_mireds: 500
+    light.kitchen_island_group:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - channel_change
+      - finish_effect
+      - okay
+      - stop_effect
       supported_color_modes:
       - color_temp
       color_mode: color_temp
-      brightness: 166
+      brightness: 165
+      color_temp_kelvin: 2702
       color_temp: 370
       hs_color:
       - 28.391
@@ -358,82 +517,35 @@
       xy_color:
       - 0.526
       - 0.387
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
-      state: 'on'
-    light.kitchen_ceiling_3:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      color_mode: color_temp
-      brightness: 166
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
-      state: 'on'
-    light.kitchen_island_2:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      color_mode: color_temp
-      brightness: 166
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
+      entity_id:
+      - light.kitchen_island
+      - light.kitchen_island_2
+      icon: mdi:lightbulb-group
       friendly_name: Kitchen Island
-      supported_features: 35
+      supported_features: 44
       state: 'on'
-    light.kitchen_island:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      color_mode: color_temp
-      brightness: 166
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      friendly_name: Kitchen Island
-      supported_features: 35
-      state: 'on'
+  metadata:
+    light.kitchen_ceiling_4:
+      entity_only: true
+    light.kitchen_island_group:
+      entity_only: true
 - id: '1644002034527'
   name: Kitchen Nightlight
   entities:
     light.kitchen_table:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 4000
+      min_mireds: 250
+      max_mireds: 454
       supported_color_modes:
       - color_temp
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Kitchen Table Light
+      supported_features: 40
       color_mode: color_temp
       brightness: 26
+      color_temp_kelvin: 2702
       color_temp: 370
       hs_color:
       - 28.391
@@ -445,16 +557,31 @@
       xy_color:
       - 0.526
       - 0.387
-      friendly_name: Kitchen Table
-      supported_features: 35
       state: 'on'
     light.kitchen_island_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
       supported_color_modes:
       - color_temp
+      friendly_name: Kitchen Island
+      supported_features: 40
+      state: unavailable
+    light.kitchen_island:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      supported_color_modes:
+      - color_temp
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Kitchen Island
+      supported_features: 40
       color_mode: color_temp
       brightness: 26
+      color_temp_kelvin: 2702
       color_temp: 370
       hs_color:
       - 28.391
@@ -466,172 +593,128 @@
       xy_color:
       - 0.526
       - 0.387
-      friendly_name: Kitchen Island
-      supported_features: 35
       state: 'on'
-    light.kitchen_island:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      friendly_name: Kitchen Island
-      supported_features: 35
-      state: 'off'
     light.kitchen_table_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 4000
+      min_mireds: 250
+      max_mireds: 454
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Table 2
-      supported_features: 35
+      off_with_transition: false
+      off_brightness: 254
+      friendly_name: Kitchen Table Light
+      supported_features: 40
       state: 'off'
     light.kitchen_ceiling:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 2
+      supported_features: 44
       state: 'off'
     light.kitchen_ceiling_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
+      mode: normal
+      dynamics: none
       friendly_name: Kitchen Ceiling
-      supported_features: 35
+      supported_features: 44
       state: 'off'
     light.kitchen_ceiling_3:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 1
+      supported_features: 44
       state: 'off'
+  metadata: {}
 - id: '1644003671681'
   name: Living Room Day
   entities:
-    light.living_room_1:
-      min_mireds: 111
+    light.living_room_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      - sunrise
       supported_color_modes:
       - color_temp
-      - hs
-      color_mode: hs
+      - xy
+      entity_id:
+      - light.living_room_1
+      - light.living_room_2
+      - light.living_room_3
+      - light.living_room_4
+      - light.living_room_tv_light_strip
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_1_2
+      icon: mdi:lightbulb-group
+      friendly_name: Living Room Lights
+      supported_features: 44
+      color_mode: color_temp
       brightness: 255
+      color_temp_kelvin: 4291
+      color_temp: 233
       hs_color:
-      - 50.4
-      - 29
+      - 26.727
+      - 29.841
       rgb_color:
       - 255
-      - 243
-      - 181
+      - 212
+      - 178
       xy_color:
-      - 0.381
-      - 0.393
-      color_temp: 303
-      friendly_name: Living Room 1
-      supported_features: 51
+      - 0.405
+      - 0.36
+      effect: None
       state: 'on'
-    light.living_room_2:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 50.4
-      - 29
-      rgb_color:
-      - 255
-      - 243
-      - 181
-      xy_color:
-      - 0.381
-      - 0.393
-      color_temp: 303
-      friendly_name: Living Room 2
-      supported_features: 51
-      state: 'on'
-    light.living_room_3:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 50.4
-      - 29
-      rgb_color:
-      - 255
-      - 243
-      - 181
-      xy_color:
-      - 0.381
-      - 0.393
-      color_temp: 303
-      friendly_name: Living Room 3
-      supported_features: 51
-      state: 'on'
-    light.living_room_4:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 50.4
-      - 29
-      rgb_color:
-      - 255
-      - 243
-      - 181
-      xy_color:
-      - 0.381
-      - 0.393
-      color_temp: 303
-      friendly_name: Living Room 4
-      supported_features: 51
-      state: 'on'
-    light.living_room_tv_light_strip:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 50.4
-      - 29
-      rgb_color:
-      - 255
-      - 243
-      - 181
-      xy_color:
-      - 0.381
-      - 0.393
-      color_temp: 303
-      friendly_name: Living Room TV Light Strip
-      supported_features: 51
-      state: 'on'
+  metadata:
+    light.living_room_lights:
+      entity_only: true
 - id: '1644004496145'
   name: Upstairs Day 100%
   entities:
     light.upstairs_top:
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       friendly_name: Upstairs Top
-      supported_features: 33
+      supported_features: 44
+      color_mode: brightness
+      brightness: 253
       state: 'on'
     light.stairs_1:
       supported_color_modes:
@@ -643,16 +726,21 @@
       friendly_name: Stairs 1
       supported_features: 40
       state: 'on'
-    light.stairs_2:
+    light.hue_white_lamp_2:
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - brightness
       color_mode: brightness
       brightness: 255
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: Stairs 2
-      supported_features: 40
+      supported_features: 44
       state: 'on'
+  metadata: {}
 - id: '1644004533345'
   name: Upstairs Evening 40%
   entities:
@@ -660,73 +748,83 @@
       supported_color_modes:
       - brightness
       friendly_name: Upstairs Top
-      supported_features: 33
-      state: 'off'
+      supported_features: 32
+      color_mode: brightness
+      brightness: 102
+      state: 'on'
     light.stairs_1:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       mode: normal
       dynamics: none
       friendly_name: Stairs 1
       supported_features: 40
+      color_mode: brightness
+      brightness: 102
       state: 'on'
-    light.stairs_2:
+    light.hue_white_lamp_2:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       mode: normal
       dynamics: none
       friendly_name: Stairs 2
       supported_features: 40
+      color_mode: brightness
+      brightness: 102
       state: 'on'
+  metadata: {}
 - id: '1644004567730'
   name: Upstairs Morning 60%
   entities:
     light.upstairs_top:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       friendly_name: Upstairs Top
-      supported_features: 33
+      supported_features: 32
+      color_mode: brightness
+      brightness: 150
       state: 'on'
     light.stairs_1:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       mode: normal
       dynamics: none
       friendly_name: Stairs 1
       supported_features: 40
+      color_mode: brightness
+      brightness: 153
       state: 'on'
-    light.stairs_2:
+    light.hue_white_lamp_2:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 255
       mode: normal
       dynamics: none
       friendly_name: Stairs 2
       supported_features: 40
+      color_mode: brightness
+      brightness: 156
       state: 'on'
+  metadata: {}
 - id: '1644004694253'
   name: Upstairs Nightlight
   entities:
     light.stairs_1:
       supported_color_modes:
       - brightness
-      color_mode: brightness
-      brightness: 38
       mode: normal
       dynamics: none
       friendly_name: Stairs 1
       supported_features: 40
+      color_mode: brightness
+      brightness: 38
       state: 'on'
-    light.stairs_2:
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      friendly_name: Upstairs Top
+      supported_features: 32
+      state: 'off'
+    light.hue_white_lamp_2:
       supported_color_modes:
       - brightness
       mode: normal
@@ -734,16 +832,13 @@
       friendly_name: Stairs 2
       supported_features: 40
       state: 'off'
-    light.upstairs_top:
-      supported_color_modes:
-      - brightness
-      friendly_name: Upstairs Top
-      supported_features: 33
-      state: 'off'
+  metadata: {}
 - id: '1644005701431'
   name: Master Bedroom On
   entities:
     light.master_bedroom_ceiling:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       supported_color_modes:
@@ -751,7 +846,6 @@
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -766,16 +860,23 @@
       dynamics: none
       friendly_name: Master Bedroom Ceiling
       supported_features: 40
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.master_bedroom_ceiling_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -786,20 +887,28 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: Master Bedroom Ceiling
-      supported_features: 40
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.master_bedroom_tv_spotlight:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -810,20 +919,28 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: MBR TV Spot
-      supported_features: 40
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.desk_light:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -834,12 +951,17 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: Desk Light
-      supported_features: 40
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.bed_light:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       supported_color_modes:
@@ -847,7 +969,6 @@
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -862,16 +983,23 @@
       dynamics: none
       friendly_name: Bed light
       supported_features: 40
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.mbr_lamp:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -882,20 +1010,28 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: MBR Lamp
-      supported_features: 40
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.bedroom_spot:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -906,35 +1042,28 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: Bedroom Spot
-      supported_features: 40
-      state: 'on'
-    switch.clock_light:
-      icon: mdi:clock
-      friendly_name: Clock Light
-      state: 'on'
-    switch.phone_light:
-      icon: mdi:phone-classic
-      friendly_name: Phone Light
-      state: 'on'
-    switch.lava_lamp:
-      icon: mdi:lava-lamp
-      friendly_name: Lava Lamp
-      state: 'on'
-    switch.watch_pc_harmony_activity:
-      friendly_name: Watch PC [Harmony Activity]
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     light.master_bedroom_ceiling_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
       color_mode: color_temp
       brightness: 255
-      color_temp: 233
       hs_color:
       - 26.727
       - 29.841
@@ -945,208 +1074,236 @@
       xy_color:
       - 0.405
       - 0.36
+      effect: None
       mode: normal
       dynamics: none
       friendly_name: Master Bedroom Ceiling
-      supported_features: 40
+      supported_features: 44
+      color_temp_kelvin: 4291
+      color_temp: 233
       state: 'on'
     switch.computer_monitor:
+      icon: mdi:desktop-classic
       friendly_name: Computer Monitor
       state: 'on'
-    switch.touchscreen_monitor_led:
-      icon: mdi:led-on
-      friendly_name: Touchscreen Monitor LED
-      state: 'on'
     switch.touchscreen_monitor:
+      icon: mdi:monitor
       friendly_name: Touchscreen Monitor
       state: 'on'
+  metadata: {}
 - id: '1644007500447'
   name: Movie Mode Scene
   entities:
-    light.kitchen_ceiling:
+    light.entryway_lights:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.entryway_lower
+      - light.hue_white_lamp_1_3
+      - light.entryway_upper_2
+      - light.entryway_upper
+      icon: mdi:lightbulb-group
+      friendly_name: Entryway Lights
+      supported_features: 44
+      state: 'off'
+    light.upstairs_lights:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.stairs_1
+      - light.hue_white_lamp_2
+      - light.upstairs_top
+      icon: mdi:lightbulb-group
+      friendly_name: Upstairs Lights
+      supported_features: 44
+      state: 'off'
+    light.kitchen_ceiling_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9009
       min_mireds: 111
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
+      entity_id:
+      - light.kitchen_ceiling_2
+      - light.kitchen_ceiling_3
+      - light.kitchen_ceiling
+      icon: mdi:lightbulb-group
       friendly_name: Kitchen Ceiling
-      supported_features: 35
+      supported_features: 44
       state: 'off'
-    light.kitchen_ceiling_2:
-      min_mireds: 111
-      max_mireds: 500
+    light.kitchen_island_group:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
-      state: 'off'
-    light.kitchen_ceiling_3:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
-      state: 'off'
-    light.kitchen_table:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      friendly_name: Kitchen Table
-      supported_features: 35
-      state: 'off'
-    light.kitchen_island:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
+      entity_id:
+      - light.kitchen_island_2
+      icon: mdi:lightbulb-group
       friendly_name: Kitchen Island
-      supported_features: 35
+      supported_features: 40
       state: 'off'
-    light.kitchen_island_2:
-      min_mireds: 111
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      friendly_name: Kitchen Island
-      supported_features: 35
-      state: 'off'
-    light.entryway_lower:
-      supported_color_modes:
-      - brightness
-      friendly_name: Entryway Lower
-      supported_features: 33
-      state: 'off'
-    light.entryway_upper:
-      supported_color_modes:
-      - brightness
-      friendly_name: Entryway Upper
-      supported_features: 33
-      state: 'off'
-    light.stairs_1:
-      supported_color_modes:
-      - brightness
-      friendly_name: Stairs 1
-      supported_features: 33
-      state: 'off'
-    light.stairs_2:
-      supported_color_modes:
-      - brightness
-      friendly_name: Stairs 2
-      supported_features: 33
-      state: 'off'
-    light.upstairs_top:
-      supported_color_modes:
-      - brightness
-      friendly_name: Upstairs Top
-      supported_features: 33
-      state: 'off'
+  metadata:
+    light.entryway_lights:
+      entity_only: true
+    light.upstairs_lights:
+      entity_only: true
+    light.kitchen_ceiling_4:
+      entity_only: true
+    light.kitchen_island_group:
+      entity_only: true
 - id: '1644212736941'
   name: Kitchen Lights OFF
   entities:
     light.kitchen_ceiling:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 2
+      supported_features: 44
       state: 'off'
     light.kitchen_ceiling_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
+      mode: normal
+      dynamics: none
       friendly_name: Kitchen Ceiling
-      supported_features: 35
+      supported_features: 44
       state: 'off'
     light.kitchen_ceiling_3:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - None
+      - candle
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Ceiling
-      supported_features: 35
+      mode: normal
+      dynamics: none
+      friendly_name: Kitchen Ceiling 1
+      supported_features: 44
       state: 'off'
     light.kitchen_table:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 4000
+      min_mireds: 250
+      max_mireds: 454
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
       friendly_name: Kitchen Table
-      supported_features: 35
+      supported_features: 44
       state: 'off'
     light.kitchen_table_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 4000
+      min_mireds: 250
+      max_mireds: 454
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
       friendly_name: Kitchen Table 2
-      supported_features: 35
+      supported_features: 44
       state: 'off'
     light.kitchen_island:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
       friendly_name: Kitchen Island
-      supported_features: 35
+      supported_features: 44
       state: 'off'
     light.kitchen_island_2:
-      min_mireds: 111
-      max_mireds: 500
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
       supported_color_modes:
       - color_temp
-      friendly_name: Kitchen Island
-      supported_features: 35
+      friendly_name: Kitchen Island 2
+      supported_features: 44
       state: 'off'
+  metadata: {}
 - id: '1644354387327'
   name: Den Off
   entities:
-    light.den_1:
+    light.den_lights:
       min_mireds: 153
       max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
       supported_color_modes:
       - color_temp
       - xy
-      mode: normal
-      dynamics: none
-      friendly_name: Den 1
-      supported_features: 40
+      entity_id:
+      - light.den_1
+      - light.den_2
+      - light.den_3
+      - light.den_desk_lamp
+      - light.den_lamp
+      icon: mdi:lightbulb-group
+      friendly_name: Den Lights
+      supported_features: 44
       state: 'off'
-    light.den_2:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      mode: normal
-      dynamics: none
-      friendly_name: Den 2
-      supported_features: 40
-      state: 'off'
-    light.den_desk_lamp:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      mode: normal
-      dynamics: none
-      friendly_name: Den Desk Lamp
-      supported_features: 40
-      state: 'off'
-    light.den_lamp:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      mode: normal
-      dynamics: none
-      friendly_name: Den Lamp
-      supported_features: 40
-      state: 'off'
+  metadata: {}
 - id: '1644356744585'
   name: Master Bedroom ALL OFF
   entities:
@@ -1183,7 +1340,7 @@
       - PC Mode
       - Watch TV
       - Morning
-      current_activity: PowerOff
+      current_activity: power_off
       activity_starting:
       devices_list:
       - Humidifier
@@ -1199,9 +1356,6 @@
       friendly_name: Master Bedroom Harmony Hub
       supported_features: 4
       state: 'off'
-    switch.harmony_hub_playstation:
-      friendly_name: Harmony Hub PlayStation
-      state: 'off'
     switch.harmony_hub_pc_mode:
       friendly_name: Harmony Hub PC Mode
       state: 'off'
@@ -1213,14 +1367,14 @@
       state: 'off'
     select.harmony_hub_activities_2:
       options:
-      - PowerOff
+      - power_off
       - Morning
       - PC Mode
       - PlayStation
       - Watch TV
       icon: mdi:remote-tv-off
       friendly_name: Harmony Hub Activities
-      state: PowerOff
+      state: power_off
     switch.touchscreen_monitor_led:
       icon: mdi:led-on
       friendly_name: Touchscreen Monitor LED
@@ -1316,15 +1470,29 @@
   name: Entryway Lights OFF
   entities:
     light.entryway_lights:
+      effect_list:
+      - None
+      - blink
+      - breathe
+      - candle
+      - channel_change
+      - finish_effect
+      - okay
+      - stop_effect
       supported_color_modes:
       - brightness
       entity_id:
       - light.entryway_lower
+      - light.hue_white_lamp_1_3
+      - light.entryway_upper_2
       - light.entryway_upper
       icon: mdi:lightbulb-group
       friendly_name: Entryway Lights
-      supported_features: 32
+      supported_features: 44
       state: 'off'
+  metadata:
+    light.entryway_lights:
+      entity_only: true
 - id: '1644861233299'
   name: House Cleaning
   entities:
@@ -1335,7 +1503,7 @@
       brightness: 255
       entity_id:
       - light.entryway_lower
-      - light.entryway_upper
+      - light.entryway_upper_2
       icon: mdi:lightbulb-group
       friendly_name: Entryway Lights
       supported_features: 32
@@ -1436,7 +1604,6 @@
       brightness: 255
       entity_id:
       - light.stairs_1
-      - light.stairs_2
       - light.upstairs_top
       icon: mdi:lightbulb-group
       friendly_name: Upstairs  Lights
@@ -1527,13 +1694,6 @@
       icon: mdi:lightbulb-group
       friendly_name: Master Bedroom Lights
       supported_features: 40
-      state: 'on'
-    light.master_bathroom_light:
-      supported_color_modes:
-      - onoff
-      color_mode: onoff
-      friendly_name: Master Bathroom Lights
-      supported_features: 0
       state: 'on'
     light.bathroom_2_lights:
       supported_color_modes:
@@ -1707,3 +1867,244 @@
       friendly_name: Front Step Upper
       supported_features: 40
       state: 'off'
+- id: '1669324852391'
+  name: Upstairs lights Off
+  entities:
+    light.stairs_1:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 1
+      supported_features: 40
+      state: 'off'
+    light.hue_white_lamp_2:
+      effect_list:
+      - None
+      - candle
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Stairs 2
+      supported_features: 44
+      state: 'off'
+    light.upstairs_top:
+      supported_color_modes:
+      - brightness
+      friendly_name: Upstairs Top
+      supported_features: 32
+      state: 'off'
+  metadata: {}
+- id: '1671564779727'
+  name: Nat Geo Wild in Living Room
+  entities:
+    remote.harmony_hub:
+      activity_list:
+      - Watch Netflix
+      - Living Room Telus
+      - Watch Smart TV
+      current_activity: Living Room Telus
+      activity_starting:
+      devices_list:
+      - Technicolor DVR
+      - Living Room TV
+      - Yamaha AV Receiver
+      last_activity: Living Room Telus
+      friendly_name: Living Room Harmony Hub
+      supported_features: 4
+      state: 'on'
+    switch.harmony_hub_watch_netflix:
+      friendly_name: Harmony Hub Watch Netflix
+      state: 'off'
+    switch.harmony_hub_living_room_telus:
+      friendly_name: Living Room Telus
+      state: 'on'
+    switch.harmony_hub_watch_smart_tv:
+      friendly_name: Living Room TV
+      state: 'off'
+    select.harmony_hub_activities:
+      options:
+      - power_off
+      - Living Room Telus
+      - Watch Netflix
+      - Watch Smart TV
+      device_class: harmony__activities
+      icon: mdi:remote-tv
+      friendly_name: Harmony Hub Activities
+      state: Living Room Telus
+  metadata: {}
+- id: '1671571001492'
+  name: Animal Planet in Living Room
+  entities:
+    remote.harmony_hub:
+      activity_list:
+      - Watch Netflix
+      - Living Room Telus
+      - Watch Smart TV
+      current_activity: Living Room Telus
+      activity_starting:
+      devices_list:
+      - Technicolor DVR
+      - Living Room TV
+      - Yamaha AV Receiver
+      last_activity: Living Room Telus
+      friendly_name: Living Room Harmony Hub
+      supported_features: 4
+      state: 'on'
+    switch.harmony_hub_watch_netflix:
+      friendly_name: Harmony Hub Watch Netflix
+      state: 'off'
+    switch.harmony_hub_living_room_telus:
+      friendly_name: Living Room Telus
+      state: 'on'
+    switch.harmony_hub_watch_smart_tv:
+      friendly_name: Living Room TV
+      state: 'off'
+    select.harmony_hub_activities:
+      options:
+      - power_off
+      - Living Room Telus
+      - Watch Netflix
+      - Watch Smart TV
+      device_class: harmony__activities
+      icon: mdi:remote-tv
+      friendly_name: Harmony Hub Activities
+      state: Living Room Telus
+  metadata: {}
+- id: '1671571153566'
+  name: MSNBC in Living Room
+  entities:
+    remote.harmony_hub:
+      activity_list:
+      - Watch Netflix
+      - Living Room Telus
+      - Watch Smart TV
+      current_activity: Living Room Telus
+      activity_starting:
+      devices_list:
+      - Technicolor DVR
+      - Living Room TV
+      - Yamaha AV Receiver
+      last_activity: Living Room Telus
+      friendly_name: Living Room Harmony Hub
+      supported_features: 4
+      state: 'on'
+    switch.harmony_hub_watch_netflix:
+      friendly_name: Harmony Hub Watch Netflix
+      state: 'off'
+    switch.harmony_hub_living_room_telus:
+      friendly_name: Living Room Telus
+      state: 'on'
+    switch.harmony_hub_watch_smart_tv:
+      friendly_name: Android TV
+      state: 'off'
+    select.harmony_hub_activities:
+      options:
+      - power_off
+      - Living Room Telus
+      - Watch Netflix
+      - Watch Smart TV
+      device_class: harmony__activities
+      icon: mdi:remote-tv
+      friendly_name: Living Room Harmony Hub
+      state: Living Room Telus
+  metadata: {}
+- id: '1672279482070'
+  name: Bedroom 2 - On
+  entities:
+    light.bedroom_2_ceiling:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Bedroom 2 Ceiling
+      supported_features: 40
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 4291
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      state: 'on'
+    light.bedroom_2_lamp:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Bedroom 2 Lamp
+      supported_features: 40
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 4291
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      state: 'on'
+    switch.bedroom_2_fan:
+      icon: mdi:fan
+      friendly_name: Bedroom 2 Fan
+      state: 'on'
+    fan.bedroom_2_fan:
+      friendly_name: Bedroom 2 Fan
+      supported_features: 0
+      state: 'on'
+    light.bedroom_2_ceiling_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      supported_color_modes:
+      - color_temp
+      - xy
+      mode: normal
+      dynamics: none
+      friendly_name: Bedroom 2 Ceiling
+      supported_features: 44
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 4291
+      color_temp: 233
+      hs_color:
+      - 26.727
+      - 29.841
+      rgb_color:
+      - 255
+      - 212
+      - 178
+      xy_color:
+      - 0.405
+      - 0.36
+      effect: None
+      state: 'on'
+  metadata: {}

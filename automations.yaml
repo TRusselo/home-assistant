@@ -4,7 +4,7 @@
   trigger:
   - type: opened
     platform: device
-    device_id: f0f5d38389fe2ed0c12cc101298101ac
+    device_id: cb817c7dcd0ae3254a9d012244c85186
     entity_id: binary_sensor.master_bedroom_window_contact
     domain: binary_sensor
   condition: []
@@ -20,7 +20,7 @@
   trigger:
   - type: not_opened
     platform: device
-    device_id: f0f5d38389fe2ed0c12cc101298101ac
+    device_id: cb817c7dcd0ae3254a9d012244c85186
     entity_id: binary_sensor.master_bedroom_window_contact
     domain: binary_sensor
   condition: []
@@ -35,31 +35,51 @@
   description: Turn off Fan after 1 hour
   trigger:
   - platform: device
-    type: turned_off
-    device_id: 320324f5ed743a544878bac263decc8d
-    entity_id: light.bath_fan
-    domain: light
+    type: turned_on
+    device_id: 51712097468aee01ce672151da882347
+    entity_id: fan.bath_fan
+    domain: fan
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
   condition: []
   action:
   - type: turn_off
-    device_id: 320324f5ed743a544878bac263decc8d
-    entity_id: light.bath_fan
-    domain: light
+    device_id: 51712097468aee01ce672151da882347
+    entity_id: fan.bath_fan
+    domain: fan
   mode: single
 - id: '1601933548957'
-  alias: Movie Mode Off
-  description: Turn off movie mode when Sony TV is turned off
+  alias: Movie Mode Off by Sony TV
+  description: Turn off movie mode when Sony TV is turned off, or emby pauses
   trigger:
   - platform: state
     to: 'off'
-    entity_id: media_player.sony_bravia_tv
-  condition: []
+    entity_id:
+    - media_player.android_tv_living_room
+  - platform: state
+    entity_id:
+    - media_player.android_tv_living_room
+    from: playing
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.movie_mode
+    state: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
   action:
-  - type: turn_off
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
-  mode: single
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.movie_mode
+  mode: restart
 - alias: set Themes - by caulecriativo.com
   initial_state: true
   trigger:
@@ -75,64 +95,69 @@
   description: ''
   trigger:
   - platform: time
-    at: 06:45:00
+    at: input_datetime.tristyn_wakeup_time
   condition:
-  - condition: template
-    value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
-      - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
-      - as_timestamp(now())) > 0) }}'
-  - condition: zone
-    entity_id: person.tristyn
-    zone: zone.home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.tristyn_morning_wakeup
+      state: 'on'
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+          - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+          - as_timestamp(now())) > 0) }}'
+      - condition: zone
+        entity_id: person.tristyn
+        zone: zone.home
+      - condition: state
+        entity_id: calendar.tristyn_vacation
+        state: 'off'
   action:
-  - scene: scene.tristyn_morning_hass
-  - type: turn_on
-    device_id: 65f76838ebee7ca1d98948adfc22217c
-    entity_id: switch.coffee_machine
+  - service: scene.turn_on
+    target:
+      entity_id: scene.tristyn_morning_hass
+    metadata: {}
+  - type: toggle
+    device_id: 264e08b63b489b711feff7063e310af9
+    entity_id: switch.espresso_machine
     domain: switch
-  mode: single
-- id: '1603155361949'
-  alias: Dad leaving work Notification
-  description: ''
-  trigger:
-  - platform: zone
-    zone: zone.mcmurray_coin
-    event: leave
-    entity_id: device_tracker.pixel_4_xl
-  condition:
-  - condition: time
-    after: '16:30:00'
-    before: '22:00:00'
-  action:
-  - service: tts.amazon_polly_say
-    data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> Dad has left McMurray Coin. </speak>
-      cache: true
+  - choose:
+    - conditions:
+      - condition: sun
+        before: sunset
+        after: sunrise
+        after_offset: 00:30:00
+      sequence:
+      - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+        domain: cover
+        entity_id: cover.master_bedroom_shade
+        type: set_position
+        position: 100
   mode: single
 - id: '1603156991145'
-  alias: Dad arriving home Notification
+  alias: Dad coming home automation
   description: ''
   trigger:
   - platform: zone
     zone: zone.home
     event: enter
     entity_id: person.terry
-  condition:
-  - condition: time
-    after: '17:45:00'
-    before: '22:00:00'
+  condition: []
   action:
-  - device_id: 67c7c88fdea1705874b9368cf1be4a90
-    domain: lock
-    entity_id: lock.front_door_lock
-    type: unlock
+  - service: lock.unlock
+    data: {}
+    target:
+      entity_id: lock.front_deadbolt
   - scene: scene.den_lights_on
-  - service: tts.amazon_polly_say
+  - type: turn_on
+    device_id: ee9ef71468ecfd9bc08b3316889ed7a4
+    entity_id: switch.den_hub_watch_pc
+    domain: switch
+  - service: notify.mobile_app_tristyn_s_note_10
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/>  Dad is Home.  </speak>
-      cache: true
+      message: Dad has arrived home.
   mode: single
 - id: '1603417837218'
   alias: Garage Lights on.
@@ -143,19 +168,23 @@
     to: 'on'
   - type: opened
     platform: device
-    device_id: 942da1a99ee1405269fa8b91b27a133d
+    device_id: 62c596a4ffc555668803b25c21198a7f
     entity_id: binary_sensor.garage_house_door_sensor_contact
     domain: binary_sensor
   - type: opened
     platform: device
-    device_id: 3c0e1fb299794cbf01ddd0dcf5695aec
+    device_id: 73e677d6b468bee892c70bbaeba97a7d
     entity_id: binary_sensor.garage_side_door_contact
     domain: binary_sensor
   - platform: device
-    device_id: 125f7408d222cbbe4bc1f895e38f33f4
+    device_id: af7d0b942f696737856bbd9cb4ccd6d0
     domain: cover
     entity_id: cover.garage_door
     type: opened
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_motion
+    to: 'on'
   condition: []
   action:
   - type: turn_on
@@ -176,7 +205,7 @@
     before: 04:00:00
   action:
   - type: turn_on
-    device_id: 047c0643649a32cd89ea182f16d97caa
+    device_id: 84c242827a1e3823bcef7d262fd36718
     entity_id: switch.humidifier
     domain: switch
   mode: single
@@ -192,7 +221,7 @@
   condition: []
   action:
   - type: turn_off
-    device_id: 047c0643649a32cd89ea182f16d97caa
+    device_id: 84c242827a1e3823bcef7d262fd36718
     entity_id: switch.humidifier
     domain: switch
   mode: single
@@ -206,14 +235,23 @@
     to: idle
   condition:
   - condition: time
-    after: 07:00
-    before: '21:00'
+    after: 07:00:00
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Bitch is undocked. </speak>
+      entity_id: media_player.notification_group_2
+      message: The Bitch has completed, but has not returned to it's dock.
       cache: true
+      language: en-us
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: The bitch has completed, but not returned to it's dock.
+      title: Vacuum Notification
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      message: The bitch has completed, but not returned to its dock.
+      title: Vacuum Notification
   mode: single
 - id: '1606065939947'
   alias: Vacuum Done - Docked Notification
@@ -226,12 +264,12 @@
   condition:
   - condition: time
     after: 07:00
-    before: '21:00'
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/>  The Bitch has returned to its dock. </speak>
+      entity_id: media_player.notification_group_2
+      message: The Bitch has returned to its dock.
       cache: true
   mode: single
 - id: '1606067377914'
@@ -245,26 +283,22 @@
   condition:
   - condition: time
     after: 07:00
-    before: '21:00'
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Bitch has beem undocked for 30 minutes.
-        </speak>
+      entity_id: media_player.notification_group_2
+      message: The bitch has been undocked for 30 minutes.
       cache: true
-  - service: notify.mobile_app_note_10
+      language: en-us
+  - service: notify.mobile_app_tristyn_s_note_10
     data:
-      title: BitchVac
       message: The Bitch has been undocked for 30 min.
-      data:
-        channel: Vacuum
-  - service: notify.mobile_app_pixel_4_xl
+      title: Vacuum Notification
+  - service: notify.mobile_app_terry_s_flip
     data:
-      title: BitchVac
       message: The Bitch has been undocked for 30 min.
-      data:
-        channel: Vacuum
+      title: Vacuum Notification
   mode: single
 - id: '1606185951384'
   alias: Alert for open windows when raining Notification
@@ -275,28 +309,28 @@
     to: rain
   condition:
   - condition: state
-    entity_id: binary_sensor.day
+    entity_id: binary_sensor.house_windows
     state: 'on'
   action:
-  - service: tts.google_translate_say
-    entity_id: media_player.whole_home_group
+  - service: tts.google_say
+    entity_id: media_player.notification_group_2
     data_template:
       message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
-        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        state_attr('binary_sensor.house_windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
         ') }} is opened.
-  - service: notify.mobile_app_note_10
+  - service: notify.mobile_app_tristyn_s_note_10
     data:
       title: Alert
       message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
-        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        state_attr('binary_sensor.house_windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
         ') }} is opened.
       data:
         channel: Alert
-  - service: notify.mobile_app_pixel_4_xl
+  - service: notify.mobile_app_terry_s_flip
     data:
       title: Alert
       message: It is raining and the {{ dict((states|selectattr('entity_id', 'in',
-        state_attr('group.windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
+        state_attr('binary_sensor.house_windows', 'entity_id'))|list)|groupby('state'))['on']|map(attribute='name')|list|join(',
         ') }} is opened.
       data:
         channel: Alert
@@ -317,9 +351,12 @@
       attribute: temperature
       below: '10'
     - condition: template
-      value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
-        - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
-        - as_timestamp(now())) > 0) }}'
+      value_template: "{%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work',
+        'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom(\"%Y-%m-%d\") == now().strftime(\"%Y-%m-%d\")
+        %}\n  true\n{%- endif -%}\n"
+    - condition: state
+      entity_id: calendar.tristyn_vacation
+      state: 'off'
   action:
   - service: switch.turn_on
     data: {}
@@ -335,15 +372,14 @@
     from: cleaning
   condition:
   - condition: time
-    after: 07:00
-    before: '21:00'
+    after: 07:00:00
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Bitch has finished but not returned
-        to its dock. </speak>
-      cache: true
+      entity_id: media_player.kitchen_display, media_player.red_mini, media_player.basement_speakers
+      message: The bitch has completed, but not returned to its dock.
+      language: en-us
   mode: single
 - id: '1606859940715'
   alias: Vacuum Stuck Notification
@@ -357,13 +393,22 @@
   condition:
   - condition: time
     after: 07:00
-    before: '21:00'
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The bitch is stuck on something </speak>
+      entity_id: media_player.notification_group_2
+      message: The bitch is stuck.
       cache: true
+      language: en-us
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: The bitch is stuck
+      title: Vacuum Notification
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Vacuum Notification
+      message: The bitch is stuck
   mode: single
 - id: '1606927468760'
   alias: Van Update when On
@@ -416,26 +461,6 @@
     entity_id: light.closet
     domain: light
   mode: single
-- id: '1608000372569'
-  alias: Dryer Stopped Notification
-  description: ''
-  trigger:
-  - type: no_motion
-    platform: device
-    device_id: 92b7756818a3c1d832367a00f6c3ff29
-    entity_id: binary_sensor.smartdry_motion
-    domain: binary_sensor
-  condition:
-  - condition: time
-    after: 07:00
-    before: '21:00:00'
-  action:
-  - service: tts.amazon_polly_say
-    data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The Laundry Dryer is done.  </speak>
-      cache: true
-  mode: single
 - id: '1608778716366'
   alias: Coffee Maker OFF after 2 hours
   description: ''
@@ -454,55 +479,13 @@
       entity_id: switch.coffee_machine
       state: 'off'
   mode: single
-- id: '1610159219685'
-  alias: Driveway Lights
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.blueiris_front_yard_motion
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: sun.sun
-    state: below_horizon
-  action:
-  - type: turn_on
-    device_id: 3dca8ade7ecacdb686a7df2d51194228
-    entity_id: light.driveway_left
-    domain: light
-    brightness_pct: 60
-  - type: turn_on
-    device_id: 3a9e191abdaecb725d68b1b2d9b4994b
-    entity_id: light.driveway_right
-    domain: light
-    brightness_pct: 60
-  - wait_for_trigger:
-    - platform: state
-      entity_id: binary_sensor.blueiris_front_yard_motion
-      from: 'on'
-      to: 'off'
-      for:
-        hours: 0
-        minutes: 2
-        seconds: 0
-    continue_on_timeout: true
-  - type: turn_off
-    device_id: 8ecec859e1b575f063ccfa1edf1e57b2
-    entity_id: light.driveway_left
-    domain: light
-  - type: turn_off
-    device_id: 7ef8d87219ff7e131ab4ecfdfe4d0c4f
-    entity_id: light.driveway_right
-    domain: light
-  mode: restart
 - id: '1610166256230'
   alias: PTZ Front Door Opened
   description: ''
   trigger:
   - type: opened
     platform: device
-    device_id: 1abf48bef78976c98e45df54bbca0ae0
+    device_id: e54d8a38965049c11432e724455635cd
     entity_id: binary_sensor.front_door_contact
     domain: binary_sensor
   condition: []
@@ -512,59 +495,34 @@
   - wait_for_trigger:
     - type: not_opened
       platform: device
-      device_id: 1abf48bef78976c98e45df54bbca0ae0
+      device_id: e54d8a38965049c11432e724455635cd
       entity_id: binary_sensor.front_door_contact
       domain: binary_sensor
       for:
         hours: 0
         minutes: 0
-        seconds: 10
+        seconds: 5
   - service: shell_command.ptz_living_room_home
     data: {}
   mode: restart
-- id: '1611541140303'
-  alias: Closet Motion
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      no_motion_wait: 120
-      motion_entity: binary_sensor.closet_motion_motion
-      light_target:
-        device_id: 1bc4cb05aa790414c3f7a2cb1d3e25a7
-- id: '1611548335833'
-  alias: Downstairs Motion
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      no_motion_wait: 60
-      motion_entity: binary_sensor.downstairs_motion_motion
-      light_target:
-        area_id: 29d411c511274ebd9ac1f36d90108150
 - id: '1611624120527'
   alias: Front Door Left Open Notification
   description: ''
   trigger:
   - type: opened
     platform: device
-    device_id: 1abf48bef78976c98e45df54bbca0ae0
+    device_id: e54d8a38965049c11432e724455635cd
     entity_id: binary_sensor.front_door_contact
     domain: binary_sensor
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
   condition:
   - condition: time
-    after: 07:00
-    before: '21:00'
+    after: 07:00:00
+    before: '21:00:00'
   action:
-  - service: tts.amazon_polly_say
+  - service: tts.google_say
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> The front door has been open for 1 minute.
-        </speak>
+      entity_id: media_player.notification_group_2
+      message: The front door has been open for 1 minute.
       cache: true
   mode: single
 - id: '1620852053408'
@@ -579,9 +537,9 @@
   condition: []
   action:
   - type: turn_off
-    device_id: 29bc8e749b6d144ce52b3ad15d0923ca
-    entity_id: switch.watch_pc_harmony_activity
-    domain: switch
+    device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+    entity_id: remote.harmony_hub_2
+    domain: remote
   mode: single
 - id: '1623246395659'
   alias: Van status every morning
@@ -594,14 +552,13 @@
   - platform: time
     at: '8:30'
   - platform: time
-    at: '9:00'
+    at: 09:00:00
   - platform: time
-    at: '10:15'
-  - platform: time
-    at: '11:15'
+    at: '10:15:00'
   condition: []
   action:
   - service: script.refresh_van_status
+    data: {}
   mode: single
 - id: '1623710777330'
   alias: Entryway Motion
@@ -609,28 +566,35 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 426d4dadf45129480adc7eba29001d25
-    entity_id: binary_sensor.entryway_motion_sensor_motion
+    device_id: 10363391ecab7584cd61ba00b29101db
+    entity_id: binary_sensor.entryway_motion_sensor_occupancy
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: e54d8a38965049c11432e724455635cd
+    entity_id: binary_sensor.front_door_contact
     domain: binary_sensor
   condition:
-  - condition: device
-    type: is_off
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
+  - condition: state
+    entity_id: input_boolean.movie_mode
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
   - choose:
     - conditions:
       - condition: time
         after: '21:00:00'
-        before: 06:00:00
+        before: 04:30:00
       sequence:
       - scene: scene.entryway_night
     default:
     - scene: scene.entryway_day
   - wait_for_trigger:
     - platform: state
-      entity_id: binary_sensor.entryway_motion_sensor_motion
+      entity_id:
+      - binary_sensor.entryway_motion_sensor_occupancy
       to: 'off'
       for:
         hours: 0
@@ -638,28 +602,17 @@
         seconds: 0
   - scene: scene.entryway_lights_off
   mode: restart
-- id: '1623973313137'
-  alias: Basement Lights Motion
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      motion_entity: binary_sensor.basement_motion_sensor_motion
-      light_target:
-        area_id: a4843c495370486694b714a6d8059f0f
-      no_motion_wait: 1800
 - id: '1627523367951'
   alias: PC Mode ON when Monitor ON
   description: Turn on Master Bedroom Samsung when Monitor Energy is Above level
   trigger:
   - platform: numeric_state
-    entity_id: sensor.computer_monitor_power_meter
+    entity_id: sensor.computer_monitor_power
     above: '100'
     for:
       hours: 0
       minutes: 0
-      seconds: 0
-      milliseconds: 0
+      seconds: 5
   condition:
   - condition: device
     type: is_off
@@ -668,8 +621,8 @@
     domain: remote
   action:
   - type: turn_on
-    device_id: 29bc8e749b6d144ce52b3ad15d0923ca
-    entity_id: switch.watch_pc_harmony_activity
+    device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+    entity_id: switch.harmony_hub_pc_mode
     domain: switch
   mode: single
 - id: '1640303827755'
@@ -684,20 +637,10 @@
   condition: []
   action:
   - type: turn_off
-    device_id: a5b90327cf51253ab7260943bbfa0dc2
-    entity_id: switch.lava_lamp_2
+    device_id: dc201c0bbc3a181674d9fdd2b7b56ac5
+    entity_id: switch.lava_lamp
     domain: switch
   mode: single
-- id: '1640801629505'
-  alias: Home Assistant Update Notification for Android
-  description: ''
-  use_blueprint:
-    path: fortepc/update-notif-for-android.yaml
-    input:
-      clickAction: https://russelo.duckdns.org/Docker
-      delay: 0
-      notify_device: 938e5464ad15197e2a41e5e255c145bd
-      include_hasspodcast: true
 - id: '1643769865590'
   alias: Den fan and TV off with lights
   description: ''
@@ -724,17 +667,24 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 610fab9c5dd3a4c930e9257e96fb7b1e
-    entity_id: binary_sensor.den_motion_sensor_motion
+    device_id: 507d0b2f88e1d3c774bcc420e19d10d1
+    entity_id: binary_sensor.den_motion_occupancy
     domain: binary_sensor
   condition:
   - condition: device
     type: is_off
-    device_id: 890b3843ca6231858f521cf3d493b9a7
-    entity_id: light.den_1
+    device_id: 69bf6136979f5fb6d693fd293d036dd5
+    entity_id: light.den_2
     domain: light
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
   - scene: scene.den_lights_on
+  - type: turn_on
+    device_id: ee9ef71468ecfd9bc08b3316889ed7a4
+    entity_id: switch.den_hub_watch_pc
+    domain: switch
   mode: single
 - id: '1643999847452'
   alias: Master Bathroom Off with Master Bedroom
@@ -748,8 +698,8 @@
   condition: []
   action:
   - type: turn_off
-    device_id: f39d615f0c0436d4edc5bea541de402e
-    entity_id: switch.master_bathroom_lights_2
+    device_id: d6fa0500bf02a49a44c7892bee9e810e
+    entity_id: switch.master_bathroom_lights
     domain: switch
   mode: single
 - id: '1643999963797'
@@ -758,7 +708,7 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 66d9d7fbf6c5eca82419f70bd7300828
+    device_id: e40ff633ee805b22bdce5cd40be2d760
     entity_id: binary_sensor.master_bathroom_motion_sensor_motion
     domain: binary_sensor
   condition:
@@ -769,8 +719,8 @@
     domain: light
   action:
   - type: turn_on
-    device_id: f39d615f0c0436d4edc5bea541de402e
-    entity_id: switch.master_bathroom_lights_2
+    device_id: d6fa0500bf02a49a44c7892bee9e810e
+    entity_id: switch.master_bathroom_lights
     domain: switch
   mode: single
 - id: '1644000768041'
@@ -779,8 +729,8 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 7fc359d6bd078aea056c79c5ba54ea10
-    entity_id: binary_sensor.bedroom_2_motion_sensor_motion
+    device_id: f849bcb08c1f7afc1a790d176fdd5dbc
+    entity_id: binary_sensor.bedroom_2_motion_sensor_occupancy
     domain: binary_sensor
   condition:
   - condition: and
@@ -788,16 +738,22 @@
     - condition: time
       after: 05:00:00
       before: '21:00:00'
-    - condition: state
-      entity_id: media_player.android_tv_bedroom_2
-      state: 'off'
     - condition: device
       type: is_off
       device_id: ef18381fcb995cb2db05df77185f09e3
       entity_id: light.bedroom_2_ceiling
       domain: light
+    - condition: state
+      entity_id: switch.bedroom_2_bed_sensor
+      state: 'off'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
-  - scene: scene.bedroom_2_cool_white
+  - service: scene.turn_on
+    target:
+      entity_id: scene.bedroom_2_on
+    metadata: {}
   mode: single
 - id: '1644004902127'
   alias: Upstairs Motion
@@ -805,100 +761,206 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 43300729bf4b7b09da50b7486d5da1dc
-    entity_id: binary_sensor.upstairs_motion_sensor_motion
+    device_id: 9ca4f6b2556959ecf29d476a6af80458
+    entity_id: binary_sensor.upstairs_motion_sensor_occupancy
     domain: binary_sensor
   condition:
-  - condition: device
-    type: is_off
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
+  - condition: state
+    entity_id: input_boolean.movie_mode
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
   - choose:
     - conditions:
-      - condition: state
-        entity_id: binary_sensor.evening
-        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: switch.bedroom_2_bed_sensor
+          state: 'on'
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: switch.bedroom_2_bed_sensor
+            state: 'off'
+            for:
+              hours: 0
+              minutes: 5
+              seconds: 0
       sequence:
-      - scene: scene.upstairs_evening
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.night
-        state: 'on'
-      sequence:
-      - scene: scene.upstairs_nightlight
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.morning
-        state: 'on'
-      sequence:
-      - scene: scene.upstairs_morning
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.evening
+            state: 'on'
+          sequence:
+          - type: turn_on
+            device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+            entity_id: light.stairs_1
+            domain: light
+            brightness_pct: 40
+          - type: turn_on
+            device_id: bee25a52e7c3fde0bab25c70c53ec482
+            entity_id: light.hue_white_lamp_2
+            domain: light
+            brightness_pct: 40
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.night
+            state: 'on'
+          sequence:
+          - type: turn_on
+            device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+            entity_id: light.stairs_1
+            domain: light
+            brightness_pct: 15
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.morning
+            state: 'on'
+          sequence:
+          - type: turn_on
+            device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+            entity_id: light.stairs_1
+            domain: light
+            brightness_pct: 60
+          - type: turn_on
+            device_id: bee25a52e7c3fde0bab25c70c53ec482
+            entity_id: light.hue_white_lamp_2
+            domain: light
+            brightness_pct: 60
+        default:
+        - type: turn_on
+          device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+          entity_id: light.stairs_1
+          domain: light
+          brightness_pct: 100
+        - type: turn_on
+          device_id: bee25a52e7c3fde0bab25c70c53ec482
+          entity_id: light.hue_white_lamp_2
+          domain: light
+          brightness_pct: 100
     default:
-    - scene: scene.upstairs_day
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: binary_sensor.evening
+          state: 'on'
+        sequence:
+        - type: turn_on
+          device_id: dbe1135f531fbb3e910c4400b4744112
+          entity_id: light.upstairs_top
+          domain: light
+          brightness_pct: 40
+        - type: turn_on
+          device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+          entity_id: light.stairs_1
+          domain: light
+          brightness_pct: 40
+        - type: turn_on
+          device_id: bee25a52e7c3fde0bab25c70c53ec482
+          entity_id: light.hue_white_lamp_2
+          domain: light
+          brightness_pct: 40
+      - conditions:
+        - condition: state
+          entity_id: binary_sensor.night
+          state: 'on'
+        sequence:
+        - type: turn_on
+          device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+          entity_id: light.stairs_1
+          domain: light
+          brightness_pct: 15
+      - conditions:
+        - condition: state
+          entity_id: binary_sensor.morning
+          state: 'on'
+        sequence:
+        - type: turn_on
+          device_id: dbe1135f531fbb3e910c4400b4744112
+          entity_id: light.upstairs_top
+          domain: light
+          brightness_pct: 60
+        - type: turn_on
+          device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+          entity_id: light.stairs_1
+          domain: light
+          brightness_pct: 60
+        - type: turn_on
+          device_id: bee25a52e7c3fde0bab25c70c53ec482
+          entity_id: light.hue_white_lamp_2
+          domain: light
+          brightness_pct: 60
+      default:
+      - type: turn_on
+        device_id: dbe1135f531fbb3e910c4400b4744112
+        entity_id: light.upstairs_top
+        domain: light
+        brightness_pct: 100
+      - type: turn_on
+        device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
+        entity_id: light.stairs_1
+        domain: light
+        brightness_pct: 100
+      - type: turn_on
+        device_id: bee25a52e7c3fde0bab25c70c53ec482
+        entity_id: light.hue_white_lamp_2
+        domain: light
+        brightness_pct: 100
   - wait_for_trigger:
     - platform: state
-      entity_id: binary_sensor.upstairs_motion_sensor_motion
+      entity_id:
+      - binary_sensor.upstairs_motion_sensor_occupancy
       to: 'off'
       for:
         hours: 0
-        minutes: 1
-        seconds: 0
-  - type: turn_off
-    device_id: c61a51df3d748962daefa31ce7ae16c9
-    entity_id: light.upstairs_top
-    domain: light
-  - type: turn_off
-    device_id: 743bbb311f4b142e9b10ac2f74d5c3f7
-    entity_id: light.stairs_1
-    domain: light
-  - type: turn_off
-    device_id: 023f164143d1f5bebb0b5596929efefa
-    entity_id: light.stairs_2
-    domain: light
+        minutes: 0
+        seconds: 40
+  - service: scene.turn_on
+    target:
+      entity_id: scene.upstairs_lights_off
+    metadata: {}
   mode: restart
 - id: '1644006278146'
-  alias: Emby Movie Mode ON
-  description: ''
+  alias: Movie Mode On by Emby on Sony TV
+  description: Turn on Movie mode by Emby, in evening when table lights off
   trigger:
   - platform: state
-    entity_id: media_player.android_tv_living_room
+    entity_id:
+    - media_player.android_tv_living_room
     to: playing
   condition:
   - condition: and
     conditions:
     - condition: state
-      entity_id: media_player.android_tv_living_room
       state: tv.emby.embyatv
       attribute: app_id
+      entity_id: media_player.android_tv_living_room
     - condition: device
       type: is_off
-      device_id: b2bf370b92dceb98e6068a1b08c90e82
+      device_id: 4e6bd31c2554ea26ff861582e2e6d0b6
       entity_id: light.kitchen_table_2
       domain: light
     - condition: time
-      after: '19:00:00'
+      after: '17:00:00'
       before: 03:00:00
+      enabled: false
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_boolean.movie_mode
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 15
   action:
-  - type: turn_on
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
-  - scene: scene.movie_mode_scene
-  mode: single
-- id: '1644007281071'
-  alias: Emby Movie Mode OFF
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: media_player.android_tv_living_room
-    from: playing
-  condition: []
-  action:
-  - type: turn_off
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.movie_mode
   mode: single
 - id: '1644037075991'
   alias: Den Monitors off with TV
@@ -912,11 +974,11 @@
   condition: []
   action:
   - type: turn_off
-    device_id: ce4eaa7ee4badc5df6dba267a8888c02
+    device_id: c221d4e062d5c8395a063e4c34b0ec9a
     entity_id: switch.den_left_monitor
     domain: switch
   - type: turn_off
-    device_id: 843249a9b2d8e364b80a4f27512fe449
+    device_id: 992dad9281634494eafc5699becb4a80
     entity_id: switch.den_right_monitor
     domain: switch
   mode: single
@@ -924,39 +986,39 @@
   alias: Bedroom 2 Fan off with Wall Switch
   description: ''
   trigger:
-  - platform: state
-    entity_id: sensor.bedroom_wall_dimmer_switch
-    to: 1_click
+  - device_id: 8cb0123dd17b5d4b939887cd27418d8e
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 1
+    unique_id: f9fc5209-3273-4970-97ed-9cdb2483b06c
   condition:
-  - condition: device
-    type: is_on
-    device_id: ef18381fcb995cb2db05df77185f09e3
+  - condition: state
     entity_id: light.bedroom_2_ceiling
-    domain: light
+    state: 'on'
   action:
   - type: turn_off
-    device_id: 7a29c23aa9c21194a0645e99865806e3
-    entity_id: switch.bedroom_2_fan
-    domain: switch
+    device_id: d1eb9318c5392a78c7997bbff56b7613
+    entity_id: fan.bedroom_2_fan
+    domain: fan
   mode: single
 - id: '1644099970720'
   alias: Den Monitors on with TV
   description: ''
   trigger:
   - platform: device
+    type: turned_on
     device_id: ee9ef71468ecfd9bc08b3316889ed7a4
-    domain: select
-    entity_id: select.den_hub_activities
-    type: current_option_changed
-    to: Watch PC
+    entity_id: switch.den_hub_watch_pc
+    domain: switch
   condition: []
   action:
   - type: turn_on
-    device_id: ce4eaa7ee4badc5df6dba267a8888c02
+    device_id: c221d4e062d5c8395a063e4c34b0ec9a
     entity_id: switch.den_left_monitor
     domain: switch
   - type: turn_on
-    device_id: 843249a9b2d8e364b80a4f27512fe449
+    device_id: 992dad9281634494eafc5699becb4a80
     entity_id: switch.den_right_monitor
     domain: switch
   mode: single
@@ -966,48 +1028,61 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 858a2d3563f2b5464406ba44c0f41d2f
+    device_id: a316ccbf2e831afd7a561d4acaf092b4
     entity_id: binary_sensor.bathroom_2_motion_sensor_motion
     domain: binary_sensor
-  condition: []
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 58052be76adc99a4519c69aa3fa2c746
+    entity_id: light.bathroom_2_lights
+    domain: light
   action:
   - choose:
     - conditions:
       - condition: time
-        after: 04:00:00
+        after: 03:45:00
         before: 05:00:00
       sequence:
       - type: turn_on
-        device_id: 9b0677bd56e3389db1e593ffaa229ccd
+        device_id: 58052be76adc99a4519c69aa3fa2c746
         entity_id: light.bathroom_2_lights
         domain: light
-        brightness_pct: 70
+        brightness_pct: 100
     - conditions:
       - condition: time
-        after: '21:00:00'
-        before: 04:00:00
+        after: '22:00:00'
+        before: 03:45:00
       sequence:
       - type: turn_on
-        device_id: 9b0677bd56e3389db1e593ffaa229ccd
+        device_id: 58052be76adc99a4519c69aa3fa2c746
         entity_id: light.bathroom_2_lights
         domain: light
         brightness_pct: 10
     default:
     - type: turn_on
-      device_id: 9b0677bd56e3389db1e593ffaa229ccd
+      device_id: 58052be76adc99a4519c69aa3fa2c746
       entity_id: light.bathroom_2_lights
       domain: light
       brightness_pct: 100
   - wait_for_trigger:
     - platform: state
-      entity_id: binary_sensor.bathroom_2_motion_sensor_motion
+      entity_id:
+      - binary_sensor.bathroom_2_motion_sensor_motion
       to: 'off'
       for:
         hours: 0
         minutes: 30
         seconds: 0
+      from: 'on'
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    continue_on_timeout: true
   - type: turn_off
-    device_id: 9b0677bd56e3389db1e593ffaa229ccd
+    device_id: 58052be76adc99a4519c69aa3fa2c746
     entity_id: light.bathroom_2_lights
     domain: light
   mode: restart
@@ -1017,32 +1092,38 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 807029f040e042e0a7a3f691bf669cdb
-    entity_id: binary_sensor.kitchen_motion_sensor_motion
+    device_id: 251c1396fa03bdce06dbbcc17095efd5
+    entity_id: binary_sensor.kitchen_motion_occupancy
     domain: binary_sensor
   condition:
   - condition: device
     type: is_off
-    device_id: 9ddf239a977d1af9ce01531c8c492bc5
-    entity_id: switch.movie_mode
-    domain: switch
+    device_id: 5b2958518d6d763d4a64e88c0533f44b
+    entity_id: light.kitchen_ceiling_2
+    domain: light
+  - condition: state
+    entity_id: input_boolean.movie_mode
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
   - choose:
     - conditions:
       - condition: time
-        after: '20:00:00'
+        after: '19:45:00'
         before: '23:00:00'
       sequence:
       - scene: scene.kitchen_dimmed
     - conditions:
       - condition: time
         after: '23:00:00'
-        before: 04:00:00
+        before: 03:30:00
       sequence:
       - scene: scene.kitchen_nightlight
     - conditions:
       - condition: time
-        after: 04:00:00
+        after: 03:30:00
         before: 08:00:00
       sequence:
       - scene: scene.kitchen_dimmed
@@ -1050,36 +1131,63 @@
     - scene: scene.kitchen_day
   - wait_for_trigger:
     - platform: state
-      entity_id: binary_sensor.kitchen_motion_sensor_motion
+      entity_id:
+      - binary_sensor.kitchen_motion_occupancy
       to: 'off'
       for:
         hours: 0
         minutes: 30
         seconds: 0
+    continue_on_timeout: true
+    timeout:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   - scene: scene.kitchen_lights_off
   mode: restart
 - id: '1644310060878'
   alias: Master Bedroom Button Pushed
   description: ''
   trigger:
-  - platform: event
-    event_type: smartthings.button
-    event_data:
-      device_id: 7b9d8adc-6f46-4d49-8022-0ce848a1881b
-      value: pushed
+  - platform: device
+    domain: mqtt
+    device_id: 5c46e44c7c4a4ed0dda42d68c907d1cf
+    type: action
+    subtype: single
+    discovery_id: 0x286d9700010557c2 action_single
   condition: []
   action:
-  - scene: scene.master_bedroom_lights_off
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.master_bedroom_ceiling
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 5
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.master_bedroom_on
+        metadata: {}
+    default:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.master_bedroom_lights_off
+      metadata: {}
   mode: single
 - id: '1644354276109'
   alias: Den Button
   description: ''
   trigger:
-  - platform: event
-    event_type: smartthings.button
-    event_data:
-      device_id: 28116e29-e384-4adf-969a-38df3d3b52de
-      value: pushed
+  - platform: device
+    domain: mqtt
+    device_id: 881c4717b261e91b54773470f9607713
+    type: action
+    subtype: single
+    discovery_id: 0x286d970001055651 action_single
   condition: []
   action:
   - scene: scene.den_off
@@ -1088,76 +1196,67 @@
   alias: Master Bedroom Button Double Tap
   description: ''
   trigger:
-  - platform: event
-    event_type: smartthings.button
-    event_data:
-      device_id: 7b9d8adc-6f46-4d49-8022-0ce848a1881b
-      value: double
+  - platform: device
+    domain: mqtt
+    device_id: 5c46e44c7c4a4ed0dda42d68c907d1cf
+    type: action
+    subtype: double
+    discovery_id: 0x286d9700010557c2 action_double
+  - platform: device
+    domain: mqtt
+    device_id: 5c46e44c7c4a4ed0dda42d68c907d1cf
+    type: action
+    subtype: hold
+    discovery_id: 0x286d9700010557c2 action_hold
   condition: []
   action:
   - scene: scene.master_bedroom_all_off
-  mode: single
-- id: '1644359293664'
-  alias: Garage Door Closed by virtual switch for Google Voice
-  description: ''
-  trigger:
-  - platform: device
-    type: turned_off
-    device_id: 629884e62c9cddb1e4b6e27553a512b3
-    entity_id: switch.overhead_door_switch
-    domain: switch
-  condition: []
-  action:
-  - device_id: 125f7408d222cbbe4bc1f895e38f33f4
-    domain: cover
-    entity_id: cover.garage_door
-    type: close
-  mode: single
-- id: '1644359312380'
-  alias: Garage Door Opened by virtual switch for Google Voice
-  description: ''
-  trigger:
-  - platform: device
-    type: turned_on
-    device_id: 629884e62c9cddb1e4b6e27553a512b3
-    entity_id: switch.overhead_door_switch
-    domain: switch
-  condition: []
-  action:
-  - device_id: 125f7408d222cbbe4bc1f895e38f33f4
-    domain: cover
-    entity_id: cover.garage_door
-    type: open
   mode: single
 - id: '1644362689888'
   alias: Kitchen Button Pressed
   description: ''
   trigger:
-  - platform: event
-    event_type: smartthings.button
-    event_data:
-      device_id: e382c358-ebd3-41d8-adfb-9026e0c7fe8b
-      value: pushed
+  - platform: device
+    domain: mqtt
+    device_id: 963dce2534be388426ca9815933d18f5
+    type: action
+    subtype: single
+    discovery_id: 0x286d9700010187f2 action_single
   condition: []
   action:
-  - type: toggle
-    device_id: a96f078e50c5ded359c812fc352902e0
-    entity_id: light.kitchen_table
-    domain: light
-  - type: toggle
-    device_id: b2bf370b92dceb98e6068a1b08c90e82
-    entity_id: light.kitchen_table_2
-    domain: light
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.kitchen_table_2
+        state: 'off'
+      sequence:
+      - service: light.turn_on
+        data:
+          kelvin: 5400
+          brightness_pct: 100
+        target:
+          entity_id:
+          - light.kitchen_table_3
+    default:
+    - type: turn_off
+      device_id: eb6ec006fe46974e1dd3d902cc93bd04
+      entity_id: light.kitchen_table
+      domain: light
+    - type: turn_off
+      device_id: 4e6bd31c2554ea26ff861582e2e6d0b6
+      entity_id: light.kitchen_table_2
+      domain: light
   mode: single
 - id: '1644362748344'
   alias: First Floor Button Pressed
   description: ''
   trigger:
-  - platform: event
-    event_type: smartthings.button
-    event_data:
-      device_id: 30e0fe39-d833-431b-9488-7f2d83c1d3b8
-      value: pushed
+  - platform: device
+    domain: mqtt
+    device_id: e3d8ed77d73d4128642200b98bb95c9b
+    type: action
+    subtype: single
+    discovery_id: 0x286d970001055745 action_single
   condition: []
   action:
   - scene: scene.kitchen_lights_off
@@ -1169,50 +1268,118 @@
     device_id: 48f80993735ea7d9389c193049622112
     entity_id: switch.garage_lights
     domain: switch
+  - type: turn_off
+    device_id: ea43ecf5df0f6664484f9c48e2a70dd8
+    entity_id: light.back_deck
+    domain: light
+  - type: turn_off
+    device_id: 8da646f6a406ce6b55269e709170b3e6
+    entity_id: switch.bathroom_3_lights
+    domain: switch
   mode: single
 - id: '1644372911069'
   alias: Tristyn arriving home
   description: ''
   trigger:
-  - platform: zone
-    zone: zone.home
-    event: enter
+  - platform: state
     entity_id: person.tristyn
-  condition: []
+    from: not_home
+    to: home
+  condition:
+  - condition: time
+    before: '20:00:00'
+    after: 07:00:00
   action:
-  - service: tts.amazon_polly_say
-    data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/> Tristyn is Home. </speak>
-      cache: true
+  - service: lock.unlock
+    data: {}
+    target:
+      entity_id: lock.front_deadbolt
   - scene: scene.master_bedroom_on
-  - device_id: 67c7c88fdea1705874b9368cf1be4a90
-    domain: lock
-    entity_id: lock.front_door_lock
-    type: unlock
+  - choose:
+    - conditions:
+      - condition: device
+        type: is_off
+        device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+        entity_id: remote.harmony_hub_2
+        domain: remote
+      sequence:
+      - type: turn_on
+        device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+        entity_id: switch.harmony_hub_pc_mode
+        domain: switch
+    default: []
+  - choose:
+    - conditions:
+      - condition: sun
+        before: sunset
+        after: sunrise
+      sequence:
+      - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+        domain: cover
+        entity_id: cover.master_bedroom_shade
+        type: set_position
+        position: 100
   mode: single
 - id: '1644800746134'
   alias: Puppy at door.
   description: ''
   trigger:
   - platform: numeric_state
-    entity_id: sensor.front_step_dog
+    entity_id: sensor.front_step_dog_count
     above: '0'
     for:
       hours: 0
       minutes: 0
       seconds: 30
-  condition:
-  - condition: time
-    after: 08:00:00
-    before: '20:30:00'
+  condition: []
   action:
-  - service: tts.amazon_polly_say
+  - service: camera.snapshot
     data:
-      entity_id: media_player.whole_home_group
-      message: <speak> <break time="1s"/>  Puppy is at the Front Door for 30 seconds.
-        </speak>
-      cache: true
+      filename: /media/snapshots/doorbell_detect_latest.jpg
+    target:
+      entity_id:
+      - doorbe
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.audible_notificaitons
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_tristyn_s_note_10
+        data:
+          message: Puppy is at the Door.
+          title: Doorbell
+          data:
+            clickAction: app://com.nest.android
+            image: /media/local/snapshots/doorbell_detect_latest.jpg
+            entity_id: camera.doorbell
+    default:
+    - service: tts.google_say
+      data:
+        message: There is a puppy at the front door.
+        language: en-us
+        entity_id: media_player.notification_group_2
+        cache: false
+  - choose:
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.sony_xbr_65x950g
+          state: 'off'
+      sequence:
+      - service: androidtv.adb_command
+        data:
+          command: ps -ef | grep -v grep | grep pipup || am start nl.rogro82.pipup/.MainActivity
+        target:
+          entity_id: media_player.android_tv_living_room
+      - service: rest_command.pipup_url_on_sony_tv
+        data:
+          title: Doggy Doorbell
+          message: Puppy at the Door
+          width: 640
+          height: 480
+          url: http://192.168.1.12:5001/api/doorbell
   mode: single
 - id: '1644810045036'
   alias: Living Room Motion
@@ -1220,12 +1387,24 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 65df8ed0b7d518187e33ca566370980b
-    entity_id: binary_sensor.motion_sensor_motion
+    device_id: a1c825163ae680b44ae2e822b2ecb594
+    entity_id: binary_sensor.living_room_motion_sensor_occupancy
     domain: binary_sensor
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.movie_mode
+    state: 'off'
+  - condition: state
+    entity_id: light.living_room_1
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
   action:
-  - scene: scene.living_room_concentrate
+  - service: scene.turn_on
+    target:
+      entity_id: scene.living_room_blue_planet
+    metadata: {}
   mode: single
 - id: '1644810138458'
   alias: Master Bedroom Motion
@@ -1233,164 +1412,55 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 8a1cadfc33a805ecde21ec6f17a8139d
+    device_id: e604780dcef8705f66312132501eab32
     entity_id: binary_sensor.master_bedroom_motion_motion
     domain: binary_sensor
-  condition: []
+  condition:
+  - condition: state
+    entity_id: person.tristyn
+    state: home
+  - condition: state
+    entity_id: light.master_bedroom_ceiling
+    state: 'off'
   action:
   - scene: scene.master_bedroom_concentrate
   mode: single
 - id: '1645411781240'
   alias: Front Yard Lights
   trigger:
-  - platform: state
-    entity_id: sun.sun
+  - platform: sun
+    event: sunrise
+    offset: 0
+  - platform: sun
+    event: sunset
+    offset: 0
   condition: []
   action:
   - choose:
     - conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: below_horizon
+      - condition: sun
+        before: sunrise
+        after: sunset
       sequence:
       - scene: scene.front_yard_lights_on_60
     default:
     - scene: scene.front_yard_lights_off
-- id: '1645413237498'
-  alias: Flash Driveway Left Light for Delivery Driver
-  trigger:
-  - platform: state
-    entity_id: input_boolean.delivery_enroute
-    to: 'on'
-  condition: []
-  action:
-  - service: scene.create
-    data:
-      scene_id: driveway_left_before_state
-      snapshot_entities:
-      - light.driveway_left
-  - delay:
-      seconds: 1
-  - service: light.turn_on
-    data:
-      brightness: 200
-      flash: long
-    target:
-      device_id: 8ecec859e1b575f063ccfa1edf1e57b2
-  - wait_for_trigger:
-    - type: opened
-      platform: device
-      device_id: 1abf48bef78976c98e45df54bbca0ae0
-      entity_id: binary_sensor.front_door_contact
-      domain: binary_sensor
-    - platform: state
-      entity_id: input_boolean.delivery_enroute
-      to: 'off'
-  - service: scene.turn_on
-    target:
-      entity_id:
-      - scene.driveway_left_before_state
-    data: {}
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id: input_boolean.delivery_enroute
-- id: '1645480192958'
-  alias: House Occupied by family member
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: person.terry,person.tristyn
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: person.tristyn
-          state: home
-        - condition: state
-          entity_id: person.terry
-          state: home
-      sequence:
-      - service: input_boolean.turn_on
-        data: {}
-        target:
-          entity_id: input_boolean.family_is_home
-    default:
-    - service: input_boolean.turn_off
-      data: {}
-      target:
-        entity_id: input_boolean.family_is_home
-  mode: single
-- id: '1645554584946'
-  alias: Garage Lights off
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: group.garage_safety
-  condition:
-  - condition: state
-    entity_id: cover.garage_door
-    state: closed
-  - condition: state
-    entity_id: binary_sensor.garage_side_door_contact
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.garage_house_door_sensor_contact
-    state: 'off'
-  action:
-  - wait_for_trigger:
-    - type: no_motion
-      platform: device
-      device_id: c36bfa3cbf2ce035963e95b746c5f0bc
-      entity_id: binary_sensor.blueiris_garage_camera_motion
-      domain: binary_sensor
-      for:
-        hours: 0
-        minutes: 5
-        seconds: 0
-  - type: turn_off
-    device_id: 48f80993735ea7d9389c193049622112
-    entity_id: switch.garage_lights
-    domain: switch
-  mode: restart
-- id: '1645641913596'
-  alias: Espresso Machine OFF after 30 min
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: switch.espresso_machine
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 30
-      seconds: 0
-    from: 'off'
-  - platform: homeassistant
-    event: start
-  condition: []
-  action:
-  - service: python_script.set_attribute
-    data_template:
-      entity_id: switch.espresso_machine
-      state: 'off'
-  mode: single
 - id: e1cb2d02-0423-11eb-adc1-0242ac120002
   alias: Tristyn work today
-  initial_state: true
   trigger:
   - platform: time
     at: 00:01:00
   condition:
   - condition: template
-    value_template: "{%- if as_timestamp(strptime(state_attr('calendar.tristyn_s_work',\
-      \ 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom(\"%Y-%m-%d\") == now().strftime(\"\
-      %Y-%m-%d\") %}\n  true\n{%- endif -%}\n"
+    value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) > 0) }}
+
+      '
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.tristyn_workday
+  initial_state: true
 - id: asldfasdfasdf4rw4rtwrw
   alias: Reset Tristyn Workday Boolean at midnight
   description: ''
@@ -1404,3 +1474,2296 @@
     data: {}
     target:
       entity_id: input_boolean.tristyn_workday
+- id: e1cb2d02-0423-11eb-adc1-0sdfsdfsd1202
+  alias: Terry work today
+  initial_state: true
+  trigger:
+  - platform: time
+    at: 00:01:00
+  condition:
+  - condition: template
+    value_template: "{%- if as_timestamp(strptime(state_attr('calendar.terry_s_work_schedule',
+      'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom(\"%Y-%m-%d\") == now().strftime(\"%Y-%m-%d\")
+      %}\n  true\n{%- endif -%}\n"
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.terry_workday
+- id: asldfa23423432df4rw4rtwrw
+  alias: Reset Terry Workday Boolean at midnight
+  description: ''
+  mode: single
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.terry_workday
+- id: '1646504950004'
+  alias: Fireplace shut off
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.first_floor_button_temperature
+    above: '25'
+  - platform: numeric_state
+    entity_id: sensor.living_room_motion_sensor_temperature
+    above: 25
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 0772cbbcb19a564f9e27e487869ac58e
+    entity_id: switch.fireplace
+    domain: switch
+  mode: single
+- id: '1655817240409'
+  alias: Master Bedroom Stop Wakeup Lighting
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: light.master_bedroom_ceiling
+    attribute: brightness
+    above: 250
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 3
+  condition: []
+  action:
+  - service: script.turn_off
+    data: {}
+    target:
+      entity_id:
+      - script.master_bedroom_wakeup_lighting
+  - service: input_number.set_value
+    data:
+      value: 17
+    target:
+      entity_id: input_number.master_bedroom_wakeup
+  mode: single
+- id: '1664550457210'
+  alias: Close Shades at Sunset
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sun.sun
+    from: above_horizon
+    to: below_horizon
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - type: is_open
+        condition: device
+        device_id: cb817c7dcd0ae3254a9d012244c85186
+        entity_id: binary_sensor.master_bedroom_window_contact
+        domain: binary_sensor
+      sequence:
+      - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+        domain: cover
+        entity_id: cover.master_bedroom_shade
+        type: set_position
+        position: 20
+    default:
+    - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+      domain: cover
+      entity_id: cover.master_bedroom_shade
+      type: set_position
+      position: 0
+  - device_id: 2469241cee2e2c6823ae8ff07573ccd7
+    domain: cover
+    entity_id: cover.living_room_shade
+    type: set_position
+    position: 0
+  mode: single
+- id: '1664646830409'
+  alias: Deep Fryer Shut off
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: e63ecf96d11482eda1d363dd360c12ae
+    entity_id: switch.sonoff_10015851ed_1
+    domain: switch
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_off
+    device_id: e63ecf96d11482eda1d363dd360c12ae
+    entity_id: switch.sonoff_10015851ed_1
+    domain: switch
+  mode: single
+- id: '1664756116359'
+  alias: Espresso state off after 20 min
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.espresso_machine
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 20
+      seconds: 0
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: python_script.set_attribute
+    data_template:
+      entity_id: switch.espresso_machine
+      state: 'off'
+  mode: single
+- id: '1668122418343'
+  alias: Master bedroom Wake Up
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.tristyn_wakeup_time
+  condition:
+  - condition: state
+    entity_id: input_boolean.tristyn_workday
+    state: 'on'
+  action:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.master_bedroom_wakeup_lighting
+  - delay: 00:33:00
+  - service: script.turn_off
+    entity_id: script.master_bedroom_wakeup_lighting
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.master_bedroom_wakeup
+      value: 17
+  mode: single
+  initial_state: true
+- id: '1668847254568'
+  alias: Master Bedroom Remote OFF long press
+  description: ''
+  trigger:
+  - device_id: 36c43bfbc1de65123d84ebe051b9d114
+    domain: hue
+    platform: device
+    type: repeat
+    subtype: 4
+    unique_id: 488e43d9-9abb-4381-9510-d18176f5927e
+  - device_id: b28a2728739ad6af5d9fb465d63cfd8f
+    domain: hue
+    platform: device
+    type: repeat
+    subtype: 4
+    unique_id: 9507a87b-25f5-4776-8d27-7272e81f2d2d
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.computer_monitor
+        state: 'off'
+      sequence:
+      - type: turn_off
+        device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+        entity_id: remote.harmony_hub_2
+        domain: remote
+  - type: turn_off
+    device_id: 985776930209b3daab14f547aa0e3c70
+    entity_id: switch.computer_monitor
+    domain: switch
+  - type: turn_off
+    device_id: 856965bc43b8072ac3519db5c02628e1
+    entity_id: switch.touchscreen_monitor
+    domain: switch
+  mode: single
+- id: '1668897523815'
+  alias: Washer Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.washer_wash_completed
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Washer is done.
+      title: Laundry
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      message: Washer is done.
+      title: Laundry
+  mode: single
+  initial_state: true
+- id: '1669178310173'
+  alias: Terry Arrives at McMurray Coin
+  description: ''
+  trigger:
+  - platform: zone
+    event: enter
+    zone: zone.mcmurray_coin
+    entity_id: person.terry
+  condition:
+  - condition: time
+    before: '22:00:00'
+    after: '15:30:00'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Dad has arrived at work
+  mode: single
+  initial_state: true
+- id: '1669178321135'
+  alias: Terry Leaves McMurray Coin Notification
+  description: ''
+  trigger:
+  - platform: zone
+    event: leave
+    zone: zone.mcmurray_coin
+    entity_id: person.terry
+  condition:
+  - condition: time
+    before: '22:00:00'
+    after: '15:30:00'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Dad has left McMurray Coin
+  mode: single
+  initial_state: true
+- id: '1669178516620'
+  alias: Turn Off Audible Notifications
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.audible_notifications_off
+  condition:
+  - condition: state
+    entity_id: input_boolean.audible_notificaitons
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notificaitons
+  mode: single
+  initial_state: true
+- id: '1669178525500'
+  alias: Turn On Audible Notifications
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.audible_notifications_on
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notificaitons
+  mode: single
+  initial_state: true
+- id: '1669227627844'
+  alias: Turn On monitors when PC mode turns On from off
+  description: ''
+  trigger:
+  - platform: device
+    device_id: b8a1ccd4af6947ec98a5e8175047f6e7
+    domain: select
+    entity_id: select.harmony_hub_activities_2
+    type: current_option_changed
+    from: power_off
+    to: PC Mode
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 856965bc43b8072ac3519db5c02628e1
+    entity_id: switch.touchscreen_monitor
+    domain: switch
+  - type: turn_on
+    device_id: 985776930209b3daab14f547aa0e3c70
+    entity_id: switch.computer_monitor
+    domain: switch
+  mode: single
+- id: '1670563378098'
+  alias: Washer Running
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.washer_current_course
+    from: '-'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.washer_status
+      state: Idle
+    - condition: state
+      entity_id: sensor.washer_status
+      state: Complete
+    - condition: state
+      entity_id: sensor.washer_status
+      state: unknown
+  action:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: Running
+      retain: true
+  initial_state: true
+- id: '1670563508083'
+  alias: Washer Complete
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.washer_wash_completed
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.washer_status
+    state: Running
+  action:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: Complete
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: house/washer/time_complete
+      payload: '{{ now().timestamp() }}'
+      retain: true
+  initial_state: true
+- id: '1670563546734'
+  alias: Washer Emptied
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.washer_door_contact
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.washer_status
+    state: Complete
+    enabled: true
+  action:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: Idle
+      retain: true
+      qos: 0
+  - service: mqtt.publish
+    data:
+      topic: house/washer/time_emptied
+      payload: '{{ now().timestamp() }}'
+      retain: true
+  initial_state: true
+- id: '1670564181814'
+  alias: Washer Idle
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.washer_power
+    from: 'on'
+    to: unavailable
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: house/washer/status
+      payload: Idle
+      retain: true
+  mode: single
+  initial_state: true
+- id: '1670610744053'
+  alias: Doorbell Notification
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 0b87eed749cdf57530588614506c2d05
+    domain: nest
+    type: doorbell_chime
+  condition: []
+  action:
+  - service: camera.snapshot
+    data:
+      filename: /media/snapshots/doorbell_detect_latest.jpg
+    target:
+      entity_id: camera.doorbell
+  - service: image_processing.scan
+    data: {}
+    target:
+      entity_id: image_processing.deepstack_face_blueiris_doorbell
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: person.tristyn
+        state: not_home
+      sequence:
+      - service: notify.mobile_app_tristyn_s_note_10
+        data:
+          message: Someone is at the door.
+          title: Doorbell
+          data:
+            clickAction: app://com.nest.android
+            image: /media/local/snapshots/deepstack_face_blueiris_doorbell_latest.jpg
+            entity_id: camera.doorbell
+            actions:
+            - action: URI
+              title: Open Nest App
+              uri: app://com.nest.android
+            channel: Doorbell
+            sticky: 'true'
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: person.terry
+        state: Away, McMurray Coin
+      sequence:
+      - service: notify.mobile_app_terry_s_flip
+        data:
+          title: Doorbell
+          message: Someone is at the door.
+          data:
+            clickAction: app://com.nest.android
+            image: /media/local/snapshots/deepstack_face_blueiris_doorbell_latest.jpg
+            entity_id: camera.doorbell
+            actions:
+            - action: URI
+              title: Open Nest App
+              uri: app://com.nest.android
+            channel: Doorbell
+            sticky: 'true'
+  mode: single
+- id: '1670693386389'
+  alias: Run Deepstack on person detection - Doorbell
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_step_person_occupancy
+    to: 'on'
+    from: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: binary_sensor.doorbell_dog_occupancy
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.front_door_contact
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  - condition: state
+    entity_id: binary_sensor.driveway_dog_occupancy
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.tristyn
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: state
+      entity_id: person.tristyn
+      state: not_home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.terry
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: state
+      entity_id: person.terry
+      state: not_home
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - condition: state
+      entity_id: person.terry
+      state: McMurray Coin
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+  action:
+  - choose:
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.sony_xbr_65x950g
+          state: 'off'
+      sequence:
+      - service: androidtv.adb_command
+        data:
+          command: ps -ef | grep -v grep | grep pipup || am start nl.rogro82.pipup/.MainActivity
+        target:
+          entity_id: media_player.android_tv_living_room
+      - service: rest_command.pipup_url_on_sony_tv
+        data:
+          title: Doorbell
+          message: Person Detected at Front Door
+          width: 640
+          height: 480
+          url: http://192.168.1.12:5001/api/doorbell
+  - service: camera.snapshot
+    data:
+      filename: /media/snapshots/doorbell_detect_latest.jpg
+    target:
+      entity_id: camera.doorbell_2
+  - service: image_processing.scan
+    data: {}
+    target:
+      entity_id: image_processing.deepstack_face_blueiris_doorbell
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: A person has been detected at the Front Door.
+      data:
+        clickAction: app://com.nest.android
+        image: /media/local/snapshots/doorbell_detect_latest.jpg
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Nest App
+          uri: app://com.nest.android
+      title: Person at Door
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1670715191014'
+  alias: Run Deepstack on person detection - Front Yard
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.parking_spot_person_occupancy
+    - binary_sensor.front_yard_person_occupancy
+    to: 'on'
+    from: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1
+  condition:
+  - condition: state
+    entity_id: binary_sensor.driveway_dog_occupancy
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.front_door_contact
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  - condition: state
+    entity_id: binary_sensor.driveway_dog_occupancy
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.tristyn
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: state
+      entity_id: person.tristyn
+      state: not_home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.terry
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: state
+      entity_id: person.terry
+      state: not_home
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - condition: state
+      entity_id: person.terry
+      state: McMurray Coin
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+  action:
+  - service: camera.snapshot
+    data:
+      filename: /media/snapshots/front_yard_detect_latest.jpg
+    target:
+      entity_id: camera.blueiris_front_yard
+  - service: image_processing.scan
+    data: {}
+    target:
+      entity_id: image_processing.deepstack_face_blueiris_front_yard
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 500
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: A person has been detected in the Front Yard.
+      title: Person in Front Yard
+      data:
+        clickAction: entityId:camera.blueiris_front_yard
+        image: /media/local/snapshots/front_yard_detect_latest.jpg
+        entity_id: camera.blueiris_front_yard
+        actions:
+        - action: URI
+          title: Open Camera
+          uri: entityId:camera.blueiris_front_yard
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1670995799161'
+  alias: Open Window Temp Warning - Master Bathroom
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.master_bathroom_motion_sensor_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.openweathermap_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.master_bathroom_window_contact
+    state: 'on'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Window
+      message: The Master Bathroom is cold and the window is open.
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open WIndow
+      message: The Master Bathroom is cold and the window is open.
+  mode: single
+- id: '1670995954661'
+  alias: Open window temp warning - Bedroom 2
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bedroom_2_motion_sensor_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.pirateweather_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.bedroom_2_window_contact
+    state: 'on'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Window
+      message: The Bedroom 2 is cold and the window is open.
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open WIndow
+      message: The Bedroom 2 is cold and the window is open.
+  mode: single
+- id: '1670996089802'
+  alias: Open window temp warning - Den
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.den_motion_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.pirateweather_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.den_window_contact
+    state: 'on'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Window
+      message: The Den is cold and the window is open.
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open WIndow
+      message: The Den is cold and the window is open.
+  mode: single
+- id: '1670996219883'
+  alias: Open window temp warning - Living Room
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.living_room_motion_sensor_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.pirateweather_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.living_room_window_contact
+    state: 'on'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Window
+      message: The Living Room is cold and the window is open.
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open WIndow
+      message: The Living Room is cold and the window is open.
+  mode: single
+- id: '1670996354780'
+  alias: Open window temp warning - Kitchen
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.kitchen_motion_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.pirateweather_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.back_door_contact
+    state: 'on'
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Door
+      message: The Kitchen is cold and the back door is open.
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open Door
+      message: The Kitchen is cold and the back door is open.
+  mode: single
+- id: '1670996780866'
+  alias: Open window temp warning - Master Bedroom
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.master_bedroom_motion_temperature
+    below: 18
+  - platform: numeric_state
+    entity_id: sensor.master_bedroom_temp_sensor_temperature
+    below: 18
+  - platform: numeric_state
+    entity_id: sensor.master_bedroom_button_temperature
+    below: 18
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.pirateweather_temperature
+    below: 10
+  - condition: state
+    entity_id: binary_sensor.master_bedroom_window_contact
+    state: 'on'
+  action:
+  - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+    domain: cover
+    entity_id: cover.master_bedroom_shade
+    type: set_position
+    position: 0
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      title: Open Window
+      message: The Master Bedroom is cold and the window is open. The Shade has been
+        closed.
+      data:
+        actions:
+        - action: URI
+          title: Shade Control
+          uri: entityId:cover.master_bedroom_shade
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      title: Open Door
+      message: The Master Bedroom is cold and the window is open. The Shade has been
+        closed.
+  mode: single
+- id: '1671092206219'
+  alias: Air Circulation
+  description: Turn on Furnace Fan to circulate air.
+  trigger:
+  - platform: time_pattern
+    minutes: /15
+  condition:
+  - condition: state
+    entity_id: climate.thermostat
+    attribute: hvac_action
+    state: idle
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  - condition: time
+    after: 04:00:00
+    before: '22:00:00'
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
+  action:
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: 'on'
+    target:
+      entity_id: climate.thermostat
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 30
+      milliseconds: 0
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: 'off'
+    target:
+      entity_id: climate.thermostat
+  mode: single
+- id: '1671244019241'
+  alias: Fan Circulation activated Diffuser
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.thermostat_fan_mode
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition:
+  - condition: time
+    before: '21:00:00'
+    after: 05:00:00
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
+  action:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: binary_sensor.thermostat_fan_mode
+        state: 'on'
+      sequence:
+      - service: script.home_diffuser
+        data: {}
+      - delay:
+          hours: 0
+          minutes: 10
+          seconds: 0
+          milliseconds: 0
+  mode: single
+- id: '1671244506943'
+  alias: HVAC activated Diffuser
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - climate.thermostat
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    attribute: hvac_action
+    to: heating
+  - platform: state
+    entity_id:
+    - climate.thermostat
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    attribute: hvac_action
+    to: cooling
+  condition:
+  - condition: time
+    before: '22:00:00'
+    after: 05:00:00
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
+  action:
+  - repeat:
+      while:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: climate.thermostat
+          attribute: hvac_action
+          state: idle
+      sequence:
+      - service: script.home_diffuser
+        data: {}
+      - delay:
+          hours: 0
+          minutes: 10
+          seconds: 0
+          milliseconds: 0
+  mode: restart
+- id: '1671410123876'
+  alias: Movie Mode On
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.movie_mode
+    to: 'on'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.movie_mode_scene
+    metadata: {}
+  - device_id: 2469241cee2e2c6823ae8ff07573ccd7
+    domain: cover
+    entity_id: cover.living_room_shade
+    type: set_position
+    position: 0
+  - type: turn_on
+    device_id: cdb160e00a8e11eba8cbe71acdbd7be2
+    entity_id: switch.blueiris_profile_movie_mode
+    domain: switch
+  - service: androidtv.adb_command
+    data:
+      command: am broadcast -a com.superthomaslab.hueessentials.START_ENTERTAINMENT
+        -e BRIDGE_ID 001788FFFEA31DA1 -e GROUP_ID 12 -e ENTERTAINMENT_PROGRAM sync
+        com.superthomaslab.hueessentials
+    target:
+      entity_id: media_player.android_tv_living_room
+  mode: single
+- id: '1671410241453'
+  alias: Movie Mode Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.movie_mode
+    to: 'off'
+  condition: []
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.kitchen_day
+    metadata: {}
+  - type: turn_on
+    device_id: cdb160e00a8e11eba8cbe71acdbd7be2
+    entity_id: switch.blueiris_profile_active
+    domain: switch
+  - service: androidtv.adb_command
+    data:
+      command: am broadcast -a com.superthomaslab.hueessentials.STOP_ENTERTAINMENT
+        -e BRIDGE_ID 001788FFFEA31DA1 -e GROUP_ID 12 -e ENTERTAINMENT_PROGRAM sync
+        com.superthomaslab.hueessentials
+    target:
+      entity_id: media_player.android_tv_living_room
+    enabled: true
+  mode: single
+- id: '1671432923872'
+  alias: Turn off furnace fan mode with HVAC action
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - climate.thermostat
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    attribute: hvac_action
+    to: heating
+  - platform: state
+    entity_id:
+    - climate.thermostat
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    attribute: hvac_action
+    to: cooling
+  condition: []
+  action:
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: 'off'
+    target:
+      entity_id: climate.thermostat
+  mode: single
+- id: '1671462248250'
+  alias: Unlock Van Doors when leaving, when running.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_contact
+    to: 'on'
+  condition:
+  - condition: time
+    before: 09:00:00
+    after: 07:45:00
+  - condition: state
+    entity_id: sensor.fordpass_remotestartstatus
+    state: Active
+  action:
+  - device_id: f7632c66563b91dd502e02f460bd981d
+    domain: lock
+    entity_id: lock.fordpass_doorlock
+    type: unlock
+  mode: single
+- id: '1671547922768'
+  alias: Nat Geo Wild in Living Room
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - scene.nat_geo_wild_in_living_room
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 8
+      milliseconds: 0
+  - service: harmony.change_channel
+    data:
+      channel: 723
+    target:
+      entity_id: remote.harmony_hub
+  mode: single
+- id: '1671547951300'
+  alias: Animal Planet in Living Room
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - scene.animal_planet_in_living_room
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 8
+      milliseconds: 0
+  - service: harmony.change_channel
+    data:
+      channel: 721
+    target:
+      entity_id: remote.harmony_hub
+  mode: single
+- id: '1671571180446'
+  alias: MSNBC in Living Room
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - scene.msnbc_in_living_room
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 8
+      milliseconds: 0
+  - service: harmony.change_channel
+    data:
+      channel: 804
+    target:
+      entity_id: remote.harmony_hub
+  mode: single
+- id: '1671583307634'
+  alias: Tristyn is home notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_contact
+    to: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.tristyn
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - condition: state
+    entity_id: person.tristyn
+    state: home
+  - condition: template
+    value_template: '{{ now() - state_attr(''automation.tristyn_is_home_notification'',
+      ''last_triggered'') > timedelta(minutes=30)}}'
+  - condition: template
+    value_template: '{{ ( now() - states(''sensor.uptime'')|as_datetime ).seconds
+      > 1800 }}'
+  - condition: state
+    entity_id: input_boolean.audible_notificaitons
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.doorbell_dog_occupancy
+          for:
+            hours: 0
+            minutes: 1
+            seconds: 0
+          state: ''
+      - condition: or
+        conditions:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: binary_sensor.doorbell_dog_occupancy
+            for:
+              hours: 0
+              minutes: 1
+              seconds: 0
+            state: 'off'
+        - condition: state
+          entity_id: binary_sensor.doorbell_dog_occupancy
+          state: 'on'
+      sequence:
+      - service: tts.google_say
+        entity_id: media_player.notification_group_2
+        data_template:
+          message: Tristyn is home with Puppies.
+    default:
+    - service: tts.google_say
+      entity_id: media_player.notification_group_2
+      data_template:
+        message: Tristyn is home.
+  mode: single
+- id: 1671583590235a
+  alias: Dad has arrived notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.front_door_contact
+    to: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.terry
+      state: home
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - condition: state
+    entity_id: person.terry
+    state: home
+  - condition: template
+    value_template: '{{ now() - state_attr(''automation.dad_has_arrived_notification'',
+      ''last_triggered'') > timedelta(minutes=30)}}'
+  - condition: template
+    value_template: '{{ ( now() - states(''sensor.uptime'')|as_datetime ).seconds
+      > 1800 }}'
+  - condition: state
+    entity_id: input_boolean.audible_notificaitons
+    state: 'on'
+  action:
+  - service: tts.google_say
+    data:
+      entity_id: media_player.notification_group_2
+      message: Dad is home.
+      cache: false
+  mode: single
+- id: '1671632829140'
+  alias: Van has not started
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:35:00
+  condition:
+  - condition: state
+    entity_id: sensor.fordpass_remotestartstatus
+    state: Inactive
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  - condition: template
+    value_template: '{{ ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) < 43200) and ((as_timestamp(states.calendar.tristyn_s_work.attributes.start_time)
+      - as_timestamp(now())) > 0) }}'
+  - condition: state
+    entity_id: person.tristyn
+    state: home
+  - condition: state
+    entity_id: calendar.tristyn_vacation
+    state: 'off'
+  - condition: device
+    device_id: f7632c66563b91dd502e02f460bd981d
+    domain: device_tracker
+    entity_id: device_tracker.fordpass_tracker
+    type: is_home
+  action:
+  - service: tts.google_say
+    data:
+      entity_id: media_player.notification_group_2
+      message: Van has not started
+  - service: tts.google_say
+    data:
+      entity_id: media_player.master_bedroom_display
+      message: Van has not started
+  mode: single
+- id: '1671665983939'
+  alias: Turn on Espresso for Tristyn on workdays
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.tristyn
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_boolean.tristyn_workday
+    state: 'on'
+  - condition: time
+    before: '16:00:00'
+    after: 07:30:00
+  action:
+  - type: turn_on
+    device_id: 23b0b2ff7d7547c0d073e93f8ae27eed
+    entity_id: switch.espresso_machine
+    domain: switch
+  mode: single
+- id: '1671666051942'
+  alias: Turn on Espresso for Dad on Workdays
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.terry
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_boolean.terry_workday
+    state: 'on'
+  - condition: time
+    before: '16:00:00'
+    after: 07:30:00
+  action:
+  - type: toggle
+    device_id: 23b0b2ff7d7547c0d073e93f8ae27eed
+    entity_id: switch.espresso_machine
+    domain: switch
+  mode: single
+- id: '1671683249590'
+  alias: VR mode OFF
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.blueiris_profile_basement_disable
+    to: 'off'
+  condition: []
+  action:
+  - type: toggle
+    device_id: 94e30c39962785789f706186609ff59e
+    entity_id: switch.kvm_input_3
+    domain: switch
+  - service: remote.send_command
+    data:
+      device: tv
+      command: Power
+    target:
+      entity_id: remote.basement_ir_blaster
+  mode: single
+- id: '1671868211140'
+  alias: Closet Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 0caa43c27b6e940806148347e4bdcb48
+    entity_id: binary_sensor.closet_motion_sensor_occupancy
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.closet_light
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.closet_motion_sensor_occupancy
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 3
+        seconds: 0
+    continue_on_timeout: true
+    timeout:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.closet_light
+  mode: restart
+- id: '1672081302976'
+  alias: Movie Mode Sync
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.movie_mode
+    to:
+    - 'on'
+    - 'off'
+  condition: []
+  action:
+  - service_template: homeassistant.turn_{{trigger.to_state.state}}
+    data:
+      entity_id:
+      - input_boolean.movie_mode
+  mode: single
+- id: '1672132362888'
+  alias: Reboot Sony Daily
+  description: ''
+  trigger:
+  - platform: time
+    at: 04:00:00
+  condition:
+  - condition: device
+    device_id: 1980261b62c79f51f5298ee262593e70
+    domain: media_player
+    entity_id: media_player.android_tv_living_room
+    type: is_off
+  action:
+  - service: media_player.turn_on
+    data: {}
+    target:
+      entity_id: media_player.sony_xbr_65x950g
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - device_id: e2dd2faf0aaa11eb947841456a75736d
+    domain: button
+    entity_id: button.sony_xbr_65x950g_reboot
+    type: press
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.sony_xbr_65x950g
+  mode: single
+- id: '1672297740630'
+  alias: Master Bedroom Sleep Sounds
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.harmony_hub_pc_mode
+    - light.master_bedroom_ceiling
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.master_bedroom_ceiling
+    state: 'off'
+  - condition: state
+    entity_id: switch.harmony_hub_pc_mode
+    state: 'off'
+  - condition: time
+    before: 03:30:00
+    after: '21:30:00'
+  action:
+  - service: script.master_bedroom_sleep_sounds
+    data: {}
+  mode: single
+- id: '1672385288561'
+  alias: Turn off Bath 3 lights
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 8da646f6a406ce6b55269e709170b3e6
+    entity_id: switch.bathroom_3_lights
+    domain: switch
+    for:
+      hours: 0
+      minutes: 20
+      seconds: 0
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 8da646f6a406ce6b55269e709170b3e6
+    entity_id: switch.bathroom_3_lights
+    domain: switch
+  mode: single
+- id: '1672795454320'
+  alias: Turn Off Upstairs Top by Bedroom 2 bed sensor
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.bedroom_2_bed_sensor
+    to: 'on'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: dbe1135f531fbb3e910c4400b4744112
+    entity_id: light.upstairs_top
+    domain: light
+  - type: turn_off
+    device_id: 58052be76adc99a4519c69aa3fa2c746
+    entity_id: light.bathroom_2_lights
+    domain: light
+  mode: single
+- id: '1672898907235'
+  alias: Turn off Audible Notifications when Dad is napping
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 1ee1626cf6b474ddfc71c07f831065ea
+    entity_id: switch.bedroom_2_bed_sensor
+    domain: switch
+  condition:
+  - condition: time
+    before: input_datetime.audible_notifications_off
+    after: input_datetime.audible_notifications_on
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notificaitons
+  mode: single
+- id: '1672898967506'
+  alias: Turn on Audible Notifications when dad gets up.
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 1ee1626cf6b474ddfc71c07f831065ea
+    entity_id: switch.bedroom_2_bed_sensor
+    domain: switch
+  condition:
+  - condition: time
+    before: input_datetime.audible_notifications_off
+    after: input_datetime.audible_notifications_on
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notificaitons
+  mode: single
+- id: '1672905046587'
+  alias: Turn on House is Occupied when person comes home, or front door is opened
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: e54d8a38965049c11432e724455635cd
+    entity_id: binary_sensor.front_door_contact
+    domain: binary_sensor
+  - platform: zone
+    entity_id: person.tristyn
+    zone: zone.home
+    event: enter
+  - platform: zone
+    entity_id: person.terry
+    zone: zone.home
+    event: enter
+  condition:
+  - condition: state
+    entity_id: switch.bedroom_2_bed_sensor
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.house_is_occupied
+  - choose:
+    - conditions:
+      - condition: time
+        before: input_datetime.audible_notifications_off
+        after: input_datetime.audible_notifications_on
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.audible_notificaitons
+  mode: single
+- id: '1672905218083'
+  alias: Turn off House is Occupied and audible notifications when nobody is home.
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.terry
+    zone: zone.home
+    event: leave
+  - platform: zone
+    entity_id: person.tristyn
+    zone: zone.home
+    event: leave
+  condition:
+  - condition: not
+    conditions:
+    - condition: zone
+      entity_id: person.tristyn
+      zone: zone.home
+    - condition: zone
+      entity_id: person.terry
+      zone: zone.home
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.house_is_occupied
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notificaitons
+  mode: single
+- id: '1672907353512'
+  alias: Basement Lights Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 08eddeddcd4c59bbe892aa55b16dbdb1
+    entity_id: binary_sensor.basement_motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
+  - condition: state
+    entity_id: light.basement_lights
+    state: 'off'
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.basement_lights
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.basement_samsung_tv
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.basement_motion_sensor_occupancy
+      to: 'off'
+      for:
+        hours: 1
+        minutes: 0
+        seconds: 0
+    continue_on_timeout: true
+    timeout:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.basement_lights
+  mode: restart
+- id: '1672907562430'
+  alias: Downstairs Motion
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: b92ce7aa4af4f211f11b7af8d3bc002b
+    entity_id: binary_sensor.downstairs_motion_sensor_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.house_is_occupied
+    state: 'on'
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.downstairs_lights
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - switch.downstairs_motion_sensor_motion
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+    continue_on_timeout: true
+    timeout:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.downstairs_lights
+  mode: restart
+- id: '1673038751625'
+  alias: Shut off KVM and TV when basement lights are shut off
+  description: ''
+  trigger:
+  - device_id: 67555188847dbdbfc5af2aea75cd0d90
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 4
+    unique_id: 1ff74e33-65f9-485e-b725-ed5e7e0b13ba
+  condition: []
+  action:
+  - type: toggle
+    device_id: 94e30c39962785789f706186609ff59e
+    entity_id: switch.kvm_input_3
+    domain: switch
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.basement_samsung_tv
+  mode: single
+- id: '1673134298192'
+  alias: Lock Doors When Unoccupied
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.house_is_occupied
+    to: 'off'
+  condition: []
+  action:
+  - device_id: 1e70e054d635a80feb2fb38d354cb3d6
+    domain: lock
+    entity_id: lock.garage_side_deadbolt
+    type: lock
+  - device_id: e74233b73174de7903ba0fb81f144b43
+    domain: lock
+    entity_id: lock.front_deadbolt
+    type: lock
+  mode: single
+- id: '1673737842447'
+  alias: Turn off basement heater plug
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.basement_ambient_temperature
+    above: 22
+  - platform: numeric_state
+    entity_id: sensor.basement_motion_sensor_temperature
+    above: 21
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 572de2242995d075a646ce1d9055788f
+    entity_id: switch.basement_heater_plug
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - type: turn_on
+    device_id: 572de2242995d075a646ce1d9055788f
+    entity_id: switch.basement_heater_plug
+    domain: switch
+  mode: single
+- id: '1673752709593'
+  alias: Turn off lights when unoccupied
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.house_is_occupied
+    to: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 572de2242995d075a646ce1d9055788f
+    entity_id: switch.basement_heater_plug
+    domain: switch
+  - service: script.turn_off_all_lights_den_and_master_bedroom_hubs
+    data: {}
+  - type: turn_on
+    device_id: 572de2242995d075a646ce1d9055788f
+    entity_id: switch.basement_heater_plug
+    domain: switch
+  mode: single
+- id: '1674176340844'
+  alias: Open Shades at Sun Up
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 00:00:00
+  - platform: time
+    at: 07:00:00
+  condition:
+  - condition: time
+    after: 07:00:00
+    before: '11:00:00'
+  - condition: sun
+    before: sunset
+    after: sunrise
+    before_offset: -00:05:00
+  action:
+  - device_id: 2469241cee2e2c6823ae8ff07573ccd7
+    domain: cover
+    entity_id: cover.living_room_shade
+    type: set_position
+    position: 100
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.master_bedroom_ceiling
+        state: 'on'
+      sequence:
+      - device_id: 977b1fdfbcd0a1c98813956aaf9901f8
+        domain: cover
+        entity_id: cover.master_bedroom_shade
+        type: set_position
+        position: 100
+  mode: single
+- id: '1675398293250'
+  alias: Turn off Front Step lights at 9pm
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  - platform: time
+    at: '21:15:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 962a4d03de37f911600c4f25fadb9ee5
+    entity_id: light.front_step_lower
+    domain: light
+  - type: turn_off
+    device_id: bc48f15aa2afae93da9b7d00f3a27ad9
+    entity_id: light.front_step_upper
+    domain: light
+  mode: single
+- id: '1675398427496'
+  alias: Turn on Front Step lights for door, and coming home.
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: e54d8a38965049c11432e724455635cd
+    entity_id: binary_sensor.front_door_contact
+    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - person.tristyn
+    - person.terry
+    to: home
+  - platform: state
+    entity_id:
+    - binary_sensor.front_yard_person_occupancy
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.parking_spot_person_occupancy
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.doorbell_person_occupancy
+    to: 'on'
+  condition:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  action:
+  - type: turn_on
+    device_id: 962a4d03de37f911600c4f25fadb9ee5
+    entity_id: light.front_step_lower
+    domain: light
+  - type: turn_on
+    device_id: bc48f15aa2afae93da9b7d00f3a27ad9
+    entity_id: light.front_step_upper
+    domain: light
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 962a4d03de37f911600c4f25fadb9ee5
+    entity_id: light.front_step_lower
+    domain: light
+  - type: turn_off
+    device_id: bc48f15aa2afae93da9b7d00f3a27ad9
+    entity_id: light.front_step_upper
+    domain: light
+  mode: restart
+- id: '1675451525484'
+  alias: Run Vacuum Daily when house is empty.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.house_is_occupied
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: '{{(as_timestamp(now()) - as_timestamp(state_attr("vacuum.bitch_vac",
+      "clean_stop") | default(0)) | int > 57600 )}}'
+  action:
+  - service: vacuum.start
+    data: {}
+    target:
+      entity_id: vacuum.bitch_vac
+  mode: single
+- id: '1675747624672'
+  alias: Mars 3 Print Complete
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.mars_3_multi_sensor_contact
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Mars 3 Print Done
+      title: 3D Printer
+  - type: turn_off
+    device_id: f653597660deed001978e81b64f2f2b1
+    entity_id: switch.mars_heater
+    domain: switch
+  mode: single
+- id: '1676839999000'
+  alias: Stop Vacuum When House Occupied.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.house_is_occupied
+    to: 'on'
+    from: 'off'
+  condition: []
+  action:
+  - service: vacuum.pause
+    data: {}
+    target:
+      entity_id: vacuum.bitch_vac
+  - service: vacuum.return_to_base
+    data: {}
+    target:
+      entity_id: vacuum.bitch_vac
+  mode: single
+- id: '1677385270468'
+  alias: System Disarmed Actions
+  description: ''
+  trigger:
+  - platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.system
+    type: disarmed
+  condition: []
+  action:
+  - service: input_select.select_option
+    data:
+      option: Caule Black Aqua Glass
+    target:
+      entity_id: input_select.themes
+  - choose:
+    - conditions:
+      - condition: time
+        after: 06:00:00
+        before: '20:30:00'
+      sequence:
+      - service: lock.unlock
+        data: {}
+        target:
+          entity_id: lock.front_deadbolt
+  mode: single
+- id: '1677385382487'
+  alias: System Armed Actions
+  description: ''
+  trigger:
+  - platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.system
+    type: armed_home
+  - platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.system
+    type: armed_away
+  condition: []
+  action:
+  - service: input_select.select_option
+    data:
+      option: Caule Black Orange Glass
+    target:
+      entity_id: input_select.themes
+  - service: lock.lock
+    data: {}
+    target:
+      entity_id: lock.front_deadbolt
+  - service: lock.lock
+    data: {}
+    target:
+      entity_id: lock.garage_side_deadbolt
+  mode: single
+- id: '1677396751727'
+  alias: Alarm Triggered
+  description: ''
+  trigger:
+  - platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.system
+    type: triggered
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Alarm has been triggered !
+      title: ALARM SYSTEM
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+          icon: sfsymbols:bell
+        - action: DISARM
+          title: Disable Alarm
+          icon: sfsymbols:bell.slash
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+          icon: sfsymbols:bell.slash
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+      title: ALARM SYSTEM
+      message: Alarm has been triggered !
+  - service: notify.mobile_app_s9
+    data:
+      message: Alarm has been triggered !
+      title: ALARM SYSTEM
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+          icon: sfsymbols:bell
+        - action: DISARM
+          title: Disable Alarm
+          icon: sfsymbols:bell.slash
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  mode: single
+- id: '1677396971571'
+  alias: Sump Pump Flood
+  description: ''
+  trigger:
+  - type: moist
+    platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    entity_id: binary_sensor.sump_pump_flood
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Sump Pump Flood Detected !
+      title: ALARM SYSTEM
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+      title: ALARM SYSTEM
+      message: Sump Pump Flood Detected !
+  mode: single
+- id: '1677397028108'
+  alias: Smoke Detected
+  description: ''
+  trigger:
+  - type: smoke
+    platform: device
+    device_id: e32f0298b6acb5d84bd5c32fad58c432
+    entity_id: binary_sensor.upstairs_smoke_detector
+    domain: binary_sensor
+  - type: smoke
+    platform: device
+    device_id: 1c6e3bcb55f7eba47345cbe8c7f7c16d
+    entity_id: binary_sensor.nest_protect_protect_smoke_status
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Upstairs Smoke Detected !  Thermostat shut off for safety.
+      title: ALARM SYSTEM
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+      title: ALARM SYSTEM
+      message: Upstairs Smoke Detected !  Thermostat shut off for safety.
+  - service: notify.mobile_app_s9
+    data:
+      title: ALARM SYSTEM
+      message: Upstairs Smoke Detected !  Thermostat shut off for safety.
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  - device_id: 44887cc70b654ef73b09c8859da8de09
+    domain: climate
+    entity_id: climate.thermostat
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+- id: '1677397090802'
+  alias: Carbon Monoxide CO Detected
+  description: ''
+  trigger:
+  - type: co
+    platform: device
+    device_id: 1c6e3bcb55f7eba47345cbe8c7f7c16d
+    entity_id: binary_sensor.nest_protect_protect_co_status
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_tristyn_s_note_10
+    data:
+      message: Carbon Monoxide Detected ! Thermostat shut off for safety.
+      title: ALARM SYSTEM
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+  - service: notify.mobile_app_s9
+    data:
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+      message: Carbon Monoxide Detected ! Thermostat shut off for safety.
+      title: ALARM SYSTEM
+  - service: notify.mobile_app_terry_s_flip
+    data:
+      data:
+        clickAction: /lovelace/alarm/
+        entity_id: camera.doorbell
+        actions:
+        - action: URI
+          title: Open Security Panel
+          uri: /lovelace/alarm/
+        - action: DISARM
+          title: Disable Alarm
+        channel: Alarm
+        importance: high
+        sticky: 'true'
+      title: ALARM SYSTEM
+      message: Carbon Monoxide Detected ! Thermostat shut off for safety.
+  - device_id: 44887cc70b654ef73b09c8859da8de09
+    domain: climate
+    entity_id: climate.thermostat
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+- id: '1677397447685'
+  alias: Disarm The Alarm
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: DISARM
+  condition: []
+  action:
+  - device_id: e32f0298b6acb5d84bd5c32fad58c432
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.system
+    type: disarm
+    code: '354519'
+  mode: single
+- id: '1677401229143'
+  alias: TRIGGER ALARM
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: TRIGGER
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_trigger
+    data: {}
+    target:
+      entity_id: alarm_control_panel.system
+  mode: single

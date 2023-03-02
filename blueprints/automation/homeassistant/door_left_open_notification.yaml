@@ -53,7 +53,7 @@ condition: []
 
 
 action:
-  - service: tts.google_translate_say
+  - service: tts.google_say
     entity_id: !input output
     data_template:
       message: A door has been left open.

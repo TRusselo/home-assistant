@@ -1,13 +1,9 @@
-binary_sensor.motion_sensor_motion:
-  friendly_name: Living Room Motion
 binary_sensor.tristyn_s_note10_presence:
   device_class: presence
 cover.garage_door:
   device_class: garage
 binary_sensor.front_door_contact:
   device_class: door
-binary_sensor.garage_door_contact:
-  device_class: garage_door
 binary_sensor.garage_house_door_sensor_contact:
   device_class: door
 binary_sensor.garage_side_door_contact:
@@ -29,8 +25,6 @@ switch.duckdns:
   icon: mdi:duck
 switch.mqtt:
   icon: mdi:network
-switch.nodered:
-  icon: mdi:resistor-nodes
 switch.ubooquity:
   icon: mdi:book-open-variant
 script.restart_hass:
@@ -41,9 +35,6 @@ sensor.deluge_down_speed:
   icon: mdi:arrow-down-bold
 sensor.deluge_up_speed:
   icon: mdi:arrow-up-bold
-switch.deluge_switch:
-  friendly_name: Pause/Resume Deluge
-  icon: mdi:play-pause
 device_tracker.t8:
   icon: mdi:car-lifted-pickup
   entity_picture: local/images/dodge-white3.png
@@ -51,7 +42,8 @@ sensor.fordpass_gps:
   entity_picture: /local/images/telus-logo.png
 device_tracker.fordpass_tracker:
   entity_picture: /local/images/telus-logo.png
-light.bath_fan:
-  icon: mdi:fan
 switch.master_bathroom_lights:
   icon: mdi:vanity-light
+script.ambientsounds:
+  icon: mdi:play
+  friendly_name: Play Sounds

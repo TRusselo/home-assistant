@@ -1,6 +1,0 @@
-qolsys_panel:
-  module: gateway
-  class: QolsysGateway
-  panel_host: 192.168.1.95
-  panel_token: !secret panel_token
-  discovery_topic: homeassistant

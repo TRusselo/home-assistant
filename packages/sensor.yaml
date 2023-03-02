@@ -43,6 +43,19 @@ sensor:
           {% set dead = states|selectattr('object_id', 'search', 'node_status')|selectattr('state', 'in', 'dead, unavailable, unknown') | list | count %}
           {{ total - dead }} Alive/{{ total }} Total
 
+      count_zigbee_devices:
+        friendly_name: 'Zigbee'
+        icon_template: mdi:z-wave
+        value_template: >
+          {% set entities = integration_entities('mqtt') %}
+          {% set ns = namespace(unique_ids = []) %}
+          {% for entity in entities %}
+            {% if device_id(entity) not in ns.unique_ids %}
+              {% set ns.unique_ids = ns.unique_ids + [device_id(entity)] %}
+            {% endif%}
+          {% endfor %}
+          {{ ns.unique_ids | count -2 }}
+
   - platform: time_date
     display_options:
       - 'time'

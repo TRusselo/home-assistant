@@ -45,7 +45,6 @@ custom_components
 deps
 hacs
 media
-appdaemon
 packages/keymaster
 
 

@@ -1,0 +1,124 @@
+sensor:
+  - platform: torque
+    name: Tristyn's Ram
+    email: tristynrusselo@gmail.com
+
+  - platform: emby_upcoming_media
+    api_key: !secret emby_api
+    user_id: !secret emby_id
+    host: 192.168.1.12
+    port: 8096
+    ssl: false
+    max: 10
+    use_backdrop: true
+    include:
+      - Movies
+      - TV shows
+
+  - platform: template
+    sensors:
+      van_dte:
+        friendly_name: "Van DTE"
+        unit_of_measurement: 'Km'
+        value_template: "{{ state_attr('sensor.fordpass_fuel','distanceToEmpty') }}"
+        icon_template: mdi:gas-station
+      fordpass_oil_actual:
+        friendly_name: "Oil Life"
+        unit_of_measurement: '%'
+        value_template: "{{ state_attr('sensor.fordpass_oil','OilLifeActual') }}"
+
+      dayoftheweek:
+        friendly_name: Day of the Week
+        value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}"
+      month:
+        value_template: "{{ ['January','February','March','April','May','June','July','August','September','October','November','December'][now().month-1] }}"
+      dateofthemonth:
+        value_template: "{{ ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','13th','14th','15th','16th','17th','18th','19th','20th','21th','22th','23th','24th','25th','26th','27th','28th','29th','30th','31th' ][ now().day-1] }}"
+      
+      count_zwave_devices:
+        friendly_name: 'ZWave'
+        icon_template: mdi:z-wave
+        value_template: >
+          {% set total = states|selectattr('object_id', 'search', 'node_status')|list|count %}
+          {% set dead = states|selectattr('object_id', 'search', 'node_status')|selectattr('state', 'in', 'dead, unavailable, unknown') | list | count %}
+          {{ total - dead }} Alive/{{ total }} Total
+
+      count_zigbee_devices:
+        friendly_name: 'Zigbee'
+        icon_template: mdi:z-wave
+        value_template: >
+          {% set entities = integration_entities('mqtt') %}
+          {% set ns = namespace(unique_ids = []) %}
+          {% for entity in entities %}
+            {% if device_id(entity) not in ns.unique_ids %}
+              {% set ns.unique_ids = ns.unique_ids + [device_id(entity)] %}
+            {% endif%}
+          {% endfor %}
+          {{ ns.unique_ids | count -2 }}
+
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
+
+  - platform: radarr_upcoming_media
+    api_key: !secret radarr_api
+    host: 192.168.1.12
+    port: 7878
+    days: 14
+    ssl: false
+    theaters: false
+    max: 10
+
+  - platform: sonarr_upcoming_media
+    api_key: !secret sonarr_api
+    host: 192.168.1.12
+    port: 8989
+    days: 7
+    ssl: false
+    max: 10
+
+
+binary_sensor:
+
+  - platform: tod
+    name: Daylight
+    after: sunrise
+    before: sunset
+
+  - platform: tod
+    name: Twilight
+    after: sunset
+    before: sunrise
+
+  - platform: tod
+    name: Morning
+    after: '04:00'
+    before: '09:00'
+
+  - platform: tod
+    name: Day
+    after: '09:00'
+    before: '19:00'
+
+  - platform: tod
+    name: Evening
+    after: '19:00'
+    before: '21:00'
+
+  - platform: tod
+    name: Night
+    after: '21:00'
+    before: '04:00'
+
+template:
+  - binary_sensor:
+      name: "Thermostat Fan Mode"
+      state: "{{ state_attr('climate.thermostat','fan_mode') }}"
+      unique_id: 2q3o4iu23odj0-sdfsdfs-w3r34f3essdf34e

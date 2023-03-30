@@ -1,0 +1,47 @@
+binary_sensor.tristyn_s_note10_presence:
+  device_class: presence
+cover.garage_door:
+  device_class: garage
+binary_sensor.front_door_contact:
+  device_class: door
+binary_sensor.garage_side_door_contact:
+  device_class: door
+binary_sensor.back_door:
+  device_class: door
+switch.fireplace:
+  friendly_name: Fireplace
+  icon: mdi:fireplace
+switch.sonarr:
+  icon: mdi:radar
+switch.radarr:
+  icon: mdi:radar
+switch.deluge:
+  icon: mdi:water
+switch.emby_server:
+  icon: mdi:play-box-multiple
+switch.duckdns:
+  icon: mdi:duck
+switch.mqtt:
+  icon: mdi:network
+switch.ubooquity:
+  icon: mdi:book-open-variant
+script.restart_hass:
+  icon: mdi:restart
+sensor.deluge_status:
+  icon: mdi:arrow-up-down-bold-outline
+sensor.deluge_down_speed:
+  icon: mdi:arrow-down-bold
+sensor.deluge_up_speed:
+  icon: mdi:arrow-up-bold
+device_tracker.t8:
+  icon: mdi:car-lifted-pickup
+  entity_picture: local/images/dodge-white3.png
+sensor.fordpass_gps:
+  entity_picture: /local/images/telus-logo.png
+device_tracker.fordpass_tracker:
+  entity_picture: /local/images/telus-logo.png
+switch.master_bathroom_lights:
+  icon: mdi:vanity-light
+script.ambientsounds:
+  icon: mdi:play
+  friendly_name: Play Sounds

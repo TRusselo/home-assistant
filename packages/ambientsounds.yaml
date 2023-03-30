@@ -1,0 +1,60 @@
+# RESOURCES:
+  # Credit to /u/dsgraham on Reddit - https://www.reddit.com/r/homeassistant/comments/9n0llr/google_ambient_sound_urls/
+  # Script adapted from Bob_NL on Home Assistant Forums - https://community.home-assistant.io/t/chromecast-radio-with-station-and-player-selection/12732
+  # Google webpage: https://support.google.com/googlehome/answer/7364558?hl=en
+ 
+###### CUSTOMIZE ----------------------------------------
+ 
+
+ 
+###### GROUPS ----------------------------------------
+ 
+group:
+ Ambient Sounds:
+  name: Ambient Sounds
+  entities:
+  - input_select.ambient_sound
+  - input_select.google_home
+  - input_number.volume_ambientsounds
+  - script.ambientsounds
+  - script.stop_casting
+ 
+###### INPUT SELECT ------------------------------------------
+  
+input_select:
+  ambient_sound:
+    name: 'Select Ambient Sound:'
+    options:
+      - "Babbling brook sounds"
+      - "Fireplace sounds"
+      - "Forest sounds"
+      - "Country night sounds"
+      - "Ocean sounds"
+      - "Rain sounds"
+      - "River sounds"
+      - "Thunderstorm sounds"
+
+      # - Oscillating fan sounds
+      # - White noise
+      
+  google_home:
+    name: 'Select Speakers:'
+    options:
+      - Master Bedroom
+      - Bedroom 2
+      - Den
+      - Kitchen
+      - Everywhere
+    initial: Master Bedroom
+    icon: mdi:speaker-wireless
+ 
+###### INPUT NUMBER ------------------------------------------
+ 
+input_number: 
+  volume_ambientsounds:
+    name: Volume
+    icon: mdi:volume-high
+    min: 0
+    max: 1
+    step: 0.05 
+ 

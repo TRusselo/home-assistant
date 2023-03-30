@@ -41,7 +41,6 @@ tts/
 deps/
 hadashboards/
 intents/
-themes/
 custom_components
 deps
 hacs
@@ -104,5 +103,4 @@ shs.yaml
 **production_auth.json
 custom_components/fordpass/fordpass_token.txt
 /home-assistant.log.1
-automations.yaml
 /zigbee.db

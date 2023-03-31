@@ -13,4 +13,5 @@ Emby / Sonarr / Radarr Media Info
 ![image](https://user-images.githubusercontent.com/1154815/229049053-c4b399d9-3762-4ab3-878e-819f6e4c67ff.png)
 
 Mobile Homescreen  (new)
+
 ![image](https://user-images.githubusercontent.com/1154815/229049218-21cb059f-05b9-43e0-bd46-4c3fe12ecf22.png)

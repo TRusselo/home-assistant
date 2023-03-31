@@ -63,6 +63,128 @@
                   "alignment": "center"
                 },
                 {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.watchman_missing_entities",
+                      "state_not": "0"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "<h2> <ha-icon icon='mdi:shield-half-full'></ha-icon> Watchman report</h2> <h3>Missing Entities: {{ states.sensor.watchman_missing_entities.state }} </h3> {%- for item in state_attr(\"sensor.watchman_missing_entities\", \"entities\") %} <hr> <table><tr> <td> <ha-icon icon='mdi: {%- if item.state==\"missing\"-%}cloud-alert' {%- elif item.state==\"unavail\" -%}cloud-off-outline' {%- else-%}cloud-question' {%- endif -%} ></ha-icon> {{ item.id }} [{{item.state}}] <a title=\"{{item.occurrences}}\"> {{item.occurrences.split('/')[-1].split(':')[0]}}</a> </td></tr></table> {%- endfor %}"
+                  }
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.count_zigbee_devices",
+                      "state_not": "31"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "<h2> <ha-icon icon='mdi:zigbee'></ha-icon> Zigbee report</h2> <h3>Devices: {{ states.sensor.count_zigbee_devices.state }} Online/31 Total"
+                  }
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.count_zwave_devices",
+                      "state_not": "17 Alive/17 Total"
+                    }
+                  ],
+                  "card": {
+                    "type": "markdown",
+                    "content": "<h2> <ha-icon icon='mdi:z-wave'></ha-icon> ZWave report</h2> <h3>Devices: {{ states.sensor.count_zwave_devices.state }}\n"
+                  }
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "alarm_control_panel.system",
+                      "state": "triggered"
+                    }
+                  ],
+                  "card": {
+                    "type": "alarm-panel",
+                    "states": [
+                      "arm_home",
+                      "arm_away"
+                    ],
+                    "entity": "alarm_control_panel.system"
+                  },
+                  "view_layout": {
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "custom:battery-state-card",
+                  "title": "Low Battery",
+                  "secondary_info": "last_updated",
+                  "show_empty": false,
+                  "sort_by_level": "asc",
+                  "entities": null,
+                  "filter": {
+                    "include": [
+                      {
+                        "name": "entity_id",
+                        "value": "*_battery"
+                      },
+                      {
+                        "name": "attributes.device_class",
+                        "value": "battery"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "name": "entity_id",
+                        "value": "*.state"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*body*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*status*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*recharge*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*capacity*"
+                      },
+                      {
+                        "name": "state",
+                        "value": "Good"
+                      },
+                      {
+                        "name": "state",
+                        "value": "STATUS_GOOD"
+                      },
+                      {
+                        "name": "state",
+                        "value": 15,
+                        "operator": ">"
+                      },
+                      {
+                        "name": "state",
+                        "value": "Off"
+                      },
+                      {
+                        "name": "state",
+                        "value": "off"
+                      }
+                    ]
+                  }
+                },
+                {
                   "type": "horizontal-stack",
                   "cards": [
                     {
@@ -168,7 +290,7 @@
                       "double_tap_action": {
                         "action": "more-info"
                       },
-                      "icon_color": "{% if is_state('binary_sensor.house_windows', 'on') %}\nyellow\n{% endif %} "
+                      "icon_color": "{% if is_state('binary_sensor.house_windows', 'on') %}\nyellow\n{% elif is_state('binary_sensor.house_windows', 'off') %}\ngreen\n{% endif %} "
                     },
                     {
                       "type": "custom:mushroom-template-card",
@@ -187,7 +309,7 @@
                       "double_tap_action": {
                         "action": "more-info"
                       },
-                      "icon_color": "{% if is_state('cover.shades', 'open') %}\nyellow\n{% endif %} "
+                      "icon_color": "{% if is_state('cover.shades', 'open') %}\nyellow\n{% elif is_state('cover.shades', 'closed') %}\ngreen\n{% endif %} "
                     },
                     {
                       "type": "custom:mushroom-template-card",
@@ -208,6 +330,36 @@
                       "badge_color": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\ngreen\n{% elif is_state('switch.diffuser', 'on') %}\nyellow\n{% endif %} "
                     }
                   ]
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "vacuum.bitch_vac",
+                      "state": "cleaning"
+                    }
+                  ],
+                  "card": {
+                    "type": "custom:vacuum-card",
+                    "entity": "vacuum.bitch_vac",
+                    "map": "camera.bitch_vac_cleaning_map"
+                  },
+                  "view_layout": {
+                    "column": 1
+                  }
+                },
+                {
+                  "type": "conditional",
+                  "conditions": [
+                    {
+                      "entity": "sensor.washer_status",
+                      "state_not": "Idle"
+                    }
+                  ],
+                  "card": {
+                    "type": "custom:laundry-card",
+                    "entity": "sensor.washer"
+                  }
                 },
                 {
                   "type": "custom:simple-thermostat",
@@ -5102,6 +5254,37 @@
                   "alignment": "center"
                 },
                 {
+                  "type": "custom:simple-thermostat",
+                  "entity": "climate.thermostat",
+                  "layout": {
+                    "mode": {
+                      "headings": false
+                    }
+                  }
+                },
+                {
+                  "chart_type": "line",
+                  "period": "hour",
+                  "days_to_show": 1,
+                  "type": "statistics-graph",
+                  "entities": [
+                    "sensor.basement_motion_sensor_temperature",
+                    "sensor.downstairs_motion_sensor_temperature",
+                    "sensor.entryway_motion_sensor_temperature",
+                    "sensor.living_room_motion_sensor_temperature",
+                    "sensor.kitchen_motion_temperature",
+                    "sensor.upstairs_motion_sensor_temperature",
+                    "sensor.bedroom_2_motion_sensor_temperature",
+                    "sensor.den_motion_temperature",
+                    "sensor.master_bedroom_temp_sensor_temperature",
+                    "sensor.garage_house_door_temperature"
+                  ],
+                  "stat_types": [
+                    "mean"
+                  ],
+                  "hide_legend": false
+                },
+                {
                   "type": "custom:mushroom-vacuum-card",
                   "entity": "vacuum.bitch_vac",
                   "commands": [
@@ -5113,8 +5296,67 @@
                   "fill_container": false
                 },
                 {
-                  "type": "custom:laundry-card",
-                  "entity": "sensor.washer"
+                  "type": "custom:battery-state-card",
+                  "title": "Low Battery",
+                  "secondary_info": "last_updated",
+                  "show_empty": false,
+                  "sort_by_level": "asc",
+                  "entities": null,
+                  "filter": {
+                    "include": [
+                      {
+                        "name": "entity_id",
+                        "value": "*_battery"
+                      },
+                      {
+                        "name": "attributes.device_class",
+                        "value": "battery"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "name": "entity_id",
+                        "value": "*.state"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*body*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*status*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*recharge*"
+                      },
+                      {
+                        "name": "entity_id",
+                        "value": "*capacity*"
+                      },
+                      {
+                        "name": "state",
+                        "value": "Good"
+                      },
+                      {
+                        "name": "state",
+                        "value": "STATUS_GOOD"
+                      },
+                      {
+                        "name": "state",
+                        "value": "Off"
+                      },
+                      {
+                        "name": "state",
+                        "value": "off"
+                      },
+                      {
+                        "name": "state",
+                        "value": 70,
+                        "operator": ">"
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "markdown",

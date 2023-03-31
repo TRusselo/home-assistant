@@ -1,236 +1,541 @@
 {
   "version": 1,
   "minor_version": 1,
-  "key": "lovelace",
+  "key": "lovelace.dashboard_mobile",
   "data": {
     "config": {
-      "animated_background": {
-        "default_url": "https://cdn.flixel.com/flixel/ypy8bw9fgw1zv2b4htp2.hd.mp4",
-        "entity": "weather.fort_mcmurray_pirate_weather",
-        "state_url": {
-          "sunny": [
-            "https://cdn.flixel.com/flixel/hlhff0h8md4ev0kju5be.hd.mp4",
-            "https://cdn.flixel.com/flixel/zjqsoc6ecqhntpl5vacs.hd.mp4",
-            "https://cdn.flixel.com/flixel/jvw1avupguhfbo11betq.hd.mp4",
-            "https://cdn.flixel.com/flixel/8cmeusxf3pkanai43djs.hd.mp4",
-            "https://cdn.flixel.com/flixel/guwb10mfddctfvwioaex.hd.mp4"
-          ],
-          "partlycloudy": [
-            "https://cdn.flixel.com/flixel/13e0s6coh6ayapvdyqnv.hd.mp4",
-            "https://cdn.flixel.com/flixel/aorl3skmssy7udwopk22.hd.mp4",
-            "https://cdn.flixel.com/flixel/qed6wvf2igukiioykg3r.hd.mp4",
-            "https://cdn.flixel.com/flixel/3rd72eezaj6d23ahlo7y.hd.mp4",
-            "https://cdn.flixel.com/flixel/9m11gd43m6qn3y93ntzp.hd.mp4",
-            "https://cdn.flixel.com/flixel/hrkw2m8eofib9sk7t1v2.hd.mp4"
-          ],
-          "cloudy": [
-            "https://cdn.flixel.com/flixel/13e0s6coh6ayapvdyqnv.hd.mp4",
-            "https://cdn.flixel.com/flixel/aorl3skmssy7udwopk22.hd.mp4",
-            "https://cdn.flixel.com/flixel/qed6wvf2igukiioykg3r.hd.mp4",
-            "https://cdn.flixel.com/flixel/3rd72eezaj6d23ahlo7y.hd.mp4",
-            "https://cdn.flixel.com/flixel/9m11gd43m6qn3y93ntzp.hd.mp4",
-            "https://cdn.flixel.com/flixel/hrkw2m8eofib9sk7t1v2.hd.mp4"
-          ],
-          "mostlycloudy": [
-            "https://cdn.flixel.com/flixel/e95h5cqyvhnrk4ytqt4q.hd.mp4",
-            "https://cdn.flixel.com/flixel/l2bjw34wnusyf5q2qq3p.hd.mp4",
-            "https://cdn.flixel.com/flixel/rrgta099ulami3zb9fd2.hd.mp4"
-          ],
-          "clear-night": [
-            "https://cdn.flixel.com/flixel/x9dr8caygivq5secll7i.hd.mp4",
-            "https://cdn.flixel.com/flixel/v26zyfd6yf0r33s46vpe.hd.mp4",
-            "https://cdn.flixel.com/flixel/ypy8bw9fgw1zv2b4htp2.hd.mp4",
-            "https://cdn.flixel.com/flixel/rosz2gi676xhkiw1ut6i.hd.mp4"
-          ],
-          "fog": [
-            "https://cdn.flixel.com/flixel/vwqzlk4turo2449be9uf.hd.mp4",
-            "https://cdn.flixel.com/flixel/5363uhabodwwrzgnq6vx.hd.mp4"
-          ],
-          "rainy": "https://cdn.flixel.com/flixel/f0w23bd0enxur5ff0bxz.hd.mp4",
-          "snowy": [
-            "https://cdn.flixel.com/flixel/ndza6yswd0k6vlboxyhk.hd.mp4",
-            "https://cdn.flixel.com/flixel/psi1hhbsshcus8eumtr7.hd.mp4"
-          ]
-        }
-      },
-      "title": "Home",
       "views": [
         {
-          "path": "default_view",
           "title": "Home",
-          "icon": "mdi:home",
-          "type": "custom:horizontal-layout",
-          "badges": [
-            {
-              "entity": "person.tristyn"
-            },
-            {
-              "entity": "person.terry"
-            }
-          ],
           "cards": [
             {
-              "type": "custom:mushroom-chips-card",
-              "chips": [
+              "type": "vertical-stack",
+              "cards": [
                 {
-                  "type": "alarm-control-panel",
-                  "entity": "alarm_control_panel.system",
-                  "name": "Alarm",
-                  "content_info": "state"
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.time"
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "sensor.dayoftheweek",
+                      "icon": "mdi:calendar-week"
+                    },
+                    {
+                      "type": "weather",
+                      "entity": "weather.fort_mcmurray_pirate_weather",
+                      "show_conditions": true,
+                      "show_temperature": true,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/weather"
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "person.tristyn",
+                      "name": "Tristyn",
+                      "use_entity_picture": true,
+                      "hold_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/location"
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "person.terry",
+                      "use_entity_picture": true,
+                      "hold_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/location"
+                      }
+                    }
+                  ],
+                  "alignment": "center"
                 },
                 {
-                  "type": "weather",
-                  "entity": "weather.fort_mcmurray_pirate_weather",
-                  "show_conditions": true,
-                  "show_temperature": true
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "House",
+                      "secondary": "",
+                      "icon": "mdi:home",
+                      "icon_color": "blue",
+                      "multiline_secondary": false,
+                      "layout": "vertical",
+                      "fill_container": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "house"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Speakers",
+                      "secondary": "",
+                      "icon": "mdi:speaker",
+                      "icon_color": "amber",
+                      "multiline_secondary": false,
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/speakers"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Security",
+                      "secondary": "",
+                      "icon": "mdi:shield",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/alarm"
+                      },
+                      "icon_color": "{% if is_state('alarm_control_panel.system', 'disarmed') %}\ngreen\n{% elif is_state('alarm_control_panel.system', 'armed_home') %}\nyellow\n{% elif is_state('alarm_control_panel.system', 'armed_away') %}\norange\n{% elif is_state('alarm_control_panel.system', 'triggered') %}\nred\n{% endif %}",
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "alarm_control_panel.system"
+                    }
+                  ]
                 },
                 {
-                  "type": "entity",
-                  "entity": "person.tristyn",
-                  "name": "Tristyn",
-                  "use_entity_picture": true
+                  "type": "custom:simple-thermostat",
+                  "entity": "climate.thermostat",
+                  "header": false,
+                  "layout": {
+                    "step": "row"
+                  },
+                  "control": false
                 },
                 {
-                  "type": "entity",
-                  "entity": "person.terry",
-                  "use_entity_picture": true
+                  "type": "custom:mushroom-title-card",
+                  "title": "Rooms",
+                  "alignment": "center"
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Living Room",
+                      "secondary": "{{ states('sensor.living_room_motion_sensor_temperature') }} °c 🌡\n{{ states('sensor.thermostat_humidity') }} % 💧",
+                      "icon": "mdi:sofa",
+                      "entity": "light.living_room_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/living-room"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.living_room_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.living_room_motion_sensor_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.living_room_window_contact', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.living_room_motion_sensor_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.living_room_window_contact', 'on') %}\nyellow\n{% endif %} ",
+                      "picture": ""
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Kitchen",
+                      "secondary": "{{ states('sensor.kitchen_motion_temperature') }} °c 🌡",
+                      "icon": "mdi:fridge",
+                      "entity": "light.kitchen",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/kitchen"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.kitchen', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.kitchen_motion_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.back_door', 'on') %}\nmdi:door-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.kitchen_motion_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.back_door', 'on') %}\nyellow"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Front Yard",
+                      "secondary": "{{ states('sensor.openweathermap_temperature') }} °c 🌡\n{{ states('sensor.openweathermap_humidity') }} % 💧",
+                      "icon": "mdi:pine-tree",
+                      "entity": "light.front_yard_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/front-yard"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.front_yard_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.blueiris_front_yard_motion', 'on') %}\nmdi:motion-sensor\n{% endif %} ",
+                      "badge_color": "green"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Back Deck",
+                      "secondary": "{{ states('sensor.openweathermap_temperature') }} °c 🌡\n{{ states('sensor.openweathermap_humidity') }} % 💧",
+                      "icon": "mdi:umbrella-beach",
+                      "entity": "light.back_deck",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/outside"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.back_deck', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.blueiris_back_deck_motion', 'on') %}\nmdi:motion-sensor\n{% endif %} ",
+                      "badge_color": "green"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Garage",
+                      "secondary": "{{ states('sensor.garage_house_door_temperature') }} °c 🌡\n",
+                      "icon": "mdi:garage",
+                      "entity": "light.garage_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/garage"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.garage_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.blueiris_garage_camera_motion', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.garage_side_door', 'on') %}\nmdi:door-open\n{% elif is_state('binary_sensor.garage_overhead_door', 'on') %}\nmdi:garage-open\n{% elif is_state('lock.garage_side_deadbolt', 'unlocked') %}\nmdi:lock-off\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.blueiris_garage_camera_motion', 'on') %}\ngreen\n{% elif is_state('binary_sensor.garage_side_door', 'on') %}\nyellow\n{% elif is_state('binary_sensor.garage_overhead_door', 'on') %}\nred\n{% elif is_state('lock.garage_side_deadbolt', 'unlocked') %}\nred\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Basement",
+                      "secondary": "{{ states('sensor.basement_ambient_temperature') }} °c 🌡\n{{ states('sensor.basement_ambient_humidity') }} % 💧",
+                      "icon": "mdi:dumbbell",
+                      "entity": "light.basement_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/basement"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.basement_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.basement_motion_detector', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.basement_window_1', 'on') %}\nmdi:window-open\n{% elif is_state('binary_sensor.basement_window', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.basement_motion_detector', 'on') %}\ngreen\n{% elif is_state('binary_sensor.basement_window_1', 'on') %}\nyellow\n{% elif is_state('binary_sensor.basement_window', 'on') %}\nyellow\n{% endif %}"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Entryway",
+                      "secondary": "{{ states('sensor.entryway_motion_sensor_temperature') }} °c 🌡\n{{ states('sensor.thermostat_humidity') }} % 💧",
+                      "icon": "mdi:door-open",
+                      "entity": "light.entryway",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/hallways"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.entryway', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.entryway_motion_sensor_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.front_door', 'on') %}\nmdi:door-open\n{% elif is_state('lock.front_deadbolt', 'unlocked') %}\nmdi:lock-off\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.entryway_motion_sensor_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.front_door', 'on') %}\nyellow\n{% elif is_state('lock.front_deadbolt', 'unlocked') %}\nred\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Bathroom 3",
+                      "secondary": "",
+                      "icon": "mdi:toilet",
+                      "entity": "switch.bathroom_3_lights",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('switch.bathroom_3_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "",
+                      "badge_color": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Bedroom 2",
+                      "secondary": "{{ states('sensor.bedroom_2_temp_humidity_sensor_temperature') }} °c 🌡\n{{ states('sensor.bedroom_2_temp_humidity_sensor_relative_humidity_measurement') }} % 💧",
+                      "icon": "mdi:bed-double",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/bedroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.bedroom_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.bedroom_2_motion_sensor_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.bedroom_2_window_contact', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.bedroom_2_motion_sensor_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.bedroom_2_window_contact', 'on') %}\nyellow\n{% endif %} ",
+                      "entity": "light.bedroom_lights"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Den",
+                      "secondary": "{{ states('sensor.den_motion_temperature') }} °c 🌡",
+                      "icon": "mdi:sofa-single",
+                      "entity": "light.den_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/den"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.den_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.den_motion_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.den_window_contact', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.den_motion_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.den_window_contact', 'on') %}\nyellow\n{% endif %} "
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Master Bedroom",
+                      "secondary": "{{ states('sensor.master_bedroom_button_temperature') }} °c 🌡\n{{ states('sensor.master_bedroom_temp_sensor_humidity') }} % 💧",
+                      "icon": "mdi:bed-king",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/master-bedroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.master_bedroom_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.master_bedroom_motion_motion', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.master_bedroom_window_contact', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.master_bedroom_motion_motion', 'on') %}\ngreen\n{% elif is_state('binary_sensor.master_bedroom_window_contact', 'on') %}\nyellow\n{% endif %} ",
+                      "entity": "light.master_bedroom_lights"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Master Bathroom",
+                      "secondary": "{{ states('sensor.master_bathroom_motion_sensor_temperature') }} °c 🌡",
+                      "icon": "mdi:shower",
+                      "entity": "light.master_bathroom_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/master-bedroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.master_bathroom_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.master_bathroom_motion_sensor_motion', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.master_bathroom_window_contact', 'on') %}\nmdi:window-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.master_bathroom_motion_sensor_motion', 'on') %}\ngreen\n{% elif is_state('binary_sensor.master_bathroom_window_contact', 'on') %}\nyellow\n{% endif %} "
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Upstairs",
+                      "secondary": "{{ states('sensor.upstairs_motion_sensor_temperature') }} °c 🌡\n",
+                      "icon": "mdi:stairs-up",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/hallways"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.upstairs_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.upstairs_motion_sensor_occupancy', 'on') %}\nmdi:motion-sensor\n{% endif %} ",
+                      "badge_color": "green",
+                      "entity": "light.upstairs_lights"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Downstairs",
+                      "secondary": "{{ states('sensor.downstairs_motion_sensor_temperature') }} °c 🌡",
+                      "icon": "mdi:stairs-down",
+                      "entity": "light.downstairs_lights",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/hallways"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.downstairs_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": false,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.downstairs_motion_sensor_motion', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.garage_house_door_contact', 'on') %}\nmdi:door-open\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.downstairs_motion_sensor_motion', 'on') %}\ngreen\n{% elif is_state('binary_sensor.garage_house_door_contact', 'on') %}\nyellow\n{% endif %} "
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Bathroom 2",
+                      "secondary": "{{ states('sensor.bathroom_2_motion_sensor_temperature') }} °c 🌡\nFan {{ states('fan.bath_fan') }}\n",
+                      "icon": "mdi:shower-head",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/bathroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.bathroom_2_lights', 'on') %}\n orange\n{% endif %} ",
+                      "multiline_secondary": true,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "call-service",
+                        "service": "fan.toggle",
+                        "target": {
+                          "entity_id": "fan.bath_fan"
+                        },
+                        "data": {}
+                      },
+                      "badge_icon": "{% if is_state('binary_sensor.bathroom_2_motion_sensor_motion', 'on') %}\nmdi:motion-sensor\n{% endif %} ",
+                      "badge_color": "green",
+                      "entity": "light.bathroom_2_lights"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Washing Machine",
+                      "secondary": "{{ states('sensor.washer') }}",
+                      "icon": "mdi:washing-machine",
+                      "entity": "sensor.washer",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/bathroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "icon_color": "{% if is_state('light.downstairs_lights', 'on') %}\norange\n{% endif %} ",
+                      "multiline_secondary": true,
+                      "fill_container": true,
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "badge_icon": "{% if is_state('sensor.washer_status', 'Running') %}\nmdi:washing-machine-alert\n{% endif %} ",
+                      "badge_color": "green"
+                    }
+                  ]
                 }
-              ],
-              "alignment": "center"
-            },
+              ]
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Weather",
+          "path": "weather",
+          "subview": true,
+          "icon": "mdi:weather-partly-cloudy",
+          "badges": [],
+          "cards": [
             {
-              "type": "conditional",
-              "conditions": [
-                {
-                  "entity": "binary_sensor.front_step_dog_occupancy",
-                  "state": "detected"
-                }
-              ],
-              "card": {
-                "camera_view": "auto",
-                "type": "picture-glance",
-                "title": "Puppy At The Door!",
-                "entities": [],
-                "camera_image": "camera.doorbell"
-              },
-              "view_layout": {
-                "column": 1
-              }
-            },
-            {
-              "type": "conditional",
-              "conditions": [
-                {
-                  "entity": "alarm_control_panel.system",
-                  "state": "triggered"
-                }
-              ],
-              "card": {
-                "type": "alarm-panel",
-                "states": [
-                  "arm_home",
-                  "arm_away"
-                ],
-                "entity": "alarm_control_panel.system"
-              },
-              "view_layout": {
-                "column": 1
-              }
+              "type": "custom:sun-card"
             },
             {
               "type": "custom:weather-card",
               "entity": "weather.openweathermap",
-              "number_of_forecasts": "5",
-              "layout": {
-                "key": "def7a5c5-d42c-4552-be0f-75b899aa1e33"
-              },
-              "view_layout": {
-                "column": 1
-              }
-            },
-            {
-              "show_name": true,
-              "show_icon": true,
-              "show_state": true,
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "binary_sensor.exterior_house_doors"
-                },
-                {
-                  "entity": "lock.exterior_locks"
-                },
-                {
-                  "entity": "binary_sensor.house_windows"
-                },
-                {
-                  "entity": "binary_sensor.thermostat_fan_mode"
-                },
-                {
-                  "entity": "switch.diffuser"
-                },
-                {
-                  "entity": "cover.shades"
-                }
-              ],
-              "columns": 3,
-              "view_layout": {
-                "column": 2
-              }
-            },
-            {
-              "type": "custom:simple-thermostat",
-              "entity": "climate.thermostat",
-              "layout": {
-                "mode": {
-                  "headings": false,
-                  "names": true,
-                  "icons": true
-                }
-              },
-              "control": [
-                "hvac",
-                "fan"
-              ],
-              "header": false,
-              "sensors": [
-                {
-                  "entity": "sensor.thermostat_humidity",
-                  "name": "Humidity"
-                }
-              ],
-              "unit": "c",
-              "view_layout": {
-                "column": 3
-              }
-            },
-            {
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "input_boolean.house_is_occupied"
-                },
-                {
-                  "entity": "sensor.dayoftheweek"
-                },
-                {
-                  "entity": "sensor.date"
-                },
-                {
-                  "entity": "sensor.time"
-                }
-              ],
-              "view_layout": {
-                "column": 2
-              }
-            },
-            {
-              "type": "entity",
-              "entity": "sensor.washer_status",
-              "icon": "mdi:washing-machine",
-              "view_layout": {
-                "column": 3
-              }
+              "number_of_forecasts": "7"
             },
             {
               "type": "iframe",
@@ -238,117 +543,17 @@
               "aspect_ratio": "120%",
               "layout": {
                 "key": "a5eb6d27-2a0f-4bab-b680-ff366f9c70ff"
-              },
-              "view_layout": {
-                "column": 4
-              }
-            },
-            {
-              "type": "custom:sun-card",
-              "view_layout": {
-                "column": 1
-              }
-            },
-            {
-              "type": "custom:laundry-card",
-              "entity": "sensor.washer",
-              "view_layout": {
-                "column": 3
               }
             }
           ]
         },
         {
           "theme": "Backend-selected",
-          "title": "Areas",
-          "path": "areas",
-          "icon": "mdi:home-circle-outline",
-          "type": "custom:horizontal-layout",
-          "badges": [],
-          "cards": [
-            {
-              "type": "area",
-              "show_camera": true,
-              "navigation_path": "front-yard",
-              "area": "e9986df479794308aa60b0dc689f885d"
-            },
-            {
-              "type": "area",
-              "area": "d5ff2ed38eb842d187eb8f2ade3bb3bf",
-              "show_camera": true,
-              "navigation_path": "hallways"
-            },
-            {
-              "type": "area",
-              "area": "a22dea8388ec4724bbce0bc041eeed97",
-              "navigation_path": "kitchen"
-            },
-            {
-              "type": "area",
-              "area": "71773526eaa347df824e4c8d1c34a7f7",
-              "show_camera": true,
-              "navigation_path": "living-room"
-            },
-            {
-              "type": "area",
-              "area": "bb4026037d864c1ab67fa44dd112a6e3",
-              "navigation_path": "den"
-            },
-            {
-              "type": "area",
-              "area": "ffa04856c397453ca40811829c99073d",
-              "navigation_path": "master-bedroom"
-            },
-            {
-              "type": "area",
-              "area": "bedroom_2",
-              "navigation_path": "bedroom"
-            },
-            {
-              "type": "area",
-              "area": "a05264d1dfad49e6a1f00cd6eded32cc",
-              "navigation_path": "bathroom"
-            },
-            {
-              "type": "area",
-              "area": "083f60487a1343b281433b5d3436d03e",
-              "navigation_path": "/lovelace/master-bedroom"
-            },
-            {
-              "type": "area",
-              "area": "f8a16ccd90684544a1f7301cd7af1c6d",
-              "show_camera": true,
-              "navigation_path": "garage"
-            },
-            {
-              "type": "area",
-              "area": "e6cd5b4804aa4f359d1a02440e922922",
-              "navigation_path": "hallways"
-            },
-            {
-              "type": "area",
-              "area": "e89e05ac0a8e11eba805f58e4fcf492a",
-              "navigation_path": "outside",
-              "show_camera": true
-            },
-            {
-              "type": "area",
-              "area": "29d411c511274ebd9ac1f36d90108150",
-              "navigation_path": "hallways"
-            },
-            {
-              "type": "area",
-              "area": "a4843c495370486694b714a6d8059f0f",
-              "navigation_path": "basement",
-              "show_camera": true
-            }
-          ]
-        },
-        {
           "path": "outside",
-          "title": "Outside",
+          "title": "Backyard",
           "icon": "mdi:pine-tree",
           "visible": [],
+          "subview": true,
           "badges": [],
           "cards": [
             {
@@ -391,7 +596,7 @@
           "title": "Alarm",
           "path": "alarm",
           "icon": "mdi:shield-home",
-          "subview": false,
+          "subview": true,
           "badges": [],
           "cards": [
             {
@@ -470,163 +675,11 @@
           ]
         },
         {
-          "path": "motion",
-          "title": "Motion",
-          "icon": "mdi:motion-sensor",
-          "badges": [],
-          "cards": [
-            {
-              "entities": [
-                {
-                  "entity": "binary_sensor.den_motion_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.bedroom_2_motion_sensor_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.bathroom_2_motion_sensor_motion"
-                },
-                {
-                  "entity": "binary_sensor.master_bedroom_motion_motion"
-                },
-                {
-                  "entity": "binary_sensor.master_bathroom_motion_sensor_motion"
-                }
-              ],
-              "theme": "Backend-selected",
-              "type": "glance",
-              "state_color": true,
-              "title": "Top Floor"
-            },
-            {
-              "entities": [
-                {
-                  "entity": "binary_sensor.upstairs_motion_sensor_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.entryway_motion_sensor_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.living_room_motion_sensor_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.kitchen_motion_occupancy"
-                },
-                {
-                  "entity": "binary_sensor.garage_motion"
-                }
-              ],
-              "type": "glance",
-              "state_color": true,
-              "title": "Main Floor"
-            },
-            {
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "binary_sensor.downstairs_motion_sensor_motion"
-                },
-                {
-                  "entity": "binary_sensor.basement_motion_sensor_occupancy"
-                }
-              ],
-              "title": "Basement"
-            },
-            {
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "binary_sensor.blueiris_front_yard_motion"
-                },
-                {
-                  "entity": "binary_sensor.blueiris_doorbell_motion"
-                },
-                {
-                  "entity": "binary_sensor.blueiris_living_room_motion"
-                },
-                {
-                  "entity": "binary_sensor.blueiris_garage_camera_motion"
-                },
-                {
-                  "entity": "binary_sensor.blueiris_back_deck_motion"
-                }
-              ],
-              "title": "BlueIris"
-            },
-            {
-              "chart_type": "line",
-              "period": "hour",
-              "days_to_show": 1,
-              "type": "statistics-graph",
-              "entities": [
-                "sensor.basement_motion_sensor_temperature",
-                "sensor.downstairs_motion_sensor_temperature",
-                "sensor.entryway_motion_sensor_temperature",
-                "sensor.living_room_motion_sensor_temperature",
-                "sensor.kitchen_motion_temperature",
-                "sensor.upstairs_motion_sensor_temperature",
-                "sensor.bedroom_2_motion_sensor_temperature",
-                "sensor.den_motion_temperature",
-                "sensor.master_bedroom_temp_sensor_temperature",
-                "sensor.garage_house_door_temperature"
-              ],
-              "stat_types": [
-                "mean"
-              ],
-              "hide_legend": false
-            }
-          ]
-        },
-        {
-          "title": "Upcoming Media",
-          "path": "upcoming-media",
-          "icon": "mdi:movie-open",
-          "visible": [
-            {
-              "user": "377a11bf1cc14990af52e845650d822f"
-            }
-          ],
-          "badges": [],
-          "cards": [
-            {
-              "type": "custom:upcoming-media-card",
-              "entity": "sensor.emby_latest_tv_shows",
-              "title": "Recently Added Episodes"
-            },
-            {
-              "type": "custom:upcoming-media-card",
-              "entity": "sensor.emby_latest_movies",
-              "title": "Recently Added Movies"
-            },
-            {
-              "type": "custom:upcoming-media-card",
-              "entity": "sensor.sonarr_upcoming_media",
-              "title": "Upcoming TV"
-            },
-            {
-              "type": "custom:upcoming-media-card",
-              "entity": "sensor.radarr_upcoming_media",
-              "title": "Upcoming Movies"
-            }
-          ]
-        },
-        {
-          "title": "Tristyn's Music",
-          "path": "tristyns-music",
-          "icon": "mdi:music",
-          "visible": [],
-          "badges": [],
-          "cards": [
-            {
-              "type": "media-control",
-              "entity": "media_player.ytube_music_player_tristyn"
-            }
-          ]
-        },
-        {
+          "theme": "Backend-selected",
           "title": "Location",
           "path": "location",
           "icon": "mdi:crosshairs-gps",
+          "subview": true,
           "badges": [],
           "cards": [
             {
@@ -1059,6 +1112,7 @@
               "user": "377a11bf1cc14990af52e845650d822f"
             }
           ],
+          "subview": true,
           "badges": [],
           "cards": [
             {
@@ -1104,415 +1158,6 @@
             {
               "type": "media-control",
               "entity": "media_player.master_bedroom_display"
-            }
-          ]
-        },
-        {
-          "title": "Network",
-          "path": "network",
-          "icon": "mdi:server-network",
-          "visible": [
-            {
-              "user": "377a11bf1cc14990af52e845650d822f"
-            }
-          ],
-          "badges": [],
-          "cards": [
-            {
-              "type": "entities",
-              "entities": [
-                "script.restart_hass"
-              ],
-              "title": "Home Assistant"
-            },
-            {
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "switch.emby_server"
-                },
-                {
-                  "entity": "switch.sonarr"
-                },
-                {
-                  "entity": "switch.radarr"
-                },
-                {
-                  "entity": "switch.deluge"
-                },
-                {
-                  "entity": "switch.ubooquity"
-                },
-                {
-                  "entity": "switch.duckdns"
-                },
-                {
-                  "entity": "switch.mqtt"
-                }
-              ],
-              "title": "Unraid"
-            },
-            {
-              "type": "entities",
-              "entities": [
-                {
-                  "entity": "sensor.deluge_status"
-                },
-                {
-                  "entity": "sensor.deluge_down_speed"
-                },
-                {
-                  "entity": "sensor.deluge_up_speed"
-                }
-              ],
-              "title": "Deluge",
-              "show_header_toggle": false
-            },
-            {
-              "type": "custom:vertical-stack-in-card",
-              "title": "Big-Z Server",
-              "cards": [
-                {
-                  "type": "horizontal-stack",
-                  "cards": [
-                    {
-                      "type": "custom:card-modder",
-                      "card": {
-                        "type": "picture",
-                        "image": "/local/images/unraid.png"
-                      },
-                      "style": {
-                        "border-radius": "5px"
-                      }
-                    },
-                    {
-                      "type": "vertical-stack",
-                      "cards": [
-                        {
-                          "type": "custom:entity-attributes-card",
-                          "heading_name": " ",
-                          "heading_state": " ",
-                          "filter": {
-                            "include": [
-                              {
-                                "key": "binary_sensor.big_d_server.cpu"
-                              },
-                              {
-                                "key": "binary_sensor.big_d_server.memory"
-                              },
-                              {
-                                "key": "binary_sensor.big_d_server.motherboard"
-                              },
-                              {
-                                "key": "binary_sensor.big_d_server.arrayStatus"
-                              },
-                              {
-                                "key": "binary_sensor.big_d_server.diskSpace"
-                              },
-                              {
-                                "key": "binary_sensor.big_d_server.arrayProtection"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "conditional",
-                  "conditions": [
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unavailable"
-                    },
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unknown"
-                    }
-                  ],
-                  "card": {
-                    "type": "custom:bar-card",
-                    "align": "split",
-                    "show_icon": true,
-                    "padding": "4px",
-                    "columns": 2,
-                    "card_style": {
-                      "border-radius": "5px"
-                    },
-                    "severity": [
-                      {
-                        "value": 50,
-                        "color": "#3bb3ee"
-                      },
-                      {
-                        "value": 80,
-                        "color": "#e7a24a"
-                      },
-                      {
-                        "value": 100,
-                        "color": "#ff0000"
-                      }
-                    ],
-                    "entities": [
-                      {
-                        "entity": "sensor.glances_cpu_used",
-                        "title": "CPU",
-                        "max": 100
-                      },
-                      {
-                        "entity": "sensor.glances_ram_used_percent",
-                        "title": "RAM",
-                        "max": 100
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "conditional",
-                  "conditions": [
-                    {
-                      "entity": "sensor.glances_containers_active",
-                      "state_not": "0"
-                    },
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unavailable"
-                    },
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unknown"
-                    }
-                  ],
-                  "card": {
-                    "type": "custom:bar-card",
-                    "align": "split",
-                    "show_icon": true,
-                    "padding": "4px",
-                    "columns": 2,
-                    "card_style": {
-                      "border-radius": "5px"
-                    },
-                    "entities": [
-                      {
-                        "entity": "sensor.glances_containers_cpu_used",
-                        "title": "Docker CPU",
-                        "max": 3200
-                      },
-                      {
-                        "entity": "sensor.glances_containers_ram_used",
-                        "title": "Docker RAM",
-                        "max": 32000
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "conditional",
-                  "conditions": [
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unavailable"
-                    },
-                    {
-                      "entity": "sensor.glances_mnt_disk1_used_percent",
-                      "state_not": "unknown"
-                    }
-                  ],
-                  "card": {
-                    "type": "custom:bar-card",
-                    "align": "left",
-                    "title_position": "left",
-                    "show_icon": true,
-                    "padding": "4px",
-                    "columns": 1,
-                    "card_style": {
-                      "border-radius": "5px"
-                    },
-                    "severity": [
-                      {
-                        "value": 50,
-                        "color": "#3bb3ee"
-                      },
-                      {
-                        "value": 80,
-                        "color": "#e7a24a"
-                      },
-                      {
-                        "value": 100,
-                        "color": "#ff0000"
-                      }
-                    ],
-                    "entities": [
-                      {
-                        "entity": "sensor.glances_containers_active",
-                        "title": "Containers",
-                        "max": 40
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "entities": [
-                {
-                  "entity": "sensor.glances_mnt_disk1_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk2_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk3_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk4_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk5_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk6_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk7_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk8_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk9_used_percent"
-                },
-                {
-                  "entity": "sensor.glances_mnt_disk10_used_percent"
-                }
-              ],
-              "severity": [
-                {
-                  "color": "Red",
-                  "to": "100",
-                  "from": "90"
-                },
-                {
-                  "color": "Orange",
-                  "to": "89",
-                  "from": "76"
-                },
-                {
-                  "to": "75",
-                  "from": "0"
-                }
-              ],
-              "title": "Disk Usage",
-              "direction": "up",
-              "height": "200px",
-              "stack": "horizontal",
-              "type": "custom:bar-card",
-              "positions": {
-                "icon": "outside",
-                "indicator": "outside"
-              }
-            },
-            {
-              "show_name": true,
-              "show_icon": true,
-              "type": "button",
-              "tap_action": {
-                "action": "toggle"
-              },
-              "entity": "switch.pi_hole",
-              "theme": "Caule Black Rose"
-            }
-          ]
-        },
-        {
-          "title": "Misc",
-          "path": "misc",
-          "visible": [
-            {
-              "user": "377a11bf1cc14990af52e845650d822f"
-            }
-          ],
-          "badges": [],
-          "cards": [
-            {
-              "type": "entities",
-              "entities": [
-                "input_select.themes"
-              ],
-              "title": "Theme"
-            },
-            {
-              "type": "map",
-              "entities": [
-                {
-                  "entity": "device_tracker.s9"
-                },
-                {
-                  "entity": "device_tracker.fordpass_tracker"
-                },
-                {
-                  "entity": "person.terry"
-                },
-                {
-                  "entity": "device_tracker.note_10"
-                },
-                {
-                  "entity": "device_tracker.t8"
-                }
-              ],
-              "hours_to_show": 8
-            },
-            {
-              "type": "entities",
-              "entities": [
-                {
-                  "entity": "light.test_strip_1"
-                },
-                {
-                  "entity": "select.test_strip_1_color_palette",
-                  "name": "Color palette"
-                },
-                {
-                  "entity": "update.test_strip_1_firmware",
-                  "name": "Firmware"
-                },
-                {
-                  "entity": "number.test_strip_1_intensity",
-                  "name": "Intensity"
-                },
-                {
-                  "entity": "number.test_strip_1_speed",
-                  "name": "Speed"
-                },
-                {
-                  "entity": "select.test_strip_1_live_override",
-                  "name": "Live override"
-                },
-                {
-                  "entity": "switch.test_strip_1_nightlight",
-                  "name": "Nightlight"
-                },
-                {
-                  "entity": "button.test_strip_1_restart",
-                  "name": "Restart"
-                },
-                {
-                  "entity": "switch.test_strip_1_reverse",
-                  "name": "Reverse"
-                },
-                {
-                  "entity": "switch.test_strip_1_sync_receive",
-                  "name": "Sync receive"
-                },
-                {
-                  "entity": "switch.test_strip_1_sync_send",
-                  "name": "Sync send"
-                }
-              ],
-              "title": "Test Strip 1",
-              "state_color": false,
-              "show_header_toggle": false
             }
           ]
         },
@@ -3881,7 +3526,7 @@
                     },
                     {
                       "color": "auto",
-                      "entity": "fan.bath_fan",
+                      "entity": "fan.bath_fan_1",
                       "show_name": false,
                       "style": {
                         "left": "31%",
@@ -4523,7 +4168,6 @@
               "show_brightness_control": true,
               "use_light_color": true,
               "collapsible_controls": false,
-              "fill_container": false,
               "view_layout": {
                 "column": 1
               }
@@ -5199,595 +4843,9 @@
               "style": "ha-card { background: center / cover url(/local/bg_card_icons/garage.png) no-repeat; background-color: var(--ha-card-background); background-size: 9.8em; }\n"
             }
           ]
-        },
-        {
-          "title": "Helpers",
-          "path": "helpers",
-          "visible": [
-            {
-              "user": "377a11bf1cc14990af52e845650d822f"
-            },
-            {
-              "user": "e4da8f89004349169a9eb6bc5294dbe3"
-            }
-          ],
-          "badges": [],
-          "cards": [
-            {
-              "type": "custom:auto-entities",
-              "card": {
-                "type": "entities"
-              },
-              "filter": {
-                "include": [
-                  {
-                    "domain": "input_*"
-                  }
-                ],
-                "exclude": [
-                  {
-                    "entity_id": "*front_deadbolt*"
-                  }
-                ]
-              },
-              "sort": {
-                "method": "domain"
-              }
-            },
-            {
-              "type": "markdown",
-              "content": "<h2> <ha-icon icon='mdi:shield-half-full'></ha-icon> Watchman report</h2> <h3>Missing Entities: {{ states.sensor.watchman_missing_entities.state }} </h3> {%- for item in state_attr(\"sensor.watchman_missing_entities\", \"entities\") %} <hr> <table><tr> <td> <ha-icon icon='mdi: {%- if item.state==\"missing\"-%}cloud-alert' {%- elif item.state==\"unavail\" -%}cloud-off-outline' {%- else-%}cloud-question' {%- endif -%} ></ha-icon> {{ item.id }} [{{item.state}}] <a title=\"{{item.occurrences}}\"> {{item.occurrences.split('/')[-1].split(':')[0]}}</a> </td></tr></table> {%- endfor %}\n<h2> <ha-icon icon='mdi:z-wave'></ha-icon> ZWave report</h2> <h3>Devices: {{ states.sensor.count_zwave_devices.state }}\n<h2> <ha-icon icon='mdi:zigbee'></ha-icon> Zigbee report</h2> <h3>Devices: {{ states.sensor.count_zigbee_devices.state }} Online/31 Total",
-              "card_mod": {
-                "style": {
-                  "ha-markdown": {
-                    "$": "ha-markdown-element:first-of-type hr{\n  border-color: #303030;\n}\n"
-                  }
-                }
-              }
-            },
-            {
-              "type": "entities",
-              "entities": [
-                {
-                  "entity": "input_select.ambient_sound"
-                },
-                {
-                  "entity": "input_select.google_home"
-                },
-                {
-                  "entity": "input_number.volume_ambientsounds"
-                },
-                {
-                  "entity": "script.ambientsounds"
-                },
-                {
-                  "entity": "script.stop_casting"
-                }
-              ]
-            },
-            {
-              "type": "glance",
-              "entities": [
-                {
-                  "entity": "input_boolean.tristyn_workday"
-                },
-                {
-                  "entity": "input_boolean.terry_workday"
-                },
-                {
-                  "entity": "switch.tristyns_workday"
-                },
-                {
-                  "entity": "switch.terrys_workday"
-                }
-              ],
-              "show_state": false,
-              "state_color": true,
-              "show_icon": true
-            },
-            {
-              "type": "custom:battery-state-card",
-              "title": "Low Battery",
-              "secondary_info": "last_updated",
-              "show_empty": false,
-              "sort_by_level": "asc",
-              "entities": null,
-              "filter": {
-                "include": [
-                  {
-                    "name": "entity_id",
-                    "value": "*_battery"
-                  },
-                  {
-                    "name": "attributes.device_class",
-                    "value": "battery"
-                  }
-                ],
-                "exclude": [
-                  {
-                    "name": "entity_id",
-                    "value": "*.state"
-                  },
-                  {
-                    "name": "entity_id",
-                    "value": "*body*"
-                  },
-                  {
-                    "name": "entity_id",
-                    "value": "*status*"
-                  },
-                  {
-                    "name": "entity_id",
-                    "value": "*recharge*"
-                  },
-                  {
-                    "name": "entity_id",
-                    "value": "*capacity*"
-                  },
-                  {
-                    "name": "state",
-                    "value": "Good"
-                  },
-                  {
-                    "name": "state",
-                    "value": "STATUS_GOOD"
-                  },
-                  {
-                    "name": "state",
-                    "value": 20,
-                    "operator": ">"
-                  },
-                  {
-                    "name": "state",
-                    "value": "Off"
-                  },
-                  {
-                    "name": "state",
-                    "value": "off"
-                  }
-                ]
-              },
-              "bulk_rename": [
-                {
-                  "from": "Battery"
-                }
-              ],
-              "layout": {
-                "key": "773f9ecf-95e4-467a-a0bb-50bcffc55735"
-              }
-            }
-          ]
-        },
-        {
-          "title": "front_deadbolt Codes and Configuration",
-          "path": "keypad-front_deadbolt",
-          "icon": "mdi:lock-smart",
-          "panel": false,
-          "visible": [
-            {
-              "user": "377a11bf1cc14990af52e845650d822f"
-            }
-          ],
-          "badges": [
-            {
-              "entity": "input_text.front_deadbolt_lockname"
-            },
-            {
-              "entity": "input_boolean.front_deadbolt_lock_notifications"
-            },
-            {
-              "entity": "input_boolean.front_deadbolt_dooraccess_notifications"
-            },
-            {
-              "entity": "lock.front_deadbolt"
-            },
-            {
-              "entity": "binary_sensor.front_door_contact"
-            },
-            {
-              "entity": "input_text.keymaster_front_deadbolt_autolock_door_time_day"
-            },
-            {
-              "entity": "input_text.keymaster_front_deadbolt_autolock_door_time_night"
-            },
-            {
-              "entity": "input_boolean.keymaster_front_deadbolt_autolock"
-            },
-            {
-              "entity": "timer.keymaster_front_deadbolt_autolock"
-            }
-          ],
-          "cards": [
-            {
-              "type": "vertical-stack",
-              "cards": [
-                {
-                  "content": "## Code 1\n",
-                  "type": "markdown"
-                },
-                {
-                  "type": "entities",
-                  "show_header_toggle": false,
-                  "entities": [
-                    {
-                      "entity": "input_text.front_deadbolt_name_1"
-                    },
-                    {
-                      "entity": "input_text.front_deadbolt_pin_1"
-                    },
-                    {
-                      "entity": "input_boolean.enabled_front_deadbolt_1"
-                    },
-                    {
-                      "entity": "input_boolean.notify_front_deadbolt_1"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "entity": "sensor.connected_front_deadbolt_1",
-                      "state_color": true
-                    },
-                    {
-                      "entity": "binary_sensor.active_front_deadbolt_1",
-                      "state_color": true
-                    },
-                    {
-                      "type": "custom:fold-entity-row",
-                      "head": {
-                        "type": "section",
-                        "label": "Advanced Options"
-                      },
-                      "entities": [
-                        {
-                          "entity": "input_boolean.reset_codeslot_front_deadbolt_1"
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.accesslimit_front_deadbolt_1"
-                        },
-                        {
-                          "entity": "input_number.accesscount_front_deadbolt_1",
-                          "type": "custom:numberbox-card",
-                          "icon": "mdi:key-variant",
-                          "speed": 250
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.daterange_front_deadbolt_1"
-                        },
-                        {
-                          "entity": "input_datetime.start_date_front_deadbolt_1"
-                        },
-                        {
-                          "entity": "input_datetime.end_date_front_deadbolt_1"
-                        },
-                        {
-                          "type": "custom:fold-entity-row",
-                          "head": {
-                            "type": "section",
-                            "label": "Custom Weekdays"
-                          },
-                          "entities": [
-                            "input_boolean.sun_front_deadbolt_1",
-                            "input_boolean.sun_inc_front_deadbolt_1",
-                            "input_datetime.sun_start_date_front_deadbolt_1",
-                            "input_datetime.sun_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.mon_front_deadbolt_1",
-                            "input_boolean.mon_inc_front_deadbolt_1",
-                            "input_datetime.mon_start_date_front_deadbolt_1",
-                            "input_datetime.mon_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.tue_front_deadbolt_1",
-                            "input_boolean.tue_inc_front_deadbolt_1",
-                            "input_datetime.tue_start_date_front_deadbolt_1",
-                            "input_datetime.tue_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.wed_front_deadbolt_1",
-                            "input_boolean.wed_inc_front_deadbolt_1",
-                            "input_datetime.wed_start_date_front_deadbolt_1",
-                            "input_datetime.wed_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.thu_front_deadbolt_1",
-                            "input_boolean.thu_inc_front_deadbolt_1",
-                            "input_datetime.thu_start_date_front_deadbolt_1",
-                            "input_datetime.thu_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.fri_front_deadbolt_1",
-                            "input_boolean.fri_inc_front_deadbolt_1",
-                            "input_datetime.fri_start_date_front_deadbolt_1",
-                            "input_datetime.fri_end_date_front_deadbolt_1",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.sat_front_deadbolt_1",
-                            "input_boolean.sat_inc_front_deadbolt_1",
-                            "input_datetime.sat_start_date_front_deadbolt_1",
-                            "input_datetime.sat_end_date_front_deadbolt_1"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "vertical-stack",
-              "cards": [
-                {
-                  "content": "## Code 2\n",
-                  "type": "markdown"
-                },
-                {
-                  "type": "entities",
-                  "show_header_toggle": false,
-                  "entities": [
-                    {
-                      "entity": "input_text.front_deadbolt_name_2"
-                    },
-                    {
-                      "entity": "input_text.front_deadbolt_pin_2"
-                    },
-                    {
-                      "entity": "input_boolean.enabled_front_deadbolt_2"
-                    },
-                    {
-                      "entity": "input_boolean.notify_front_deadbolt_2"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "entity": "sensor.connected_front_deadbolt_2",
-                      "state_color": true
-                    },
-                    {
-                      "entity": "binary_sensor.active_front_deadbolt_2",
-                      "state_color": true
-                    },
-                    {
-                      "type": "custom:fold-entity-row",
-                      "head": {
-                        "type": "section",
-                        "label": "Advanced Options"
-                      },
-                      "entities": [
-                        {
-                          "entity": "input_boolean.reset_codeslot_front_deadbolt_2"
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.accesslimit_front_deadbolt_2"
-                        },
-                        {
-                          "entity": "input_number.accesscount_front_deadbolt_2",
-                          "type": "custom:numberbox-card",
-                          "icon": "mdi:key-variant",
-                          "speed": 250
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.daterange_front_deadbolt_2"
-                        },
-                        {
-                          "entity": "input_datetime.start_date_front_deadbolt_2"
-                        },
-                        {
-                          "entity": "input_datetime.end_date_front_deadbolt_2"
-                        },
-                        {
-                          "type": "custom:fold-entity-row",
-                          "head": {
-                            "type": "section",
-                            "label": "Custom Weekdays"
-                          },
-                          "entities": [
-                            "input_boolean.sun_front_deadbolt_2",
-                            "input_boolean.sun_inc_front_deadbolt_2",
-                            "input_datetime.sun_start_date_front_deadbolt_2",
-                            "input_datetime.sun_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.mon_front_deadbolt_2",
-                            "input_boolean.mon_inc_front_deadbolt_2",
-                            "input_datetime.mon_start_date_front_deadbolt_2",
-                            "input_datetime.mon_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.tue_front_deadbolt_2",
-                            "input_boolean.tue_inc_front_deadbolt_2",
-                            "input_datetime.tue_start_date_front_deadbolt_2",
-                            "input_datetime.tue_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.wed_front_deadbolt_2",
-                            "input_boolean.wed_inc_front_deadbolt_2",
-                            "input_datetime.wed_start_date_front_deadbolt_2",
-                            "input_datetime.wed_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.thu_front_deadbolt_2",
-                            "input_boolean.thu_inc_front_deadbolt_2",
-                            "input_datetime.thu_start_date_front_deadbolt_2",
-                            "input_datetime.thu_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.fri_front_deadbolt_2",
-                            "input_boolean.fri_inc_front_deadbolt_2",
-                            "input_datetime.fri_start_date_front_deadbolt_2",
-                            "input_datetime.fri_end_date_front_deadbolt_2",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.sat_front_deadbolt_2",
-                            "input_boolean.sat_inc_front_deadbolt_2",
-                            "input_datetime.sat_start_date_front_deadbolt_2",
-                            "input_datetime.sat_end_date_front_deadbolt_2"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "vertical-stack",
-              "cards": [
-                {
-                  "content": "## Code 3\n",
-                  "type": "markdown"
-                },
-                {
-                  "type": "entities",
-                  "show_header_toggle": false,
-                  "entities": [
-                    {
-                      "entity": "input_text.front_deadbolt_name_3"
-                    },
-                    {
-                      "entity": "input_text.front_deadbolt_pin_3"
-                    },
-                    {
-                      "entity": "input_boolean.enabled_front_deadbolt_3"
-                    },
-                    {
-                      "entity": "input_boolean.notify_front_deadbolt_3"
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "entity": "sensor.connected_front_deadbolt_3",
-                      "state_color": true
-                    },
-                    {
-                      "entity": "binary_sensor.active_front_deadbolt_3",
-                      "state_color": true
-                    },
-                    {
-                      "type": "custom:fold-entity-row",
-                      "head": {
-                        "type": "section",
-                        "label": "Advanced Options"
-                      },
-                      "entities": [
-                        {
-                          "entity": "input_boolean.reset_codeslot_front_deadbolt_3"
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.accesslimit_front_deadbolt_3"
-                        },
-                        {
-                          "entity": "input_number.accesscount_front_deadbolt_3",
-                          "type": "custom:numberbox-card",
-                          "icon": "mdi:key-variant",
-                          "speed": 250
-                        },
-                        {
-                          "type": "divider"
-                        },
-                        {
-                          "entity": "input_boolean.daterange_front_deadbolt_3"
-                        },
-                        {
-                          "entity": "input_datetime.start_date_front_deadbolt_3"
-                        },
-                        {
-                          "entity": "input_datetime.end_date_front_deadbolt_3"
-                        },
-                        {
-                          "type": "custom:fold-entity-row",
-                          "head": {
-                            "type": "section",
-                            "label": "Custom Weekdays"
-                          },
-                          "entities": [
-                            "input_boolean.sun_front_deadbolt_3",
-                            "input_boolean.sun_inc_front_deadbolt_3",
-                            "input_datetime.sun_start_date_front_deadbolt_3",
-                            "input_datetime.sun_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.mon_front_deadbolt_3",
-                            "input_boolean.mon_inc_front_deadbolt_3",
-                            "input_datetime.mon_start_date_front_deadbolt_3",
-                            "input_datetime.mon_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.tue_front_deadbolt_3",
-                            "input_boolean.tue_inc_front_deadbolt_3",
-                            "input_datetime.tue_start_date_front_deadbolt_3",
-                            "input_datetime.tue_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.wed_front_deadbolt_3",
-                            "input_boolean.wed_inc_front_deadbolt_3",
-                            "input_datetime.wed_start_date_front_deadbolt_3",
-                            "input_datetime.wed_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.thu_front_deadbolt_3",
-                            "input_boolean.thu_inc_front_deadbolt_3",
-                            "input_datetime.thu_start_date_front_deadbolt_3",
-                            "input_datetime.thu_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.fri_front_deadbolt_3",
-                            "input_boolean.fri_inc_front_deadbolt_3",
-                            "input_datetime.fri_start_date_front_deadbolt_3",
-                            "input_datetime.fri_end_date_front_deadbolt_3",
-                            {
-                              "type": "divider"
-                            },
-                            "input_boolean.sat_front_deadbolt_3",
-                            "input_boolean.sat_inc_front_deadbolt_3",
-                            "input_datetime.sat_start_date_front_deadbolt_3",
-                            "input_datetime.sat_end_date_front_deadbolt_3"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
         }
-      ]
+      ],
+      "title": "Home"
     }
   }
 }

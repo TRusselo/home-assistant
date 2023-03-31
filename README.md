@@ -16,3 +16,6 @@ Mobile Homescreen  (new)
 
 ![image](https://user-images.githubusercontent.com/1154815/229203001-90fce837-eb3e-437f-8846-e4ba2f25a876.png)
 
+Conditional Cards (alarm only shows when triggered, offline watchman/devices show only if offline, batteries show if under 15% )
+
+![image](https://user-images.githubusercontent.com/1154815/229234965-6d028fe6-4b79-40b8-88d2-61e3f6bd2c49.png)

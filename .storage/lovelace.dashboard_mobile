@@ -16,7 +16,11 @@
                   "chips": [
                     {
                       "type": "entity",
-                      "entity": "sensor.time"
+                      "entity": "sensor.time",
+                      "double_tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/motion"
+                      }
                     },
                     {
                       "type": "entity",
@@ -72,7 +76,7 @@
                       "fill_container": false,
                       "tap_action": {
                         "action": "navigate",
-                        "navigation_path": "house"
+                        "navigation_path": "/dashboard-mobile/devices"
                       }
                     },
                     {
@@ -103,6 +107,105 @@
                         "action": "more-info"
                       },
                       "entity": "alarm_control_panel.system"
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Locks",
+                      "secondary": "",
+                      "icon": "{% if is_state('lock.exterior_locks', 'unlocked') %}\nmdi:lock-open\n{% elif is_state('lock.exterior_locks', 'locked') %}\nmdi:lock\n{% endif %} ",
+                      "entity": "lock.exterior_locks",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/locks"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "icon_color": "{% if is_state('lock.exterior_locks', 'unlocked') %}\nred\n{% elif is_state('lock.exterior_locks', 'locked') %}\ngreen\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Doors",
+                      "secondary": "",
+                      "icon": "{% if is_state('binary_sensor.exterior_house_doors', 'on') %}\nmdi:door-open\n{% elif is_state('binary_sensor.exterior_house_doors', 'off') %}\nmdi:door\n{% endif %} ",
+                      "entity": "binary_sensor.exterior_house_doors",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/doors"
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "icon_color": "{% if is_state('binary_sensor.exterior_house_doors', 'on') %}\nred\n{% elif is_state('binary_sensor.exterior_house_doors', 'off') %}\ngreen\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Windows",
+                      "secondary": "",
+                      "icon": "{% if is_state('binary_sensor.house_windows', 'on') %}\nmdi:window-open\n{% elif is_state('binary_sensor.house_windows', 'off') %}\nmdi:window-closed\n{% endif %} ",
+                      "entity": "binary_sensor.house_windows",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/windows"
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "icon_color": "{% if is_state('binary_sensor.house_windows', 'on') %}\nyellow\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Shades",
+                      "secondary": "",
+                      "icon": "{% if is_state('cover.shades', 'open') %}\nmdi:window-open\n{% elif is_state('cover.shades', 'closed') %}\nmdi:window-closed\n{% endif %} ",
+                      "entity": "cover.shades",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/shades"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "icon_color": "{% if is_state('cover.shades', 'open') %}\nyellow\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Fans",
+                      "secondary": "",
+                      "icon": "mdi:fan",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/fans"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "fan.fans",
+                      "icon_color": "{% if is_state('fan.fans', 'on') %}\nyellow\n{% endif %} ",
+                      "badge_icon": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\nmdi:fan\n{% elif is_state('switch.diffuser', 'on') %}\nmdi:human-child\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\ngreen\n{% elif is_state('switch.diffuser', 'on') %}\nyellow\n{% endif %} "
                     }
                   ]
                 },
@@ -3644,12 +3747,6 @@
                   "entity": "binary_sensor.washer_door_contact"
                 }
               ],
-              "header": {
-                "type": "graph",
-                "entity": "sensor.bedroom_2_temp_humidity_sensor_relative_humidity_measurement",
-                "hours_to_show": 24,
-                "detail": 2
-              },
               "state_color": false
             }
           ]
@@ -4566,6 +4663,29 @@
                   "image": "/local/background200.png",
                   "elements": [
                     {
+                      "type": "custom:mini-graph-card",
+                      "upper_bound": 30,
+                      "lower_bound": -45,
+                      "line_width": 0.5,
+                      "entities": [
+                        {
+                          "entity": "sensor.garage_house_door_temperature",
+                          "index": 0
+                        }
+                      ],
+                      "height": 202,
+                      "show": {
+                        "icon": false,
+                        "name": false,
+                        "state": false
+                      },
+                      "style": {
+                        "right": "-50%",
+                        "top": "47%",
+                        "width": "100%"
+                      }
+                    },
+                    {
                       "type": "custom:button-card",
                       "color": "auto",
                       "entity": "light.garage_lights",
@@ -4800,21 +4920,6 @@
               "type": "custom:vertical-stack-in-card"
             },
             {
-              "show_state": false,
-              "show_name": true,
-              "camera_view": "auto",
-              "type": "picture-entity",
-              "entity": "camera.blueiris_garage_camera"
-            },
-            {
-              "type": "entities",
-              "entities": [
-                {
-                  "entity": "media_player.android_tv_garage"
-                }
-              ]
-            },
-            {
               "entities": [
                 {
                   "entity": "cover.garage_door"
@@ -4841,6 +4946,351 @@
               "type": "entities",
               "state_color": true,
               "style": "ha-card { background: center / cover url(/local/bg_card_icons/garage.png) no-repeat; background-color: var(--ha-card-background); background-size: 9.8em; }\n"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "media_player.android_tv_garage"
+                }
+              ]
+            },
+            {
+              "show_state": false,
+              "show_name": true,
+              "camera_view": "auto",
+              "type": "picture-entity",
+              "entity": "camera.blueiris_garage_camera"
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Motion",
+          "path": "motion",
+          "subview": true,
+          "icon": "mdi:motion-sensor",
+          "badges": [],
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-title-card",
+                  "title": "Top Floor",
+                  "alignment": "center"
+                },
+                {
+                  "show_name": true,
+                  "show_icon": true,
+                  "show_state": true,
+                  "entities": [
+                    {
+                      "entity": "binary_sensor.den_motion_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.bedroom_2_motion_sensor_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.bathroom_2_motion_sensor_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.master_bedroom_motion_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.master_bathroom_motion_sensor_motion"
+                    }
+                  ],
+                  "theme": "Backend-selected",
+                  "type": "glance",
+                  "state_color": true
+                },
+                {
+                  "type": "custom:mushroom-title-card",
+                  "title": "Main Floor",
+                  "alignment": "center"
+                },
+                {
+                  "show_name": true,
+                  "show_icon": true,
+                  "show_state": true,
+                  "entities": [
+                    {
+                      "entity": "binary_sensor.upstairs_motion_sensor_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.entryway_motion_sensor_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.living_room_motion_sensor_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.kitchen_motion_occupancy"
+                    },
+                    {
+                      "entity": "binary_sensor.garage_motion"
+                    }
+                  ],
+                  "type": "glance",
+                  "state_color": true
+                },
+                {
+                  "type": "custom:mushroom-title-card",
+                  "title": "Basement",
+                  "alignment": "center"
+                },
+                {
+                  "show_name": true,
+                  "show_icon": true,
+                  "show_state": true,
+                  "type": "glance",
+                  "entities": [
+                    {
+                      "entity": "binary_sensor.downstairs_motion_sensor_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.basement_motion_sensor_occupancy"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-title-card",
+                  "title": "Blue Iris Motion",
+                  "alignment": "center"
+                },
+                {
+                  "show_name": true,
+                  "show_icon": true,
+                  "show_state": true,
+                  "type": "glance",
+                  "entities": [
+                    {
+                      "entity": "binary_sensor.blueiris_front_yard_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.blueiris_doorbell_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.blueiris_living_room_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.blueiris_garage_camera_motion"
+                    },
+                    {
+                      "entity": "binary_sensor.blueiris_back_deck_motion"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Devices",
+          "path": "devices",
+          "icon": "mdi:washing-machine",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "custom:mushroom-title-card",
+                  "title": "Devices",
+                  "alignment": "center"
+                },
+                {
+                  "type": "custom:mushroom-vacuum-card",
+                  "entity": "vacuum.bitch_vac",
+                  "commands": [
+                    "start_pause",
+                    "stop",
+                    "return_home"
+                  ],
+                  "icon_animation": true,
+                  "fill_container": false
+                },
+                {
+                  "type": "custom:laundry-card",
+                  "entity": "sensor.washer"
+                },
+                {
+                  "type": "markdown",
+                  "content": "<h2> <ha-icon icon='mdi:shield-half-full'></ha-icon> Watchman report</h2> <h3>Missing Entities: {{ states.sensor.watchman_missing_entities.state }} </h3> {%- for item in state_attr(\"sensor.watchman_missing_entities\", \"entities\") %} <hr> <table><tr> <td> <ha-icon icon='mdi: {%- if item.state==\"missing\"-%}cloud-alert' {%- elif item.state==\"unavail\" -%}cloud-off-outline' {%- else-%}cloud-question' {%- endif -%} ></ha-icon> {{ item.id }} [{{item.state}}] <a title=\"{{item.occurrences}}\"> {{item.occurrences.split('/')[-1].split(':')[0]}}</a> </td></tr></table> {%- endfor %}\n<h2> <ha-icon icon='mdi:z-wave'></ha-icon> ZWave report</h2> <h3>Devices: {{ states.sensor.count_zwave_devices.state }} (17)\n<h2> <ha-icon icon='mdi:zigbee'></ha-icon> Zigbee report</h2> <h3>Devices: {{ states.sensor.count_zigbee_devices.state }} Online/31 Total",
+                  "card_mod": {
+                    "style": {
+                      "ha-markdown": {
+                        "$": "ha-markdown-element:first-of-type hr{\n  border-color: #303030;\n}\n"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Windows",
+          "path": "windows",
+          "subview": true,
+          "icon": "mdi:window-open",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Windows",
+                "state_color": true,
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "group": "binary_sensor.house_windows"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "state",
+                "reverse": true
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Doors",
+          "path": "doors",
+          "icon": "mdi:door-open",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "show_header_toggle": false,
+                "title": "Doors",
+                "state_color": true
+              },
+              "filter": {
+                "include": [
+                  {
+                    "group": "binary_sensor.exterior_house_doors"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "state",
+                "reverse": true
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Locks",
+          "path": "locks",
+          "icon": "mdi:lock-open",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "title": "Locks",
+                "show_header_toggle": false,
+                "state_color": true
+              },
+              "filter": {
+                "include": [
+                  {
+                    "group": "lock.exterior_locks"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "state",
+                "reverse": true
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Shades",
+          "path": "shades",
+          "icon": "mdi:roller-shade",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "state_color": true,
+                "title": "Shades",
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "group": "cover.shades"
+                  }
+                ],
+                "exclude": []
+              },
+              "sort": {
+                "method": "state",
+                "reverse": true
+              }
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "Fans",
+          "path": "fans",
+          "icon": "mdi:fan",
+          "subview": true,
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:auto-entities",
+              "card": {
+                "type": "entities",
+                "state_color": true,
+                "title": "Fans",
+                "show_header_toggle": false
+              },
+              "filter": {
+                "include": [
+                  {
+                    "domain": "fan",
+                    "options": null
+                  },
+                  {
+                    "entity_id": "binary_sensor.thermostat_fan_mode"
+                  }
+                ],
+                "exclude": [
+                  {
+                    "entity_id": "fan.fans"
+                  }
+                ]
+              },
+              "sort": {
+                "method": "state",
+                "reverse": true
+              }
             }
           ]
         }

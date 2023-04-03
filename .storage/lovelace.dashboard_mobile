@@ -77,9 +77,6 @@
                       "arm_away"
                     ],
                     "entity": "alarm_control_panel.system"
-                  },
-                  "view_layout": {
-                    "column": 1
                   }
                 },
                 {
@@ -233,7 +230,8 @@
                   ]
                 },
                 {
-                  "type": "horizontal-stack",
+                  "type": "custom:layout-card",
+                  "layout_type": "custom:grid-layout",
                   "cards": [
                     {
                       "type": "custom:mushroom-template-card",
@@ -252,7 +250,8 @@
                       "double_tap_action": {
                         "action": "more-info"
                       },
-                      "icon_color": "{% if is_state('lock.exterior_locks', 'unlocked') %}\nred\n{% elif is_state('lock.exterior_locks', 'locked') %}\ngreen\n{% endif %} "
+                      "icon_color": "{% if is_state('lock.exterior_locks', 'unlocked') %}\nred\n{% elif is_state('lock.exterior_locks', 'locked') %}\ngreen\n{% endif %} ",
+                      "badge_color": ""
                     },
                     {
                       "type": "custom:mushroom-template-card",
@@ -313,6 +312,40 @@
                     },
                     {
                       "type": "custom:mushroom-template-card",
+                      "primary": "Fans",
+                      "secondary": "",
+                      "icon": "mdi:fan",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/dashboard-mobile/fans"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "entity": "fan.fans",
+                      "icon_color": "{% if is_state('fan.fans', 'on') %}\nblue\n{% endif %} ",
+                      "badge_icon": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\nmdi:fan\n{% elif is_state('switch.diffuser', 'on') %}\nmdi:air-humidifier\n{% endif %} ",
+                      "badge_color": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\ngreen\n{% elif is_state('switch.diffuser', 'on') %}\nyellow\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:simple-thermostat",
+                      "entity": "climate.thermostat",
+                      "header": false,
+                      "decimals": false,
+                      "card_mod": {
+                        "style": "ha-card { height: 100% }\n"
+                      },
+                      "layout": {
+                        "step": "row"
+                      },
+                      "control": false,
+                      "view_layout": {
+                        "grid-column": "auto / span 4"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
                       "primary": "Fireplace",
                       "secondary": "",
                       "icon": "{% if is_state('switch.fireplace', 'on') %}\nmdi:fireplace\n{% elif is_state('switch.fireplace', 'off') %}\nmdi:fireplace-off\n{% endif %} ",
@@ -329,26 +362,12 @@
                       },
                       "icon_color": "{% if is_state('switch.fireplace', 'on') %}\nred\n{% elif is_state('switch.fireplace', 'off') %}\ngreen\n{% endif %} ",
                       "badge_color": ""
-                    },
-                    {
-                      "type": "custom:mushroom-template-card",
-                      "primary": "Fans",
-                      "secondary": "",
-                      "icon": "mdi:fan",
-                      "layout": "vertical",
-                      "tap_action": {
-                        "action": "navigate",
-                        "navigation_path": "/dashboard-mobile/fans"
-                      },
-                      "hold_action": {
-                        "action": "toggle"
-                      },
-                      "entity": "fan.fans",
-                      "icon_color": "{% if is_state('fan.fans', 'on') %}\nblue\n{% endif %} ",
-                      "badge_icon": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\nmdi:fan\n{% elif is_state('switch.diffuser', 'on') %}\nmdi:human-child\n{% endif %} ",
-                      "badge_color": "{% if is_state('binary_sensor.thermostat_fan_mode', 'on') %}\ngreen\n{% elif is_state('switch.diffuser', 'on') %}\nyellow\n{% endif %} "
                     }
-                  ]
+                  ],
+                  "layout": {
+                    "grid-template-columns": "repeat(5, 1fr)",
+                    "margin": "-2px -4px -10px"
+                  }
                 },
                 {
                   "type": "conditional",
@@ -385,15 +404,6 @@
                   }
                 },
                 {
-                  "type": "custom:simple-thermostat",
-                  "entity": "climate.thermostat",
-                  "header": false,
-                  "layout": {
-                    "step": "row"
-                  },
-                  "control": false
-                },
-                {
                   "type": "custom:mushroom-title-card",
                   "title": "Rooms",
                   "alignment": "center"
@@ -414,7 +424,7 @@
                       "hold_action": {
                         "action": "toggle"
                       },
-                      "icon_color": "{% if is_state('light.living_room_lights', 'on') %}\n{{ state_attr(\"light.living_room_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.living_room_lights\", \"rgb_color\")[1] }} {{ state_attr(\"light.living_room_lights\", \"rgb_color\")[2] }}\n{% endif %} ",
+                      "icon_color": "{% if is_state('light.living_room_lights', 'on') %}\n{{ state_attr(\"light.living_room_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.living_room_lights\", \"rgb_color\")[1] }}, {{ state_attr(\"light.living_room_lights\", \"rgb_color\")[2] }}\n{% endif %}",
                       "multiline_secondary": false,
                       "fill_container": true,
                       "double_tap_action": {
@@ -437,7 +447,7 @@
                       "hold_action": {
                         "action": "toggle"
                       },
-                      "icon_color": "{% if is_state('light.kitchen', 'on') %}\n{{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[1] }} {{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[2] }}\n{% endif %}",
+                      "icon_color": "{% if is_state('light.kitchen', 'on') %}\n{{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[1] }}, {{ state_attr(\"light.kitchen_lights\", \"rgb_color\")[2] }}\n{% endif %}",
                       "multiline_secondary": false,
                       "fill_container": true,
                       "double_tap_action": {
@@ -609,7 +619,7 @@
                       "hold_action": {
                         "action": "toggle"
                       },
-                      "icon_color": "{% if is_state('light.bedroom_lights', 'on') %}\n{{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[1] }} {{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[2] }}\n\n{% endif %} ",
+                      "icon_color": "{% if is_state('light.bedroom_lights', 'on') %}\n{{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[1] }}, {{ state_attr(\"light.bedroom_lights\", \"rgb_color\")[2] }}\n\n{% endif %} ",
                       "multiline_secondary": false,
                       "fill_container": true,
                       "double_tap_action": {
@@ -632,7 +642,7 @@
                       "hold_action": {
                         "action": "toggle"
                       },
-                      "icon_color": "{% if is_state('light.den_lights', 'on') %}\n{{ state_attr(\"light.den_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.den_lights\", \"rgb_color\")[1] }} {{ state_attr(\"light.den_lights\", \"rgb_color\")[2] }}\n\n{% endif %} ",
+                      "icon_color": "{% if is_state('light.den_lights', 'on') %}\n{{ state_attr(\"light.den_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.den_lights\", \"rgb_color\")[1] }}, {{ state_attr(\"light.den_lights\", \"rgb_color\")[2] }}\n\n{% endif %} ",
                       "multiline_secondary": false,
                       "fill_container": true,
                       "double_tap_action": {
@@ -658,7 +668,7 @@
                       "hold_action": {
                         "action": "toggle"
                       },
-                      "icon_color": "{% if is_state('light.master_bedroom_lights', 'on') %}\n{{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[1] }} {{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[2] }}\n{% endif %} ",
+                      "icon_color": "{% if is_state('light.master_bedroom_lights', 'on') %}\n{{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[0] }} {{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[1] }}, {{ state_attr(\"light.master_bedroom_lights\", \"rgb_color\")[2] }}\n{% endif %} ",
                       "multiline_secondary": false,
                       "fill_container": true,
                       "double_tap_action": {

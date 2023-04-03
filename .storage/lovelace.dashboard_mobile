@@ -296,7 +296,7 @@
                       "type": "custom:mushroom-template-card",
                       "primary": "Shades",
                       "secondary": "",
-                      "icon": "{% if is_state('cover.shades', 'open') %}\nmdi:window-open\n{% elif is_state('cover.shades', 'closed') %}\nmdi:window-closed\n{% endif %} ",
+                      "icon": "{% if is_state('cover.shades', 'open') %}\nmdi:roller-shade\n{% elif is_state('cover.shades', 'closed') %}\nmdi:roller-shade-closed\n{% endif %} ",
                       "entity": "cover.shades",
                       "layout": "vertical",
                       "tap_action": {
@@ -310,6 +310,25 @@
                         "action": "more-info"
                       },
                       "icon_color": "{% if is_state('cover.shades', 'open') %}\nyellow\n{% elif is_state('cover.shades', 'closed') %}\ngreen\n{% endif %} "
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Fireplace",
+                      "secondary": "",
+                      "icon": "{% if is_state('switch.fireplace', 'on') %}\nmdi:fireplace\n{% elif is_state('switch.fireplace', 'off') %}\nmdi:fireplace-off\n{% endif %} ",
+                      "entity": "switch.fireplace",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "toggle"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      },
+                      "double_tap_action": {
+                        "action": "more-info"
+                      },
+                      "icon_color": "{% if is_state('switch.fireplace', 'on') %}\nred\n{% elif is_state('switch.fireplace', 'off') %}\ngreen\n{% endif %} ",
+                      "badge_color": ""
                     },
                     {
                       "type": "custom:mushroom-template-card",
@@ -354,6 +373,10 @@
                     {
                       "entity": "sensor.washer_status",
                       "state_not": "Idle"
+                    },
+                    {
+                      "entity": "sensor.washer_status",
+                      "state": "Unknown"
                     }
                   ],
                   "card": {
@@ -421,7 +444,7 @@
                         "action": "more-info"
                       },
                       "badge_icon": "{% if is_state('binary_sensor.kitchen_motion_occupancy', 'on') %}\nmdi:motion-sensor\n{% elif is_state('binary_sensor.back_door', 'on') %}\nmdi:door-open\n{% endif %} ",
-                      "badge_color": "{% if is_state('binary_sensor.kitchen_motion_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.back_door', 'on') %}\nyellow"
+                      "badge_color": "{% if is_state('binary_sensor.kitchen_motion_occupancy', 'on') %}\ngreen\n{% elif is_state('binary_sensor.back_door', 'on') %}\nyellow\n{% endif %} "
                     }
                   ]
                 },
@@ -785,20 +808,25 @@
           "badges": [],
           "cards": [
             {
-              "type": "custom:sun-card"
-            },
-            {
-              "type": "custom:weather-card",
-              "entity": "weather.openweathermap",
-              "number_of_forecasts": "7"
-            },
-            {
-              "type": "iframe",
-              "url": "https://embed.windy.com/embed2.html?lat=56.750&lon=-111.483&detailLat=56.750&detailLon=-111.483&width=650&height=450&zoom=5&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1",
-              "aspect_ratio": "120%",
-              "layout": {
-                "key": "a5eb6d27-2a0f-4bab-b680-ff366f9c70ff"
-              }
+              "type": "vertical-stack",
+              "cards": [
+                {
+                  "type": "custom:sun-card"
+                },
+                {
+                  "type": "custom:weather-card",
+                  "entity": "weather.openweathermap",
+                  "number_of_forecasts": "7"
+                },
+                {
+                  "type": "iframe",
+                  "url": "https://embed.windy.com/embed2.html?lat=56.750&lon=-111.483&detailLat=56.750&detailLon=-111.483&width=650&height=450&zoom=5&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1",
+                  "aspect_ratio": "120%",
+                  "layout": {
+                    "key": "a5eb6d27-2a0f-4bab-b680-ff366f9c70ff"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -881,7 +909,7 @@
                       "entity": "binary_sensor.back_door"
                     },
                     {
-                      "entity": "binary_sensor.garage_side_door_contact"
+                      "entity": "binary_sensor.garage_side_door"
                     },
                     {
                       "entity": "cover.garage_door"
@@ -5283,7 +5311,7 @@
               "cards": [
                 {
                   "type": "custom:mushroom-title-card",
-                  "title": "Devices",
+                  "title": "Household Devices",
                   "alignment": "center"
                 },
                 {
@@ -5431,8 +5459,8 @@
                 "exclude": []
               },
               "sort": {
-                "method": "state",
-                "reverse": true
+                "method": "entity_id",
+                "reverse": false
               }
             }
           ]
@@ -5462,8 +5490,8 @@
                 "exclude": []
               },
               "sort": {
-                "method": "state",
-                "reverse": true
+                "method": "entity_id",
+                "reverse": false
               }
             }
           ]
@@ -5493,8 +5521,8 @@
                 "exclude": []
               },
               "sort": {
-                "method": "state",
-                "reverse": true
+                "method": "entity_id",
+                "reverse": false
               }
             }
           ]
@@ -5524,8 +5552,8 @@
                 "exclude": []
               },
               "sort": {
-                "method": "state",
-                "reverse": true
+                "method": "entity_id",
+                "reverse": false
               }
             }
           ]
@@ -5554,6 +5582,9 @@
                   },
                   {
                     "entity_id": "binary_sensor.thermostat_fan_mode"
+                  },
+                  {
+                    "entity_id": "switch.diffuser"
                   }
                 ],
                 "exclude": [
@@ -5563,7 +5594,7 @@
                 ]
               },
               "sort": {
-                "method": "state",
+                "method": "entity_id",
                 "reverse": true
               }
             }
